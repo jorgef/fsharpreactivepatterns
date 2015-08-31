@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.40629.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpReactivePatterns", "FSharpReactivePatterns.fsproj", "{B6531115-E304-4BBA-97A7-646F886D678D}"
+Project("{F2A71F9B-5D33-465A-A702-920D77279786}") = "FSharpReactivePatterns", "FSharpReactivePatterns.fsproj", "{D41A0698-C9E5-42FA-9DE7-97F8B2B9757B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,10 +11,10 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{B6531115-E304-4BBA-97A7-646F886D678D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B6531115-E304-4BBA-97A7-646F886D678D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B6531115-E304-4BBA-97A7-646F886D678D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B6531115-E304-4BBA-97A7-646F886D678D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D41A0698-C9E5-42FA-9DE7-97F8B2B9757B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D41A0698-C9E5-42FA-9DE7-97F8B2B9757B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D41A0698-C9E5-42FA-9DE7-97F8B2B9757B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D41A0698-C9E5-42FA-9DE7-97F8B2B9757B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
