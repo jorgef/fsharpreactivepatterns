@@ -62,6 +62,7 @@
     <None Include="References.fsx" />
     <None Include="Ch4\MessageChannel.fsx" />
     <None Include="Ch4\Message.fsx" />
+    <None Include="Ch4\PipesAndFilters.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">

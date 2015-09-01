@@ -7,7 +7,7 @@ let system = System.create "system" <| Configuration.load ()
 
 // Scalar Messsages
 
-let scalarValuePrinterActor (mailbox: Actor<_>) = 
+let scalarValuePrinter (mailbox: Actor<_>) = 
     let rec loop () = actor {
         let! message = mailbox.Receive ()
         match box message with
@@ -18,10 +18,10 @@ let scalarValuePrinterActor (mailbox: Actor<_>) =
     }
     loop ()
 
-let scalarValuePrinter = spawn system "scalarValuePrinter" scalarValuePrinterActor
+let scalarValuePrinterRef = spawn system "scalarValuePrinter" scalarValuePrinter
 
-scalarValuePrinter <! 1
-scalarValuePrinter <! "hello"
+scalarValuePrinterRef <! 1
+scalarValuePrinterRef <! "hello"
 
 
 // Command and Event Messages
@@ -37,7 +37,7 @@ type OrderProcessorEvent =
     | BuyOrderExecuted of portfolioId: string * symbol: Symbol * quantity: int * price: Money
     | SellOrderExecuted of portfolioId: string * symbol: Symbol * quantity: int * price: Money
 
-let orderProcessorActor (mailbox: Actor<_>) =
+let orderProcessor (mailbox: Actor<_>) =
     let rec loop () = actor {
         let! message = mailbox.Receive ()
         match message with
@@ -47,17 +47,17 @@ let orderProcessorActor (mailbox: Actor<_>) =
     }
     loop ()
 
-let callerActor orderProcessor (mailbox: Actor<_>) =
+let caller orderProcessor (mailbox: Actor<_>) =
     let rec loop () = actor {
         let! message = mailbox.Receive ()
         match message with
-        | BuyOrderExecuted(i, Symbol(s), q, Money(p)) -> printfn "BuyOrderExecuted %s %s %i %M" i s q p
-        | SellOrderExecuted(i, Symbol(s), q, Money(p)) -> printfn "SellOrderExecuted %s %s %i %M" i s q p
+        | BuyOrderExecuted(i, Symbol(s), q, Money(p)) -> printfn "Caller: received BuyOrderExecuted %s %s %i %M" i s q p
+        | SellOrderExecuted(i, Symbol(s), q, Money(p)) -> printfn "Caller: received SellOrderExecuted %s %s %i %M" i s q p
         return! loop ()
     }
     orderProcessor <! ExecuteBuyOrder("1", Symbol("S1"), 5, Money(10m))
     orderProcessor <! ExecuteSellOrder("2", Symbol("S2"), 3, Money(8m))
     loop ()
 
-let orderProcessor = spawn system "orderProcessor" orderProcessorActor
-let caller = spawn system "caller" <| callerActor orderProcessor
+let orderProcessorRef = spawn system "orderProcessor" orderProcessor
+let callerRef = spawn system "caller" <| caller orderProcessorRef

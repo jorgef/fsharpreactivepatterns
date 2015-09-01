@@ -6,14 +6,14 @@ let system = System.create "system" <| Configuration.load ()
 
 type ProcessorMessage = ProcessJob of int * int * int
 
-let processorActor (mailbox: Actor<_>) = 
+let processor (mailbox: Actor<_>) = 
     let rec loop () = actor {
         let! ProcessJob(x,y,z) = mailbox.Receive ()
-        printfn "Received ProcessJob %i %i %i" x y z
+        printfn "Processor: received ProcessJob %i %i %i" x y z
         return! loop ()
     }
     loop ()
 
-let processor = spawn system "processor" processorActor
+let processorRef = spawn system "processor" processor
 
-processor <! ProcessJob(1, 3, 5)
+processorRef <! ProcessJob(1, 3, 5)
