@@ -59,7 +59,9 @@
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <Content Include="packages.config" />
-    <None Include="MessageChannel.fsx" />
+    <None Include="References.fsx" />
+    <None Include="Ch4\MessageChannel.fsx" />
+    <None Include="Ch4\Message.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
