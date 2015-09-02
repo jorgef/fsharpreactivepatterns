@@ -6,8 +6,7 @@ open Akka.FSharp
 
 let system = System.create "system" <| Configuration.load ()
 
-type Messages = 
-    | ProcessIncomingOrder of byte array
+type ProcessIncomingOrder = ProcessIncomingOrder of byte array
 
 let orderAcceptanceEndpoint nextFilter (mailbox: Actor<_>) =
     let rec loop () = actor {
