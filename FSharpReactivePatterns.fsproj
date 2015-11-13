@@ -66,6 +66,7 @@
     <None Include="Ch4\MessageRouter.fsx" />
     <None Include="Ch4\MessageEndpoint.fsx" />
     <None Include="Ch5\PointToPointChannel.fsx" />
+    <None Include="Ch5\PublishSubscribeChannelLocal.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
