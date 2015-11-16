@@ -69,6 +69,7 @@
     <None Include="Ch5\PublishSubscribeChannel.fsx" />
     <None Include="Ch5\DatatypeChannel.fsx" />
     <None Include="Ch5\InvalidMessageChannel.fsx" />
+    <None Include="Ch5\DeadLetterChannel.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
