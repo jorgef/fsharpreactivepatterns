@@ -71,6 +71,7 @@
     <None Include="Ch5\InvalidMessageChannel.fsx" />
     <None Include="Ch5\DeadLetterChannel.fsx" />
     <None Include="Ch5\GuaranteedDelivery.fsx" />
+    <None Include="Ch5\ChannelAdapter.fsx" />
     <None Include="protos\tutorial\addressbook.proto" />
     <None Include="protos\google\protobuf\descriptor.proto" />
     <None Include="protos\google\protobuf\csharp_options.proto" />
