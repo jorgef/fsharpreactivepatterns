@@ -3,3 +3,7 @@
 #r @"packages\Akka.FSharp.1.0.4\lib\net45\Akka.FSharp.dll"
 #r @"packages\FsPickler.1.2.21\lib\net45\FsPickler.dll"
 #r @"packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll"
+#r @"packages\Akka.Persistence.1.0.4.12-beta\lib\net45\Akka.Persistence.dll"
+#r @"packages\Akka.Persistence.FSharp.1.0.4.12-beta\lib\net45\Akka.Persistence.FSharp.dll"
+#r @"packages\Google.ProtocolBuffers.2.4.1.521\lib\net40\Google.ProtocolBuffers.dll"
+#r @"packages\Google.ProtocolBuffers.2.4.1.521\lib\net40\Google.ProtocolBuffers.Serialization.dll"
