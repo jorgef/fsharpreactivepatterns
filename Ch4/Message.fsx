@@ -51,12 +51,12 @@ let caller orderProcessor (mailbox: Actor<_>) =
     let rec loop () = actor {
         let! message = mailbox.Receive ()
         match message with
-        | BuyOrderExecuted(i, Symbol(s), q, Money(p)) -> printfn "Caller: received BuyOrderExecuted %s %s %i %M" i s q p
-        | SellOrderExecuted(i, Symbol(s), q, Money(p)) -> printfn "Caller: received SellOrderExecuted %s %s %i %M" i s q p
+        | BuyOrderExecuted(i, Symbol s, q, Money p) -> printfn "Caller: received BuyOrderExecuted %s %s %i %M" i s q p
+        | SellOrderExecuted(i, Symbol s, q, Money p) -> printfn "Caller: received SellOrderExecuted %s %s %i %M" i s q p
         return! loop ()
     }
-    orderProcessor <! ExecuteBuyOrder("1", Symbol("S1"), 5, Money(10m))
-    orderProcessor <! ExecuteSellOrder("2", Symbol("S2"), 3, Money(8m))
+    orderProcessor <! ExecuteBuyOrder("1", Symbol "S1", 5, Money 10m)
+    orderProcessor <! ExecuteSellOrder("2", Symbol "S2", 3, Money 8m)
     loop ()
 
 let orderProcessorRef = spawn system "orderProcessor" orderProcessor

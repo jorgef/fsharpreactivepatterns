@@ -54,7 +54,7 @@ let stockTrader (tradingBus: IActorRef) (buyerService: BuyerService) (sellerServ
 let tradingBus (mailbox: Actor<_>) =
     let rec loop commandHandlers = actor {
         let! message = mailbox.Receive ()
-        printfn "TradingBus, %A message received" message
+        printfn "TradingBus: received %A" message
         return! loop ()
     }
     loop ()
@@ -62,5 +62,5 @@ let tradingBus (mailbox: Actor<_>) =
 let tradingBusRef = spawn system "tradingBus" tradingBus
 let stockTraderRef = spawn system "stockTrader" (stockTrader <| tradingBusRef <| new BuyerService() <| new SellerService ())
 
-stockTraderRef <! ExecuteBuyOrder("1", Symbol("S1"), 5, Money(10m))
-stockTraderRef <! ExecuteSellOrder("2", Symbol("S2"), 3, Money(8m))
+stockTraderRef <! ExecuteBuyOrder("1", Symbol "S1", 5, Money 10m)
+stockTraderRef <! ExecuteSellOrder("2", Symbol "S2", 3, Money 8m)
