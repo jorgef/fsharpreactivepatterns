@@ -4,9 +4,9 @@ open Akka.FSharp
 
 let system = System.create "TradingSystem" <| Configuration.load ()
 
-type Money = Money of amount: decimal
-type Market = Market of name: string
-type Symbol = Symbol of name: string
+type Symbol = Symbol of string
+type Money = Money of decimal
+type Market = Market of string
 type PricedQuoted = { Market: Market; Ticker: Symbol; Price: Money }
 
 let quoteListener (mailbox: Actor<_>) =
