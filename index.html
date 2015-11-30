@@ -100,12 +100,9 @@ processorRef <span class="pl-k">&lt;!</span> ProcessJob(<span class="pl-c1">1</s
 <h3>
 <a id="message" class="anchor" href="#message" aria-hidden="true"><span class="octicon octicon-link"></span></a>Message</h3>
 
-<p>Messages are sent between actors, they don't have any metadata or header (at least not from the actor point of view), they are just plain data and can be any F# type, normally:
-    - Primitive Types
-    - Discriminated Unions (including single case ones, like in the Message Channel's example)
-    - Record Types</p>
+<p>Messages are sent between actors, they don't have any metadata or header (at least not from the actor point of view), they are just plain data and can be any F# type.</p>
 
-<p>Example using multiple primitive types:</p>
+<p>Example using multiple Primitive Types:</p>
 
 <div class="highlight highlight-source-fsharp"><pre><span class="pl-k">let</span> <span class="pl-smi">scalarValuePrinter</span> (<span class="pl-v">mailbox</span>: <span class="pl-v">Actor</span>&lt;_&gt;) <span class="pl-k">=</span> 
     <span class="pl-k">let</span><span class="pl-k"> rec</span> <span class="pl-smi">loop</span> <span class="pl-c1">()</span> <span class="pl-k">=</span> <span class="pl-k">actor {</span>
@@ -116,12 +113,7 @@ processorRef <span class="pl-k">&lt;!</span> ProcessJob(<span class="pl-c1">1</s
         <span class="pl-k">|</span> <span class="pl-k">_</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">()</span>
         <span class="pl-k">return!</span> loop <span class="pl-c1">()</span>
     <span class="pl-k">}</span>
-    loop <span class="pl-c1">()</span>
-
-<span class="pl-k">let</span> <span class="pl-smi">scalarValuePrinterRef</span> <span class="pl-k">=</span> spawn system <span class="pl-s"><span class="pl-pds">"</span>scalarValuePrinter<span class="pl-pds">"</span></span> scalarValuePrinter
-
-scalarValuePrinterRef <span class="pl-k">&lt;!</span> <span class="pl-c1">1</span>
-scalarValuePrinterRef <span class="pl-k">&lt;!</span> <span class="pl-s"><span class="pl-pds">"</span>hello<span class="pl-pds">"</span></span></pre></div>
+    loop <span class="pl-c1">()</span></pre></div>
 
 <p>Example using Discriminated Unions</p>
 
