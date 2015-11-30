@@ -118,7 +118,7 @@ processorRef <span class="pl-k">&lt;!</span> ProcessJob(<span class="pl-c1">1</s
     <span class="pl-k">}</span>
     loop <span class="pl-c1">()</span></pre></div>
 
-<p>Example using Discriminated Unions</p>
+<p>Example using Discriminated Unions:</p>
 
 <div class="highlight highlight-source-fsharp"><pre><span class="pl-k">type</span> <span class="pl-en">OrderProcessorCommand </span><span class="pl-k">=</span>
     <span class="pl-k">|</span> ExecuteBuyOrder <span class="pl-k">of</span> portfolioId<span class="pl-k">:</span> string <span class="pl-k">*</span> symbol<span class="pl-k">:</span> Symbol <span class="pl-k">*</span> quantity<span class="pl-k">:</span> int <span class="pl-k">*</span> price<span class="pl-k">:</span> Money
