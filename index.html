@@ -61,14 +61,17 @@
 
 <div class="highlight highlight-source-fsharp"><pre>actorRef <span class="pl-k">&lt;!</span> <span class="pl-s"><span class="pl-pds">"</span>message<span class="pl-pds">"</span></span></pre></div>
 
-<p>The first 3 chapters of the book are basically about introducing Actor Model, Akka and Scala. The catalog really starts in chapter 4, here it is the list of chapters (work in progress):
-1. <a href="https://github.com/jorgef/fsharpreactivepatterns">Messaging with Actors (Chapter 4)</a>
-2. Messaging Channels (Chapter 5)
-3. Message Construction (Chapter 6)
-4. Message Routing (Chapter 7)
-5. Message Transformation (Chapter 8)
-6. Message Endpoints (Chapter 9)
-7. System Management and Infrastructure (Chapter 10)</p>
+<p>The first 3 chapters of the book are basically about introducing Actor Model, Akka and Scala. The catalog really starts in chapter 4, here it is the list of chapters (work in progress):</p>
+
+<ol>
+<li><a href="https://github.com/jorgef/fsharpreactivepatterns">Messaging with Actors (Chapter 4)</a></li>
+<li>Messaging Channels (Chapter 5)</li>
+<li>Message Construction (Chapter 6)</li>
+<li>Message Routing (Chapter 7)</li>
+<li>Message Transformation (Chapter 8)</li>
+<li>Message Endpoints (Chapter 9)</li>
+<li>System Management and Infrastructure (Chapter 10)</li>
+</ol>
 
 <h2>
 <a id="messaging-with-actors-chapter-4" class="anchor" href="#messaging-with-actors-chapter-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Messaging with Actors (Chapter 4)</h2>
@@ -92,7 +95,7 @@
 
 processorRef <span class="pl-k">&lt;!</span> ProcessJob(<span class="pl-c1">1</span>, <span class="pl-c1">3</span>, <span class="pl-c1">5</span>)</pre></div>
 
-<p>(See full code)[<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/Ch4/MessageChannel.fsx">https://github.com/jorgef/fsharpreactivepatterns/blob/master/Ch4/MessageChannel.fsx</a>]</p>
+<p><a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/Ch4/MessageChannel.fsx">See full code</a></p>
 
 <h3>
 <a id="message" class="anchor" href="#message" aria-hidden="true"><span class="octicon octicon-link"></span></a>Message</h3>
@@ -122,10 +125,7 @@ scalarValuePrinterRef <span class="pl-k">&lt;!</span> <span class="pl-s"><span c
 
 <p>Example using Discriminated Unions</p>
 
-<div class="highlight highlight-source-fsharp"><pre><span class="pl-k">type</span> <span class="pl-en">Symbol </span><span class="pl-k">=</span> Symbol <span class="pl-k">of</span> string
-<span class="pl-k">type</span> <span class="pl-en">Money </span><span class="pl-k">=</span> Money <span class="pl-k">of</span> decimal
-
-<span class="pl-k">type</span> <span class="pl-en">OrderProcessorCommand </span><span class="pl-k">=</span>
+<div class="highlight highlight-source-fsharp"><pre><span class="pl-k">type</span> <span class="pl-en">OrderProcessorCommand </span><span class="pl-k">=</span>
     <span class="pl-k">|</span> ExecuteBuyOrder <span class="pl-k">of</span> portfolioId<span class="pl-k">:</span> string <span class="pl-k">*</span> symbol<span class="pl-k">:</span> Symbol <span class="pl-k">*</span> quantity<span class="pl-k">:</span> int <span class="pl-k">*</span> price<span class="pl-k">:</span> Money
     <span class="pl-k">|</span> ExecuteSellOrder <span class="pl-k">of</span> portfolioId<span class="pl-k">:</span> string <span class="pl-k">*</span> symbol<span class="pl-k">:</span> Symbol <span class="pl-k">*</span> quantity<span class="pl-k">:</span> int <span class="pl-k">*</span> price<span class="pl-k">:</span> Money
 
@@ -141,24 +141,9 @@ scalarValuePrinterRef <span class="pl-k">&lt;!</span> <span class="pl-s"><span c
         <span class="pl-k">|</span> ExecuteSellOrder(i, s, q, p) <span class="pl-k">-&gt;</span> mailbox.Sender <span class="pl-c1">()</span> <span class="pl-k">&lt;!</span> SellOrderExecuted(i ,s, q, p)
         <span class="pl-k">return!</span> loop <span class="pl-c1">()</span>
     <span class="pl-k">}</span>
-    loop <span class="pl-c1">()</span>
+    loop <span class="pl-c1">()</span></pre></div>
 
-<span class="pl-k">let</span> <span class="pl-smi">caller</span> <span class="pl-v">orderProcessor</span> (<span class="pl-v">mailbox</span>: <span class="pl-v">Actor</span>&lt;_&gt;) <span class="pl-k">=</span>
-    <span class="pl-k">let</span><span class="pl-k"> rec</span> <span class="pl-smi">loop</span> <span class="pl-c1">()</span> <span class="pl-k">=</span> <span class="pl-k">actor {</span>
-        <span class="pl-k">let!</span> <span class="pl-smi">message</span> <span class="pl-k">=</span> mailbox.Receive <span class="pl-c1">()</span>
-        <span class="pl-k">match</span> message <span class="pl-k">with</span>
-        <span class="pl-k">|</span> BuyOrderExecuted(i, Symbol s, q, Money p) <span class="pl-k">-&gt;</span> printfn <span class="pl-pds">"</span><span class="pl-s">Caller: received BuyOrderExecuted <span class="pl-c1">%s</span> <span class="pl-c1">%s</span> <span class="pl-c1">%i</span> <span class="pl-c1">%M</span></span><span class="pl-pds">"</span> i s q p
-        <span class="pl-k">|</span> SellOrderExecuted(i, Symbol s, q, Money p) <span class="pl-k">-&gt;</span> printfn <span class="pl-pds">"</span><span class="pl-s">Caller: received SellOrderExecuted <span class="pl-c1">%s</span> <span class="pl-c1">%s</span> <span class="pl-c1">%i</span> <span class="pl-c1">%M</span></span><span class="pl-pds">"</span> i s q p
-        <span class="pl-k">return!</span> loop <span class="pl-c1">()</span>
-    <span class="pl-k">}</span>
-    orderProcessor <span class="pl-k">&lt;!</span> ExecuteBuyOrder(<span class="pl-s"><span class="pl-pds">"</span>1<span class="pl-pds">"</span></span>, Symbol <span class="pl-s"><span class="pl-pds">"</span>S1<span class="pl-pds">"</span></span>, <span class="pl-c1">5</span>, Money <span class="pl-c1">10</span>m)
-    orderProcessor <span class="pl-k">&lt;!</span> ExecuteSellOrder(<span class="pl-s"><span class="pl-pds">"</span>2<span class="pl-pds">"</span></span>, Symbol <span class="pl-s"><span class="pl-pds">"</span>S2<span class="pl-pds">"</span></span>, <span class="pl-c1">3</span>, Money <span class="pl-c1">8</span>m)
-    loop <span class="pl-c1">()</span>
-
-<span class="pl-k">let</span> <span class="pl-smi">orderProcessorRef</span> <span class="pl-k">=</span> spawn system <span class="pl-s"><span class="pl-pds">"</span>orderProcessor<span class="pl-pds">"</span></span> orderProcessor
-<span class="pl-k">let</span> <span class="pl-smi">callerRef</span> <span class="pl-k">=</span> spawn system <span class="pl-s"><span class="pl-pds">"</span>caller<span class="pl-pds">"</span></span> <span class="pl-k">&lt;|</span> caller orderProcessorRef</pre></div>
-
-<p>(See full code)[<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/Ch4/Message.fsx">https://github.com/jorgef/fsharpreactivepatterns/blob/master/Ch4/Message.fsx</a>]</p>
+<p><a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/Ch4/Message.fsx">See full code</a></p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/jorgef/fsharpreactivepatterns">Reactive Messaging Patterns with F# and Akka.NET</a> is maintained by <a href="https://github.com/jorgef">jorgef</a>.</span>
