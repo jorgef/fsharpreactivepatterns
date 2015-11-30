@@ -12,7 +12,7 @@
   <body>
     <section class="page-header">
       <h1 class="project-name">Reactive Messaging Patterns with F# and Akka.NET</h1>
-      <h2 class="project-tagline">F# examples for the Reactive Messaging Patterns with the Actor Model book by Vaughn Vernon</h2>
+      <h2 class="project-tagline">F# examples for the book Reactive Messaging Patterns with the Actor Model by Vaughn Vernon</h2>
       <a href="https://github.com/jorgef/fsharpreactivepatterns" class="btn">View on GitHub</a>
       <a href="https://github.com/jorgef/fsharpreactivepatterns/zipball/master" class="btn">Download .zip</a>
       <a href="https://github.com/jorgef/fsharpreactivepatterns/tarball/master" class="btn">Download .tar.gz</a>
@@ -22,14 +22,12 @@
       <h1>
 <a id="reactive-messaging-patterns-with-f-and-akkanet" class="anchor" href="#reactive-messaging-patterns-with-f-and-akkanet" aria-hidden="true"><span class="octicon octicon-link"></span></a>Reactive Messaging Patterns with F# and Akka.NET</h1>
 
-<p>Recently I've been reading the Reactive Messaging Patterns with the Actor Model book by Vaughn Vernon. This is a good book that applies the patterns described in the classic Enterprise Integration Patterns book using the Scala language and the Akka framework (Actor Model).</p>
+<p>Recently I've been reading the <a href="http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836">Reactive Messaging Patterns with the Actor Model</a> book by <a href="https://twitter.com/vaughnvernon">Vaughn Vernon</a>. This is a good book that applies the patterns described in the classic <a href="http://www.informit.com/store/enterprise-integration-patterns-designing-building-9780321200686">Enterprise Integration Patterns</a> book using the Scala language and the Akka framework (Actor Model).</p>
 
 <p>As I am an F# fan, I thought it would be a good exercise to translate the examples to F# and Akka.net. If you know F# and Akka.net (or want to learn), I encourage you to read the book and follow the examples I share here. Bear in mind that I won't cover in detail each pattern, I will just provide a short description and its F#/Akka.net example, for more details please refer to the book.</p>
 
-<p>The first 3 chapters of the book are basically about introducing Actor Model, Akka and Scala. The catalogue really starts in chapter 4, so this first post is about the patterns described in that chapter.</p>
-
 <h2>
-<a id="intro-to-akkanets-f-api" class="anchor" href="#intro-to-akkanets-f-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>Intro to Akka.net's F# API</h2>
+<a id="intro-to-akkanet-f-api" class="anchor" href="#intro-to-akkanet-f-api" aria-hidden="true"><span class="octicon octicon-link"></span></a>Intro to Akka.NET F# API</h2>
 
 <p>Before we start, it is worth mentioning that Akka.net's F# API allows you to create actors in different ways, the simplest one allows you to do it in just one line of code!</p>
 
@@ -62,6 +60,85 @@
 <p>Once you create an actor, you have a reference to it, so now you can send messages to it in this way:</p>
 
 <div class="highlight highlight-source-fsharp"><pre>actorRef <span class="pl-k">&lt;!</span> <span class="pl-s"><span class="pl-pds">"</span>message<span class="pl-pds">"</span></span></pre></div>
+
+<p>The first 3 chapters of the book are basically about introducing Actor Model, Akka and Scala. The catalog really starts in chapter 4.</p>
+
+<h2>
+<a id="list-of-chapters" class="anchor" href="#list-of-chapters" aria-hidden="true"><span class="octicon octicon-link"></span></a>List of Chapters</h2>
+
+<ol>
+<li><a href="#messaging-with-actors-chapter-4">Messaging with Actors (Chapter 4)</a></li>
+<li>Messaging Channels (Chapter 5)</li>
+<li>Message Construction (Chapter 6)</li>
+<li>Message Routing (Chapter 7)</li>
+<li>Message Transformation (Chapter 8)</li>
+<li>Message Endpoints (Chapter 9)</li>
+<li>System Management and Infrastructure (Chapter 10)</li>
+</ol>
+
+<h2>
+<a id="messaging-with-actors-chapter-4" class="anchor" href="#messaging-with-actors-chapter-4" aria-hidden="true"><span class="octicon octicon-link"></span></a>Messaging with Actors (Chapter 4)</h2>
+
+<h3>
+<a id="message-channel" class="anchor" href="#message-channel" aria-hidden="true"><span class="octicon octicon-link"></span></a>Message Channel</h3>
+
+<p>The Message Channel represents the way a consumer and a producer communicate. When using Akka.net, there is nothing special you need to do to implement this pattern as the actor's mailbox implements it for you. </p>
+
+<div class="highlight highlight-source-fsharp"><pre><span class="pl-k">type</span> <span class="pl-en">ProcessorMessage </span><span class="pl-k">=</span> ProcessJob <span class="pl-k">of</span> int <span class="pl-k">*</span> int <span class="pl-k">*</span> int
+
+<span class="pl-k">let</span> <span class="pl-smi">processor</span> (<span class="pl-v">mailbox</span>: <span class="pl-v">Actor</span>&lt;_&gt;) <span class="pl-k">=</span> 
+    <span class="pl-k">let</span><span class="pl-k"> rec</span> <span class="pl-smi">loop</span> <span class="pl-c1">()</span> <span class="pl-k">=</span> <span class="pl-k">actor {</span>
+        <span class="pl-k">let!</span> <span class="pl-smi">ProcessJob</span>(<span class="pl-v">x</span>,<span class="pl-v">y</span>,<span class="pl-v">z</span>) <span class="pl-k">=</span> mailbox.Receive <span class="pl-c1">()</span>
+        printfn <span class="pl-pds">"</span><span class="pl-s">Processor: received ProcessJob <span class="pl-c1">%i</span> <span class="pl-c1">%i</span> <span class="pl-c1">%i</span></span><span class="pl-pds">"</span> x y z
+        <span class="pl-k">return!</span> loop <span class="pl-c1">()</span>
+    <span class="pl-k">}</span>
+    loop <span class="pl-c1">()</span>
+
+<span class="pl-k">let</span> <span class="pl-smi">processorRef</span> <span class="pl-k">=</span> spawn system <span class="pl-s"><span class="pl-pds">"</span>processor<span class="pl-pds">"</span></span> processor
+
+processorRef <span class="pl-k">&lt;!</span> ProcessJob(<span class="pl-c1">1</span>, <span class="pl-c1">3</span>, <span class="pl-c1">5</span>)</pre></div>
+
+<p><a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/Ch4/MessageChannel.fsx">see full code</a> - <a href="#list-of-chapters">go to chapters</a></p>
+
+<h3>
+<a id="message" class="anchor" href="#message" aria-hidden="true"><span class="octicon octicon-link"></span></a>Message</h3>
+
+<p>Messages are sent between actors, they don't have any metadata or header (at least not from the actor point of view), they are just plain data and can be any F# type.</p>
+
+<p>Example using multiple Primitive Types:</p>
+
+<div class="highlight highlight-source-fsharp"><pre><span class="pl-k">let</span> <span class="pl-smi">scalarValuePrinter</span> (<span class="pl-v">mailbox</span>: <span class="pl-v">Actor</span>&lt;_&gt;) <span class="pl-k">=</span> 
+    <span class="pl-k">let</span><span class="pl-k"> rec</span> <span class="pl-smi">loop</span> <span class="pl-c1">()</span> <span class="pl-k">=</span> <span class="pl-k">actor {</span>
+        <span class="pl-k">let!</span> <span class="pl-smi">message</span> <span class="pl-k">=</span> mailbox.Receive <span class="pl-c1">()</span>
+        <span class="pl-k">match</span> box message <span class="pl-k">with</span>
+        <span class="pl-k">|</span> <span class="pl-k">:</span>? string <span class="pl-k">as</span> msg <span class="pl-k">-&gt;</span> printfn <span class="pl-pds">"</span><span class="pl-s">ScalarValuePrinter: received String <span class="pl-c1">%s</span></span><span class="pl-pds">"</span> msg
+        <span class="pl-k">|</span> <span class="pl-k">:</span>? int <span class="pl-k">as</span> msg <span class="pl-k">-&gt;</span> printfn <span class="pl-pds">"</span><span class="pl-s">ScalarValuePrinter: received Int <span class="pl-c1">%i</span></span><span class="pl-pds">"</span> msg
+        <span class="pl-k">|</span> <span class="pl-k">_</span> <span class="pl-k">-&gt;</span> <span class="pl-c1">()</span>
+        <span class="pl-k">return!</span> loop <span class="pl-c1">()</span>
+    <span class="pl-k">}</span>
+    loop <span class="pl-c1">()</span></pre></div>
+
+<p>Example using Discriminated Unions:</p>
+
+<div class="highlight highlight-source-fsharp"><pre><span class="pl-k">type</span> <span class="pl-en">OrderProcessorCommand </span><span class="pl-k">=</span>
+    <span class="pl-k">|</span> ExecuteBuyOrder <span class="pl-k">of</span> portfolioId<span class="pl-k">:</span> string <span class="pl-k">*</span> symbol<span class="pl-k">:</span> Symbol <span class="pl-k">*</span> quantity<span class="pl-k">:</span> int <span class="pl-k">*</span> price<span class="pl-k">:</span> Money
+    <span class="pl-k">|</span> ExecuteSellOrder <span class="pl-k">of</span> portfolioId<span class="pl-k">:</span> string <span class="pl-k">*</span> symbol<span class="pl-k">:</span> Symbol <span class="pl-k">*</span> quantity<span class="pl-k">:</span> int <span class="pl-k">*</span> price<span class="pl-k">:</span> Money
+
+<span class="pl-k">type</span> <span class="pl-en">OrderProcessorEvent </span><span class="pl-k">=</span>
+    <span class="pl-k">|</span> BuyOrderExecuted <span class="pl-k">of</span> portfolioId<span class="pl-k">:</span> string <span class="pl-k">*</span> symbol<span class="pl-k">:</span> Symbol <span class="pl-k">*</span> quantity<span class="pl-k">:</span> int <span class="pl-k">*</span> price<span class="pl-k">:</span> Money
+    <span class="pl-k">|</span> SellOrderExecuted <span class="pl-k">of</span> portfolioId<span class="pl-k">:</span> string <span class="pl-k">*</span> symbol<span class="pl-k">:</span> Symbol <span class="pl-k">*</span> quantity<span class="pl-k">:</span> int <span class="pl-k">*</span> price<span class="pl-k">:</span> Money
+
+<span class="pl-k">let</span> <span class="pl-smi">orderProcessor</span> (<span class="pl-v">mailbox</span>: <span class="pl-v">Actor</span>&lt;_&gt;) <span class="pl-k">=</span>
+    <span class="pl-k">let</span><span class="pl-k"> rec</span> <span class="pl-smi">loop</span> <span class="pl-c1">()</span> <span class="pl-k">=</span> <span class="pl-k">actor {</span>
+        <span class="pl-k">let!</span> <span class="pl-smi">message</span> <span class="pl-k">=</span> mailbox.Receive <span class="pl-c1">()</span>
+        <span class="pl-k">match</span> message <span class="pl-k">with</span>
+        <span class="pl-k">|</span> ExecuteBuyOrder(i, s, q, p) <span class="pl-k">-&gt;</span> mailbox.Sender <span class="pl-c1">()</span> <span class="pl-k">&lt;!</span> BuyOrderExecuted(i, s, q, p)
+        <span class="pl-k">|</span> ExecuteSellOrder(i, s, q, p) <span class="pl-k">-&gt;</span> mailbox.Sender <span class="pl-c1">()</span> <span class="pl-k">&lt;!</span> SellOrderExecuted(i ,s, q, p)
+        <span class="pl-k">return!</span> loop <span class="pl-c1">()</span>
+    <span class="pl-k">}</span>
+    loop <span class="pl-c1">()</span></pre></div>
+
+<p><a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/Ch4/Message.fsx">see full code</a> - <a href="#list-of-chapters">go to chapters</a></p>
 
       <footer class="site-footer">
         <span class="site-footer-owner"><a href="https://github.com/jorgef/fsharpreactivepatterns">Reactive Messaging Patterns with F# and Akka.NET</a> is maintained by <a href="https://github.com/jorgef">jorgef</a>.</span>
