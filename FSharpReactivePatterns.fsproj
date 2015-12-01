@@ -81,6 +81,7 @@
     <Content Include="licenses\license.txt" />
     <Content Include="CHANGES.txt" />
     <None Include="Ch6\CommandMessage.fsx" />
+    <None Include="Ch6\DocumentMessage.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
