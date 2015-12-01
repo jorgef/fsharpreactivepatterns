@@ -80,6 +80,7 @@
     <Content Include="licenses\protoc-license.txt" />
     <Content Include="licenses\license.txt" />
     <Content Include="CHANGES.txt" />
+    <None Include="Ch6\CommandMessage.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
