@@ -74,14 +74,15 @@
     <None Include="Ch5\ChannelAdapter.fsx" />
     <None Include="Ch5\MessageBridge.fsx" />
     <None Include="Ch5\MessageBus.fsx" />
+    <None Include="Ch6\CommandMessage.fsx" />
+    <None Include="Ch6\DocumentMessage.fsx" />
+    <None Include="Ch6\EventMessage.fsx" />
     <None Include="protos\tutorial\addressbook.proto" />
     <None Include="protos\google\protobuf\descriptor.proto" />
     <None Include="protos\google\protobuf\csharp_options.proto" />
     <Content Include="licenses\protoc-license.txt" />
     <Content Include="licenses\license.txt" />
     <Content Include="CHANGES.txt" />
-    <None Include="Ch6\CommandMessage.fsx" />
-    <None Include="Ch6\DocumentMessage.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
