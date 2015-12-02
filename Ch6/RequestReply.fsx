@@ -17,8 +17,7 @@ let client (mailbox: Actor<_>) =
         | StartWith server ->
             printfn "Client: is starting..."
             server <! Request "REQ-1"
-        | Reply what ->
-            printfn "Client: received response: %s" what
+        | Reply what -> printfn "Client: received response: %s" what
         return! loop ()
     }
     loop ()
