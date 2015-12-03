@@ -235,4 +235,4 @@ Target "All" DoNothing
 "GenerateHelp"
   ==> "KeepRunning"    
 
-RunTargetOrDefault "All"
+RunTargetOrDefault "GenerateHelpDebug"
