@@ -219,39 +219,6 @@ Target "ReleaseDocs" (fun _ ->
     Branches.push tempDocsDir
 )
 
-#load "paket-files/fsharp/FAKE/modules/Octokit/Octokit.fsx"
-open Octokit
-
-Target "Release" (fun _ ->
-    let user =
-        match getBuildParam "github-user" with
-        | s when not (String.IsNullOrWhiteSpace s) -> s
-        | _ -> getUserInput "Username: "
-    let pw =
-        match getBuildParam "github-pw" with
-        | s when not (String.IsNullOrWhiteSpace s) -> s
-        | _ -> getUserPassword "Password: "
-    let remote =
-        Git.CommandHelper.getGitResult "" "remote -v"
-        |> Seq.filter (fun (s: string) -> s.EndsWith("(push)"))
-        |> Seq.tryFind (fun (s: string) -> s.Contains(gitOwner + "/" + gitName))
-        |> function None -> gitHome + "/" + gitName | Some (s: string) -> s.Split().[0]
-
-    StageAll ""
-    Git.Commit.Commit "" (sprintf "Bump version to %s" release.NugetVersion)
-    Branches.pushBranch "" remote (Information.getBranchName "")
-
-    Branches.tag "" release.NugetVersion
-    Branches.pushTag "" remote release.NugetVersion
-    
-    // release on github
-    createClient user pw
-    |> createDraft gitOwner gitName release.NugetVersion (release.SemVer.PreRelease <> None) release.Notes 
-    // TODO: |> uploadFile "PATH_TO_FILE"    
-    |> releaseDraft
-    |> Async.RunSynchronously
-)
-
 Target "BuildPackage" DoNothing
 
 // --------------------------------------------------------------------------------------
@@ -274,12 +241,6 @@ Target "All" DoNothing
   ==> "GenerateHelpDebug"
 
 "GenerateHelp"
-  ==> "KeepRunning"
-    
-"ReleaseDocs"
-  ==> "Release"
-
-"BuildPackage"
-  ==> "Release"
+  ==> "KeepRunning"    
 
 RunTargetOrDefault "All"
