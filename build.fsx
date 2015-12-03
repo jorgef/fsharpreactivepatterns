@@ -108,9 +108,6 @@ let generateHelp fail =
     generateHelp' fail false
 
 Target "GenerateHelp" (fun _ ->
-    DeleteFile "docs/content/release-notes.md"
-    CopyFile "docs/content/" "RELEASE_NOTES.md"
-    Rename "docs/content/release-notes.md" "docs/content/RELEASE_NOTES.md"
 
     DeleteFile "docs/content/license.md"
     CopyFile "docs/content/" "LICENSE.txt"
@@ -120,9 +117,6 @@ Target "GenerateHelp" (fun _ ->
 )
 
 Target "GenerateHelpDebug" (fun _ ->
-    DeleteFile "docs/content/release-notes.md"
-    CopyFile "docs/content/" "RELEASE_NOTES.md"
-    Rename "docs/content/release-notes.md" "docs/content/RELEASE_NOTES.md"
 
     DeleteFile "docs/content/license.md"
     CopyFile "docs/content/" "LICENSE.txt"
