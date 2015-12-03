@@ -80,6 +80,7 @@
     <None Include="Ch6\RequestReply.fsx" />
     <None Include="Ch6\ReturnAddress.fsx" />
     <None Include="Ch6\CorrelationIdentifier.fsx" />
+    <None Include="Ch6\MessageExpiration.fsx" />
     <None Include="protos\tutorial\addressbook.proto" />
     <None Include="protos\google\protobuf\descriptor.proto" />
     <None Include="protos\google\protobuf\csharp_options.proto" />
