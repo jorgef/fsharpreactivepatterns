@@ -11,10 +11,6 @@ open Fake.UserInputHelper
 open System
 open System.IO
 
-// --------------------------------------------------------------------------------------
-// START TODO: Provide project-specific details below
-// --------------------------------------------------------------------------------------
-
 // Information about the project are used
 //  - for version and project name in generated AssemblyInfo file
 //  - by the generated NuGet package
@@ -39,12 +35,6 @@ let authors = [ "Jorge Fioranelli" ]
 // Tags for your project (for NuGet package)
 let tags = "fsharpreactivepatterns fsharp"
 
-// File system information 
-let solutionFile  = "fsharpreactivepatterns.sln"
-
-// Pattern specifying assemblies to be tested using NUnit
-let testAssemblies = "tests/**/bin/Release/*Tests*.dll"
-
 // Git configuration (used for publishing documentation in gh-pages branch)
 // The profile where the project is posted
 let gitOwner = "jorgef" 
@@ -56,12 +46,6 @@ let gitName = "fsharpreactivepatterns"
 // The url for the raw files hosted
 let gitRaw = environVarOrDefault "gitRaw" "https://raw.github.com/jorgef"
 
-// --------------------------------------------------------------------------------------
-// END TODO: The rest of the file includes standard build steps
-// --------------------------------------------------------------------------------------
-
-// Read additional information from the release notes document
-let release = LoadReleaseNotes "RELEASE_NOTES.md"
 // --------------------------------------------------------------------------------------
 // Clean build results
 
@@ -211,7 +195,7 @@ Target "ReleaseDocs" (fun _ ->
 
     CopyRecursive "docs/output" tempDocsDir true |> tracefn "%A"
     StageAll tempDocsDir
-    Git.Commit.Commit tempDocsDir (sprintf "Update generated documentation for version %s" release.NugetVersion)
+    Git.Commit.Commit tempDocsDir "Update generated documentation"
     Branches.push tempDocsDir
 )
 
