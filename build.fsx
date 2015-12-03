@@ -10,11 +10,6 @@ open Fake.ReleaseNotesHelper
 open Fake.UserInputHelper
 open System
 open System.IO
-#if MONO
-#else
-#load "packages/SourceLink.Fake/tools/Fake.fsx"
-open SourceLink
-#endif
 
 // --------------------------------------------------------------------------------------
 // START TODO: Provide project-specific details below
