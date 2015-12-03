@@ -50,7 +50,7 @@ let gitRaw = environVarOrDefault "gitRaw" "https://raw.github.com/jorgef"
 // Clean build results
 
 Target "Clean" (fun _ ->
-    CleanDirs ["temp"]
+    CleanDirs ["bin"; "temp"]
 )
 
 Target "CleanDocs" (fun _ ->
@@ -167,7 +167,8 @@ Target "All" DoNothing
   ==> "GenerateHelp"
   ==> "GenerateDocs"
 
-"CleanDocs"
+"Clean"
+  ==> "CleanDocs"
   ==> "GenerateHelpDebug"
 
 "GenerateHelp"
