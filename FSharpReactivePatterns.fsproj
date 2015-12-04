@@ -88,6 +88,7 @@
     <Content Include="licenses\protoc-license.txt" />
     <Content Include="licenses\license.txt" />
     <Content Include="CHANGES.txt" />
+    <None Include="MessageRouting\ContentBasedRouter.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
