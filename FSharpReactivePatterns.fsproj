@@ -82,15 +82,16 @@
     <None Include="MessageConstruction\CorrelationIdentifier.fsx" />
     <None Include="MessageConstruction\MessageExpiration.fsx" />
     <None Include="MessageConstruction\FormatIndicator.fsx" />
+    <None Include="MessageRouting\ContentBasedRouter.fsx" />
+    <None Include="MessageRouting\MessageFilter.fsx" />
+    <None Include="MessageRouting\DynamicRouter.fsx" />
+    <None Include="MessageRouting\RecipientList.fsx" />
     <None Include="protos\tutorial\addressbook.proto" />
     <None Include="protos\google\protobuf\descriptor.proto" />
     <None Include="protos\google\protobuf\csharp_options.proto" />
     <Content Include="licenses\protoc-license.txt" />
     <Content Include="licenses\license.txt" />
     <Content Include="CHANGES.txt" />
-    <None Include="MessageRouting\ContentBasedRouter.fsx" />
-    <None Include="MessageRouting\MessageFilter.fsx" />
-    <None Include="MessageRouting\DynamicRouter.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
