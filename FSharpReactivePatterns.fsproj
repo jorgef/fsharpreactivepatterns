@@ -88,6 +88,7 @@
     <None Include="MessageRouting\RecipientList.fsx" />
     <None Include="MessageRouting\Splitter.fsx" />
     <None Include="MessageRouting\Aggregator.fsx" />
+    <None Include="MessageRouting\Resequencer.fsx" />
     <None Include="protos\tutorial\addressbook.proto" />
     <None Include="protos\google\protobuf\descriptor.proto" />
     <None Include="protos\google\protobuf\csharp_options.proto" />
