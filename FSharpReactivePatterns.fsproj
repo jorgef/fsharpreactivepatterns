@@ -89,6 +89,7 @@
     <Content Include="licenses\license.txt" />
     <Content Include="CHANGES.txt" />
     <None Include="MessageRouting\ContentBasedRouter.fsx" />
+    <None Include="MessageRouting\MessageFilter.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
