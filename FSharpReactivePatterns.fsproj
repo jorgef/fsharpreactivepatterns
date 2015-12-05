@@ -90,6 +90,7 @@
     <Content Include="CHANGES.txt" />
     <None Include="MessageRouting\ContentBasedRouter.fsx" />
     <None Include="MessageRouting\MessageFilter.fsx" />
+    <None Include="MessageRouting\DynamicRouter.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
