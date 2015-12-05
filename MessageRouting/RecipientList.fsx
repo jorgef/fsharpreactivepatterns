@@ -30,7 +30,7 @@ let mountaineeringSuppliesOrderProcessor (mailbox: Actor<_>) =
                 rfq.RetailItems
                 |> List.iter (fun retailItem -> 
                     printfn "OrderProcessor: %s item: %s to: %s" rfq.RfqId retailItem.ItemId <| recipient.Path.ToString ()
-                    recipient <! { RfqId = rfq.RfqId; ItemId = retailItem.ItemId; RetailPrice = Money retailItem.RetailPrice; DiscountPrice = Money rfq.TotalRetailPrice }))
+                    recipient <! { RfqId = rfq.RfqId; ItemId = retailItem.ItemId; RetailPrice = Money retailItem.RetailPrice; OrderTotalRetailPrice = Money rfq.TotalRetailPrice }))
 
         let! message = mailbox.Receive ()
         match box message with
