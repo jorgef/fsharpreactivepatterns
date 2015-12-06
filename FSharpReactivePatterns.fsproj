@@ -100,6 +100,7 @@
     <Content Include="CHANGES.txt" />
     <None Include="MessageTransformation\EnvelopeWrapper.fsx" />
     <None Include="MessageTransformation\ContentEnricher.fsx" />
+    <None Include="MessageTransformation\ContentFilter.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
