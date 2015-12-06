@@ -101,6 +101,7 @@
     <None Include="MessageTransformation\EnvelopeWrapper.fsx" />
     <None Include="MessageTransformation\ContentEnricher.fsx" />
     <None Include="MessageTransformation\ContentFilter.fsx" />
+    <None Include="MessageTransformation\ClaimCheck.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
