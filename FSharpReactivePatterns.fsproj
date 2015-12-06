@@ -99,6 +99,7 @@
     <Content Include="licenses\license.txt" />
     <Content Include="CHANGES.txt" />
     <None Include="MessageTransformation\EnvelopeWrapper.fsx" />
+    <None Include="MessageTransformation\ContentEnricher.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
