@@ -98,6 +98,7 @@
     <Content Include="licenses\protoc-license.txt" />
     <Content Include="licenses\license.txt" />
     <Content Include="CHANGES.txt" />
+    <None Include="MessageTransformation\EnvelopeWrapper.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
