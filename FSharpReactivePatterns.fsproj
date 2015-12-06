@@ -102,6 +102,7 @@
     <None Include="MessageTransformation\ContentEnricher.fsx" />
     <None Include="MessageTransformation\ContentFilter.fsx" />
     <None Include="MessageTransformation\ClaimCheck.fsx" />
+    <None Include="MessageEndpoints\MessageGateway.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
