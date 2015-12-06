@@ -14,7 +14,7 @@ type ServiceOption = { Id: string; Description: string }
 type RegistrationData = { CustomerInformation: CustomerInformation; ContactInformation: ContactInformation; ServiceOption: ServiceOption }
 type ProcessStep = { Name: string; Processor: IActorRef }
 type RegistrationProcess = { ProcessId: string; ProcessSteps: ProcessStep list; CurrentStep: int } with
-    static member Create processId processSteps = { ProcessId = processId; ProcessSteps = processSteps; CurrentStep = 0 }
+    static member Create (processId, processSteps) = { ProcessId = processId; ProcessSteps = processSteps; CurrentStep = 0 }
     member this.IsCompleted with get () = this.CurrentStep >= this.ProcessSteps.Length
     member this.NextStep () = 
         if (this.IsCompleted) then failwith "Process had already completed."
@@ -73,7 +73,7 @@ let step1 = { Name = "create_customer"; Processor = ServiceRegistry.customerVaul
 let step2 = { Name = "set_up_contact_info"; Processor = ServiceRegistry.contactKeeper system processId }
 let step3 = { Name = "select_service_plan"; Processor = ServiceRegistry.servicePlanner system processId }
 let step4 = { Name = "check_credit"; Processor = ServiceRegistry.creditChecker system processId }
-let registrationProcess = RegistrationProcess.Create processId [ step1; step2; step3; step4 ]
+let registrationProcess = RegistrationProcess.Create (processId, [ step1; step2; step3; step4 ])
 let registrationData = { 
     CustomerInformation = { Name = "ABC, Inc."; FederalTaxId = "123-45-6789" }
     ContactInformation = { PostalAddress = { Address1 = "123 Main Street"; Address2 = "Suite 100"; City = "Boulder"; State = "CO"; ZipCode = "80301" }

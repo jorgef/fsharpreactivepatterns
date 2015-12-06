@@ -9,7 +9,7 @@ let currentTimeMillis () = DateTimeOffset.UtcNow.Ticks / TimeSpan.TicksPerMillis
 
 type Money = Money of decimal
 type PlaceOrder = { Id: string; OccurredOn: int64; TimeToLive: int64; ItemId: string; Price: Money } with
-    static member create itemId id price timeToLive = { Id = id; OccurredOn = currentTimeMillis (); TimeToLive = timeToLive; ItemId = itemId; Price = price }
+    static member Create (itemId, id, price, timeToLive) = { Id = id; OccurredOn = currentTimeMillis (); TimeToLive = timeToLive; ItemId = itemId; Price = price }
 
 let inline isExpired (message: ^a) = 
     let occurredOn = (^a: (member get_OccurredOn: unit -> int64) message)
@@ -44,6 +44,6 @@ let purchaseAgent (mailbox: Actor<PlaceOrder>) =
 let purchaseAgentRef = spawn system "purchaseAgent" purchaseAgent
 let purchaseRouterRef = spawn system "purchaseRouter" <| purchaseRouter purchaseAgentRef
 
-purchaseRouterRef <! PlaceOrder.create "1" "11" (Money 50.00m) 1000L
-purchaseRouterRef <! PlaceOrder.create "2" "22" (Money 250.00m) 100L
-purchaseRouterRef <! PlaceOrder.create "3" "33" (Money 32.95m) 10L
+purchaseRouterRef <! PlaceOrder.Create ("1", "11", (Money 50.00m), 1000L)
+purchaseRouterRef <! PlaceOrder.Create ("2", "22", (Money 250.00m), 100L)
+purchaseRouterRef <! PlaceOrder.Create ("3", "33", (Money 32.95m), 10L)
