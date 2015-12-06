@@ -8,29 +8,22 @@ let system = System.create "system" <| Configuration.load ()
 type Symbol = Symbol of string
 type Money = Money of decimal
 type Market = Market of string
-
 type ServiceResult = { PortfolioId: string; Symbol: Symbol; Quantity: int; OrderId: int; TotalCost: Money }
-
 type BuyerService () =
     member this.PlaceBuyOrder (portfolioId: string, symbol: Symbol, quantity: int, price: Money) = 
         let (Money p) = price
         { PortfolioId = portfolioId; Symbol = symbol; Quantity = quantity; OrderId = 2; TotalCost = Money (p * 0.01m) }
-
 type SellerService () =
     member this.PlaceSellOrder (portfolioId: string, symbol: Symbol, quantity: int, price: Money) =
         let (Money p) = price
         { PortfolioId = portfolioId; Symbol = symbol; Quantity = quantity; OrderId = 1; TotalCost = Money (p * 0.05m) }
-
 type RegisterCommandHandler = RegisterCommandHandler of applicationId: string * commandName: string * handler: IActorRef
-
 type Command =
     | ExecuteBuyOrder of portfolioId: string * symbol: Symbol * quantity: int * price: Money
     | ExecuteSellOrder of portfolioId: string * symbol: Symbol * quantity: int * price: Money
-
 type Event =
     | BuyOrderExecuted of portfolioId: string * orderId: int * symbol: Symbol * quantity: int * totalCost: Money
     | SellOrderExecuted of portfolioId: string * orderId: int * symbol: Symbol * quantity: int * totalCost: Money
-
 type TradingNotification = TradingNotification of string * Event 
 
 let stockTrader (tradingBus: IActorRef) (buyerService: BuyerService) (sellerService: SellerService) (mailbox: Actor<_>) =
@@ -52,7 +45,7 @@ let stockTrader (tradingBus: IActorRef) (buyerService: BuyerService) (sellerServ
     loop ()
 
 let tradingBus (mailbox: Actor<_>) =
-    let rec loop commandHandlers = actor {
+    let rec loop () = actor {
         let! message = mailbox.Receive ()
         printfn "TradingBus: received %A" message
         return! loop ()

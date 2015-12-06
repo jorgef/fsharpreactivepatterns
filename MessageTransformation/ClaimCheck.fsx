@@ -6,7 +6,6 @@ open Akka.FSharp
 
 let system = System.create "system" <| Configuration.load ()
 
-
 type Part = Part of name: string
 type ClaimCheck = ClaimCheck of number: string with
     static member Create () = ClaimCheck((Guid.NewGuid ()).ToString ())
