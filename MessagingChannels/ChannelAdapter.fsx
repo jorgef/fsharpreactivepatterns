@@ -12,12 +12,12 @@ type Market = Market of string
 type ServiceResult = { PortfolioId: string; Symbol: Symbol; Quantity: int; OrderId: int; TotalCost: Money }
 
 type BuyerService () =
-    member x.PlaceBuyOrder (portfolioId: string, symbol: Symbol, quantity: int, price: Money) = 
+    member this.PlaceBuyOrder (portfolioId: string, symbol: Symbol, quantity: int, price: Money) = 
         let (Money p) = price
         { PortfolioId = portfolioId; Symbol = symbol; Quantity = quantity; OrderId = 2; TotalCost = Money (p * 0.01m) }
 
 type SellerService () =
-    member x.PlaceSellOrder (portfolioId: string, symbol: Symbol, quantity: int, price: Money) =
+    member this.PlaceSellOrder (portfolioId: string, symbol: Symbol, quantity: int, price: Money) =
         let (Money p) = price
         { PortfolioId = portfolioId; Symbol = symbol; Quantity = quantity; OrderId = 1; TotalCost = Money (p * 0.05m) }
 
