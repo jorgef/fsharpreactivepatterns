@@ -8,8 +8,8 @@ let system = System.create "system" <| Configuration.load ()
 
 type BankLoanRateQuote = { BankId: string; BankLoanRateQuoteId: string; InterestRate: decimal }
 type LoanBrokerMessage = 
-    | ProcessStarted of processId: string * processRef: IActorRef
-    | ProcessStopped of processId: string * processRef: IActorRef
+    | ProcessStarted of processId: string * ``process``: IActorRef
+    | ProcessStopped of processId: string * ``process``: IActorRef
     | QuoteBestLoanRate of taxId: string * amount: int * termInMonths: int
     | BankLoanRateQuoted of bankId: string * bankLoanRateQuoteId: string * loadQuoteReferenceId: string * taxId: string * interestRate: decimal
     | CreditChecked of creditProcessingReferenceId: string * taxId: string * score: int
@@ -31,12 +31,12 @@ type CheckCredit = CheckCredit of creditProcessingReferenceId: string * taxId: s
 
 module Process =
     let processOf processId processes = processes |> Map.find processId
-    let startProcess processId processRef self processes =
-        self <! ProcessStarted(processId, processRef)
-        processes |> Map.add processId processRef
+    let startProcess processId ``process`` self processes =
+        self <! ProcessStarted(processId, ``process``)
+        processes |> Map.add processId ``process``
     let stopProcess processId self processes =
-        let processRef = processOf processId processes
-        self <! ProcessStopped(processId, processRef)
+        let ``process`` = processOf processId processes
+        self <! ProcessStopped(processId, ``process``)
         processes |> Map.remove processId
 
 let loanRateQuote loanRateQuoteId taxId amount termInMonths loanBroker (mailbox: Actor<_>) =
@@ -103,9 +103,9 @@ let loanBroker creditBureau banks (mailbox: Actor<_>) =
         | LoanRateQuoteTerminated(loanRateQuoteId, taxId) ->
             printfn "%A" message
             return! loop <| Process.stopProcess loanRateQuoteId mailbox.Self processes 
-        | ProcessStarted(processId, processRef) ->
+        | ProcessStarted(processId, ``process``) ->
             printfn "%A" message
-            processRef <! StartLoanRateQuote(banks.Length)
+            ``process`` <! StartLoanRateQuote(banks.Length)
             return! loop processes
         | ProcessStopped (_,_) -> printfn "%A" message
         | QuoteBestLoanRate(taxId, amount, termInMonths) -> 
