@@ -14,7 +14,10 @@ let workConsumer (mailbox: Actor<_>) =
     }
     loop ()
 
-let workItemsProviderRef = spawnOpt system "workItemsProvider" workConsumer [ Router(Akka.Routing.SmallestMailboxPool(5)) ]
+let workItemsProvider = spawnOpt system "workItemsProvider" workConsumer [ Router(Akka.Routing.RoundRobinPool(5)) ]
 
-[ 1 .. 100 ]
-|> List.iter (fun itemCount -> workItemsProviderRef <! { Name = "WorkItem" + itemCount.ToString () })
+workItemsProvider <! { Name = "WorkItem1" }
+workItemsProvider <! { Name = "WorkItem2" }
+workItemsProvider <! { Name = "WorkItem3" }
+workItemsProvider <! { Name = "WorkItem4" }
+workItemsProvider <! { Name = "WorkItem5" }
