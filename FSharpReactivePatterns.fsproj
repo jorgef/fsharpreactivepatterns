@@ -103,6 +103,7 @@
     <None Include="MessageTransformation\ContentFilter.fsx" />
     <None Include="MessageTransformation\ClaimCheck.fsx" />
     <None Include="MessageEndpoints\MessageGateway.fsx" />
+    <None Include="MessageEndpoints\MessagingMapper.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
