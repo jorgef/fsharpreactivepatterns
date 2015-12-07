@@ -99,6 +99,8 @@
     <None Include="MessageEndpoints\MessageGateway.fsx" />
     <None Include="MessageEndpoints\MessagingMapper.fsx" />
     <None Include="MessageEndpoints\TransactionalClientActor.fsx" />
+    <None Include="MessageEndpoints\PollingConsumer.fsx" />
+    <None Include="MessageEndpoints\ComputingConsumers.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
