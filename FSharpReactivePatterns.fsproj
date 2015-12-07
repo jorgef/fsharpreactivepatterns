@@ -92,46 +92,41 @@
     <None Include="MessageRouting\ScatterGather.fsx" />
     <None Include="MessageRouting\RoutingSlip.fsx" />
     <None Include="MessageRouting\ProcessManager.fsx" />
-    <None Include="protos\tutorial\addressbook.proto" />
-    <None Include="protos\google\protobuf\descriptor.proto" />
-    <None Include="protos\google\protobuf\csharp_options.proto" />
-    <Content Include="licenses\protoc-license.txt" />
-    <Content Include="licenses\license.txt" />
-    <Content Include="CHANGES.txt" />
     <None Include="MessageTransformation\EnvelopeWrapper.fsx" />
     <None Include="MessageTransformation\ContentEnricher.fsx" />
     <None Include="MessageTransformation\ContentFilter.fsx" />
     <None Include="MessageTransformation\ClaimCheck.fsx" />
     <None Include="MessageEndpoints\MessageGateway.fsx" />
     <None Include="MessageEndpoints\MessagingMapper.fsx" />
+    <None Include="MessageEndpoints\TransactionalClientActor.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
-      <HintPath>packages\Akka.1.0.4\lib\net45\Akka.dll</HintPath>
+      <HintPath>packages\Akka.1.0.5\lib\net45\Akka.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Akka.FSharp">
-      <HintPath>packages\Akka.FSharp.1.0.4\lib\net45\Akka.FSharp.dll</HintPath>
+      <HintPath>packages\Akka.FSharp.1.0.5\lib\net45\Akka.FSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Akka.Persistence">
-      <HintPath>packages\Akka.Persistence.1.0.4.12-beta\lib\net45\Akka.Persistence.dll</HintPath>
+      <HintPath>packages\Akka.Persistence.1.0.5.15-beta\lib\net45\Akka.Persistence.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Akka.Persistence.FSharp">
-      <HintPath>packages\Akka.Persistence.FSharp.1.0.4.12-beta\lib\net45\Akka.Persistence.FSharp.dll</HintPath>
+      <HintPath>packages\Akka.Persistence.FSharp.1.0.5.15-beta\lib\net45\Akka.Persistence.FSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="FsPickler">
-      <HintPath>packages\FsPickler.1.2.21\lib\net45\FsPickler.dll</HintPath>
+      <HintPath>packages\FsPickler.1.6.2\lib\net45\FsPickler.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Google.ProtocolBuffers">
-      <HintPath>packages\Google.ProtocolBuffers.2.4.1.521\lib\net40\Google.ProtocolBuffers.dll</HintPath>
+      <HintPath>packages\Google.ProtocolBuffers.2.4.1.555\lib\net40\Google.ProtocolBuffers.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="Google.ProtocolBuffers.Serialization">
-      <HintPath>packages\Google.ProtocolBuffers.2.4.1.521\lib\net40\Google.ProtocolBuffers.Serialization.dll</HintPath>
+      <HintPath>packages\Google.ProtocolBuffers.2.4.1.555\lib\net40\Google.ProtocolBuffers.Serialization.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="mscorlib" />
@@ -139,7 +134,7 @@
       <Private>True</Private>
     </Reference>
     <Reference Include="Newtonsoft.Json">
-      <HintPath>packages\Newtonsoft.Json.7.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+      <HintPath>packages\Newtonsoft.Json.8.0.1-beta3\lib\net45\Newtonsoft.Json.dll</HintPath>
       <Private>True</Private>
     </Reference>
     <Reference Include="System" />
