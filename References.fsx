@@ -5,5 +5,7 @@
 #r @"packages\Newtonsoft.Json.8.0.1-beta3\lib\net45\Newtonsoft.Json.dll"
 #r @"packages\Akka.Persistence.1.0.5.15-beta\lib\net45\Akka.Persistence.dll"
 #r @"packages\Akka.Persistence.FSharp.1.0.5.15-beta\lib\net45\Akka.Persistence.FSharp.dll"
+#r @"packages\Akkling.0.2.0\lib\net45\Akkling.dll"
+#r @"packages\Akkling.Persistence.0.2.0\lib\net45\Akkling.Persistence.dll"
 #r @"packages\Google.ProtocolBuffers.2.4.1.555\lib\net40\Google.ProtocolBuffers.dll"
 #r @"packages\Google.ProtocolBuffers.2.4.1.555\lib\net40\Google.ProtocolBuffers.Serialization.dll"

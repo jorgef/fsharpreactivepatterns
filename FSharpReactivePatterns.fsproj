@@ -117,6 +117,14 @@
       <HintPath>packages\Akka.Persistence.FSharp.1.0.5.15-beta\lib\net45\Akka.Persistence.FSharp.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Akkling">
+      <HintPath>packages\Akkling.0.2.0\lib\net45\Akkling.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Akkling.Persistence">
+      <HintPath>packages\Akkling.Persistence.0.2.0\lib\net45\Akkling.Persistence.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="FsPickler">
       <HintPath>packages\FsPickler.1.6.2\lib\net45\FsPickler.dll</HintPath>
       <Private>True</Private>
