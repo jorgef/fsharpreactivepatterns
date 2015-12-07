@@ -1,1 +1,1 @@
-﻿// TBD: it needs persistence
+﻿// TBD: Akka Persistence not supported yet

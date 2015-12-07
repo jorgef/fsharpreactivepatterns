@@ -103,6 +103,8 @@
     <None Include="MessageEndpoints\CompetingConsumers.fsx" />
     <None Include="MessageEndpoints\MessageDispatcher.fsx" />
     <None Include="MessageEndpoints\SelectiveConsumer.fsx" />
+    <None Include="MessageEndpoints\DurableSubscriber.fsx" />
+    <None Include="MessageEndpoints\IdempotentReceiverDeduplication.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
