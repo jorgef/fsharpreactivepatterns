@@ -1,6 +1,5 @@
 ﻿#load "..\References.fsx"
 
-open Akka.Actor
 open Akka.FSharp
 
 let system = System.create "system" <| Configuration.load ()
