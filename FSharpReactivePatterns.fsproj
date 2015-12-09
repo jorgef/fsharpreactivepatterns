@@ -111,6 +111,7 @@
     <None Include="SystemManagementInfrastructure\MessageMetadataHistory.fsx" />
     <None Include="SystemManagementInfrastructure\SmartProxy.fsx" />
     <None Include="SystemManagementInfrastructure\TestMessage.fsx" />
+    <None Include="SystemManagementInfrastructure\ChannelPurger.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
