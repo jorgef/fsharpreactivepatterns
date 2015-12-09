@@ -109,6 +109,8 @@
     <None Include="SystemManagementInfrastructure\Detour.fsx" />
     <None Include="SystemManagementInfrastructure\WireTap.fsx" />
     <None Include="SystemManagementInfrastructure\MessageMetadataHistory.fsx" />
+    <None Include="SystemManagementInfrastructure\SmartProxy.fsx" />
+    <None Include="SystemManagementInfrastructure\TestMessage.fsx" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Akka">
