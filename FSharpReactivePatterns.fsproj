@@ -59,7 +59,6 @@
     <Compile Include="Program.fs" />
     <None Include="App.config" />
     <Content Include="packages.config" />
-    <None Include="MessageEndpoints\IdempotentReceiverBecome.fsx" />
     <None Include="References.fsx" />
     <None Include="MessagingWithActors\MessageChannel.fsx" />
     <None Include="MessagingWithActors\Message.fsx" />
@@ -106,6 +105,7 @@
     <None Include="MessageEndpoints\SelectiveConsumer.fsx" />
     <None Include="MessageEndpoints\DurableSubscriber.fsx" />
     <None Include="MessageEndpoints\IdempotentReceiverDeduplication.fsx" />
+    <None Include="MessageEndpoints\IdempotentReceiverBecome.fsx" />
     <None Include="SystemManagementInfrastructure\Detour.fsx" />
     <None Include="SystemManagementInfrastructure\WireTap.fsx" />
     <None Include="SystemManagementInfrastructure\MessageMetadataHistory.fsx" />
