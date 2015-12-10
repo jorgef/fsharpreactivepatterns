@@ -6,6 +6,10 @@
 2. **Messaging with Actors (Chapter 4)**
 	- [Message Channel](#Message-Channel)
 	- [Message](#Message)
+	- [Pipes and Filters](#Pipes-and-Filters)
+	- [Message Router](#Message-Router)
+	- [Message Translator](#Message-Translator)
+	- [Message Endpoint](#Message-Endpoint)
 3. Messaging Channels (Chapter 5)
 4. Message Construction (Chapter 6)
 5. Message Routing (Chapter 7)
@@ -79,3 +83,152 @@ let orderProcessor (mailbox: Actor<_>) =
 ```
 
 [Complete Code](https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/Message.fsx) - [Sections](#Sections)
+
+##Pipes and Filters
+
+```fsharp
+type ProcessIncomingOrder = ProcessIncomingOrder of byte array
+
+let orderAcceptanceEndpoint nextFilter (mailbox: Actor<_>) =
+    let rec loop () = actor {
+        let! message = mailbox.Receive ()
+        let text = Encoding.Default.GetString message
+        printfn "OrderAcceptanceEndpoint: processing %s" text
+        nextFilter <! ProcessIncomingOrder(message)
+        return! loop ()
+    }
+    loop ()
+
+let decrypter nextFilter (mailbox: Actor<_>) =
+    let rec loop () = actor {
+        let! ProcessIncomingOrder(bytes) = mailbox.Receive ()
+        let text = Encoding.Default.GetString bytes
+        printfn "Decrypter: processing %s" text
+        let orderText = text.Replace ("(encryption)", String.Empty)
+        nextFilter <! ProcessIncomingOrder(Encoding.Default.GetBytes orderText)
+        return! loop ()
+    }
+    loop ()
+
+let authenticator nextFilter (mailbox: Actor<_>) =
+    let rec loop () = actor {
+        let! ProcessIncomingOrder(bytes) = mailbox.Receive ()
+        let text = Encoding.Default.GetString bytes
+        printfn "Authenticator: processing %s" text
+        let orderText = text.Replace ("(certificate)", String.Empty)
+        nextFilter <! ProcessIncomingOrder(Encoding.Default.GetBytes orderText)
+        return! loop ()
+    }
+    loop ()
+
+let deduplicator nextFilter (mailbox: Actor<_>) =
+    let orderIdFrom (orderText: string) =
+        let orderIdIndex = orderText.IndexOf ("id='") + 4
+        let orderIdLastIndex = orderText.IndexOf ("'", orderIdIndex)
+        orderText.Substring (orderIdIndex, orderIdLastIndex)
+
+    let rec loop (processedOrderIds: string Set) = actor {
+        let! ProcessIncomingOrder(bytes) = mailbox.Receive ()
+        let text = Encoding.Default.GetString bytes
+        printfn "Deduplicator: processing %s" text
+        let orderId = orderIdFrom text
+        if (not <| Set.contains orderId processedOrderIds) then 
+            nextFilter <! ProcessIncomingOrder(bytes) 
+            return! loop <| Set.add orderId processedOrderIds
+        else 
+            printfn "Deduplicator: found duplicate order %s" orderId
+            return! loop processedOrderIds
+    }
+    loop Set.empty
+
+let orderManagerSystem (mailbox: Actor<_>) =
+    let rec loop () = actor {
+        let! ProcessIncomingOrder(bytes) = mailbox.Receive ()
+        let text = Encoding.Default.GetString bytes
+        printfn "OrderManagementSystem: processing unique order: %s" text
+        return! loop ()
+    }
+    loop ()
+
+let orderText = "(encryption)(certificate)<order id='123'>...</order>"
+let rawOrderBytes = Encoding.Default.GetBytes orderText
+
+let filter5 = spawn system "orderManagementSystem" orderManagerSystem
+let filter4 = spawn system "deduplicator" <| deduplicator filter5
+let filter3 = spawn system "authenticator" <| authenticator filter4
+let filter2 = spawn system "decrypter" <| decrypter filter3
+let filter1 = spawn system "orderAcceptanceEndpoint" <| orderAcceptanceEndpoint filter2
+
+filter1 <! rawOrderBytes
+filter1 <! rawOrderBytes
+```
+
+##Message Router
+
+```fsharp
+let alternatingRouter (processor1: IActorRef) (processor2: IActorRef) (mailbox: Actor<_>) =
+    let rec loop alternate = actor {
+        let alternateProcessor () = if alternate = 1 then processor1, 2 else processor2, 1
+        let! message = mailbox.Receive ()
+        let processor, nextAlternate = alternateProcessor ()
+        printfn "AlternatingRouter: routing %O to %s" message processor.Path.Name
+        processor <! message
+        return! loop nextAlternate
+    }
+    loop 1
+```
+
+##Message Translator
+
+```fsharp
+// No code example
+```
+
+##Message Endpoint
+
+```fsharp
+type QuoteMessage =
+    | RequestPriceQuote of retailerId: string * rfqId: string * itemId: string
+    | DiscountPriceCalculated of requestedBy: IActorRef * retailerId: string * rfqId: string * itemId: string * retailPrice: decimal * discountPrice: decimal
+
+type CalculatedDiscountPriceFor = CalculatedDiscountPriceFor of requester: IActorRef * retailerId: string * rfqId: string * itemId: string
+
+type PriceQuote = PriceQuote of quoterId: string * retailerId: string * rfqId: string * itemId: string * retailPrice: decimal * discountPrice: decimal
+
+let highSierraPriceQuotes discounter (mailbox: Actor<_>) =
+    let quoterId = mailbox.Self.Path.Name
+    let rec loop () = actor {
+        let! message = mailbox.Receive ()
+        match message with
+        | RequestPriceQuote(retailerId, rfqId, itemId) -> 
+            printfn "HighSierraPriceQuotes: RequestPriceQuote received" 
+            discounter <! CalculatedDiscountPriceFor(mailbox.Sender (), retailerId, rfqId, itemId)
+        | DiscountPriceCalculated(requestedBy, retailerId, rfqId, itemId, retailPrice, discountPrice) -> 
+            printfn "HighSierraPriceQuotes: DiscountPriceCalculated received" 
+            requestedBy <! PriceQuote(quoterId, retailerId, rfqId, itemId, retailPrice, discountPrice)
+        return! loop ()
+    }
+    loop ()
+
+let discounter (mailbox: Actor<_>) =
+    let rec loop () = actor {
+        let! CalculatedDiscountPriceFor(requester, retailerId, rfqId, itemId) = mailbox.Receive ()
+        printfn "Discounter: CalculatedDiscountPriceFor received" 
+        mailbox.Sender () <! DiscountPriceCalculated(requester, retailerId, rfqId, itemId, 100m, 89.99m)
+        return! loop ()
+    }
+    loop ()
+
+let requester quotes (mailbox: Actor<_>) =
+    let rec loop () = actor {
+        let! PriceQuote(_, _, _, _,retailPrice, discountPrice) = mailbox.Receive ()
+        printfn "Requester: PriceQuote received, retailPrice: %M, discountPrice %M" retailPrice discountPrice 
+        return! loop ()
+    }
+    quotes <! RequestPriceQuote("retailer1", "rfq1", "item1")
+    loop ()
+
+let discounterRef = spawn system "discounter" discounter
+let highSierraPriceQuotesRef = spawn system "highSierraPriceQuotes" <| highSierraPriceQuotes discounterRef
+let requesterRef = spawn system "requester" <| requester highSierraPriceQuotesRef
+```
