@@ -17,8 +17,6 @@
 7. [Message Endpoints](message-endpoints.html)
 8. [System Management and Infrastructure](system-management-and-infrastructure.html)
 
-
-
 ##Message Channel
 
 The Message Channel represents the way a consumer and a producer communicate. When using Akka.net, there is nothing special you need to do to implement this pattern as the actor's mailbox implements it for you. 

@@ -20,7 +20,6 @@
 7. [Message Endpoints](message-endpoints.html)
 8. [System Management and Infrastructure](system-management-and-infrastructure.html)
 
-
 ##Point-to-Point Channel
 
 ```fsharp
