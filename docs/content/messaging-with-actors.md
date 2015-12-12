@@ -1,4 +1,4 @@
-##Messaging with Actors
+#Messaging with Actors
 
 ##Sections
 
@@ -10,12 +10,12 @@
 	- [Message Router](#Message-Router)
 	- [Message Translator](#Message-Translator)
 	- [Message Endpoint](#Message-Endpoint)
-3. Messaging Channels (Chapter 5)
-4. Message Construction (Chapter 6)
-5. Message Routing (Chapter 7)
-6. Message Transformation (Chapter 8)
-7. Message Endpoints (Chapter 9)
-8. System Management and Infrastructure (Chapter 10)
+3. [Messaging Channels](messaging-channels.html)
+4. [Message Construction](message-construction.html)
+5. [Message Routing](message-routing.html)
+6. [Message Transformation](message-transformation.html)
+7. [Message Endpoints](message-endpoints.html)
+8. [System Management and Infrastructure](system-management-and-infrastructure.html)
 
 
 
@@ -39,7 +39,7 @@ let processorRef = spawn system "processor" processor
 processorRef <! ProcessJob(1, 3, 5)
 ```
 
-[Complete Code](https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/MessageChannel.fsx) - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/MessageChannel.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
 
 ##Message
 
@@ -66,7 +66,6 @@ Example using Discriminated Unions:
 type OrderProcessorCommand =
     | ExecuteBuyOrder of portfolioId: string * symbol: Symbol * quantity: int * price: Money
     | ExecuteSellOrder of portfolioId: string * symbol: Symbol * quantity: int * price: Money
-
 type OrderProcessorEvent =
     | BuyOrderExecuted of portfolioId: string * symbol: Symbol * quantity: int * price: Money
     | SellOrderExecuted of portfolioId: string * symbol: Symbol * quantity: int * price: Money
@@ -82,7 +81,7 @@ let orderProcessor (mailbox: Actor<_>) =
     loop ()
 ```
 
-[Complete Code](https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/Message.fsx) - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/Message.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
 
 ##Pipes and Filters
 
@@ -162,6 +161,7 @@ let filter1 = spawn system "orderAcceptanceEndpoint" <| orderAcceptanceEndpoint 
 filter1 <! rawOrderBytes
 filter1 <! rawOrderBytes
 ```
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/PipesAndFilters.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
 
 ##Message Router
 
@@ -177,12 +177,14 @@ let alternatingRouter (processor1: IActorRef) (processor2: IActorRef) (mailbox: 
     }
     loop 1
 ```
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/MessageRouter.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
 
 ##Message Translator
 
 ```fsharp
 // No code example
 ```
+[Sections](#Sections)
 
 ##Message Endpoint
 
@@ -190,9 +192,7 @@ let alternatingRouter (processor1: IActorRef) (processor2: IActorRef) (mailbox: 
 type QuoteMessage =
     | RequestPriceQuote of retailerId: string * rfqId: string * itemId: string
     | DiscountPriceCalculated of requestedBy: IActorRef * retailerId: string * rfqId: string * itemId: string * retailPrice: decimal * discountPrice: decimal
-
 type CalculatedDiscountPriceFor = CalculatedDiscountPriceFor of requester: IActorRef * retailerId: string * rfqId: string * itemId: string
-
 type PriceQuote = PriceQuote of quoterId: string * retailerId: string * rfqId: string * itemId: string * retailPrice: decimal * discountPrice: decimal
 
 let highSierraPriceQuotes discounter (mailbox: Actor<_>) =
@@ -232,3 +232,4 @@ let discounterRef = spawn system "discounter" discounter
 let highSierraPriceQuotesRef = spawn system "highSierraPriceQuotes" <| highSierraPriceQuotes discounterRef
 let requesterRef = spawn system "requester" <| requester highSierraPriceQuotesRef
 ```
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/MessageEndpoint.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)

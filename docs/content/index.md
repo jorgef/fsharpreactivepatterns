@@ -1,19 +1,19 @@
 #Reactive Messaging Patterns with F# and Akka.NET
 
-Recently I've been reading the [Reactive Messaging Patterns with the Actor Model](http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836) book by [Vaughn Vernon](https://twitter.com/vaughnvernon). This is a good book that applies the patterns described in the classic [Enterprise Integration Patterns](http://www.informit.com/store/enterprise-integration-patterns-designing-building-9780321200686) book using the Scala language and the Akka framework (Actor Model).
+Recently I've been reading the <a href=""http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> book by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>. This is a good book that applies the patterns described in the classic <a href="http://www.informit.com/store/enterprise-integration-patterns-designing-building-9780321200686" target="_blank">Enterprise Integration Patterns</a> book using the Scala language and the Akka framework (Actor Model).
 
 As I am an F# fan, I thought it would be a good exercise to translate the examples to F# and Akka.net. If you know F# and Akka.net (or want to learn), I encourage you to read the book and follow the examples I share here. Bear in mind that I won't cover in detail each pattern, I will just provide a short description and its F#/Akka.net example, for more details please refer to the book.
 
 ##Sections
 
 1. **Introduction**
-2. [Messaging with Actors (Chapter 4)](messaging-with-actors.html)
-3. Messaging Channels (Chapter 5)
-4. Message Construction (Chapter 6)
-5. Message Routing (Chapter 7)
-6. Message Transformation (Chapter 8)
-7. Message Endpoints (Chapter 9)
-8. System Management and Infrastructure (Chapter 10)
+2. [Messaging with Actors](messaging-with-actors.html)
+3. [Messaging Channels](messaging-channels.html)
+4. [Message Construction](message-construction.html)
+5. [Message Routing](message-routing.html)
+6. [Message Transformation](message-transformation.html)
+7. [Message Endpoints](message-endpoints.html)
+8. [System Management and Infrastructure](system-management-and-infrastructure.html)
 
 ##Introduction
 
@@ -58,3 +58,10 @@ actorRef <! "message"
 ```
 
 The first 3 chapters of the book are basically about introducing Actor Model, Akka and Scala. The catalog really starts in chapter 4.
+
+
+TODO:
+- Remove Chapters' reference
+- Add links to 
+	- Akka docs and F# api
+	- https://github.com/akkadotnet/akka.net/blob/dev/src/core/Akka.FSharp/FsApi.fs
