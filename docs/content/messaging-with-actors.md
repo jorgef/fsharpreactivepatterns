@@ -39,7 +39,9 @@ let processorRef = spawn system "processor" processor
 processorRef <! ProcessJob(1, 3, 5)
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/MessageChannel.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/MessageChannel.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Message
 
@@ -81,7 +83,9 @@ let orderProcessor (mailbox: Actor<_>) =
     loop ()
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/Message.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/Message.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Pipes and Filters
 
@@ -161,7 +165,9 @@ let filter1 = spawn system "orderAcceptanceEndpoint" <| orderAcceptanceEndpoint 
 filter1 <! rawOrderBytes
 filter1 <! rawOrderBytes
 ```
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/PipesAndFilters.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/PipesAndFilters.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Message Router
 
@@ -177,7 +183,9 @@ let alternatingRouter (processor1: IActorRef) (processor2: IActorRef) (mailbox: 
     }
     loop 1
 ```
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/MessageRouter.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/MessageRouter.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Message Translator
 
@@ -232,4 +240,6 @@ let discounterRef = spawn system "discounter" discounter
 let highSierraPriceQuotesRef = spawn system "highSierraPriceQuotes" <| highSierraPriceQuotes discounterRef
 let requesterRef = spawn system "requester" <| requester highSierraPriceQuotesRef
 ```
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/MessageEndpoint.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/MessageEndpoint.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)

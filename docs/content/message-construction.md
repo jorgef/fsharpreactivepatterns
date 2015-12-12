@@ -45,7 +45,9 @@ stockTraderRef <! ExecuteBuyOrder("p123", "MSFT", 100, Money 31.85m)
 stockTraderRef <! ExecuteSellOrder("p456", "MSFT", 200, Money 31.80m)
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageConstruction/CommandMessage.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageConstruction/CommandMessage.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Document Message
 
@@ -76,7 +78,9 @@ let quotationRef = spawn system "quotation" quotation
 let requesterRef = spawn system "requester" <| requester quotationRef
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageConstruction/DocumentMessage.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageConstruction/DocumentMessage.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Event Message
 
@@ -108,7 +112,9 @@ let quotationRef = spawn system "quotation" <| quotation subscriberRef
 quotationRef <! RequestPriceQuote("1", "1", Money 10m, Money 10m)
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageConstruction/EventMessage.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageConstruction/EventMessage.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Request-Reply
 
@@ -145,7 +151,9 @@ let serverRef = spawn system "server" server
 clientRef <! StartWith serverRef
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageConstruction/RequestReply.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageConstruction/RequestReply.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Return Address
 
@@ -205,7 +213,9 @@ let serverRef = spawn system "server" server
 clientRef <! StartWith serverRef
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageConstruction/ReturnAddress.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageConstruction/ReturnAddress.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Correlation Identifier
 
@@ -218,7 +228,9 @@ type QuotationFulfillment = QuotationFulfillment of rfqId: string * quotesReques
 type BestPriceQuotation = BestPriceQuotation of rfqId: string * priceQuotes: PriceQuote seq
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageConstruction/CorrelationIdentifier.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageConstruction/CorrelationIdentifier.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Message Sequence
 
@@ -272,7 +284,9 @@ purchaseRouterRef <! PlaceOrder.Create ("2", "22", (Money 250.00m), 100L)
 purchaseRouterRef <! PlaceOrder.Create ("3", "33", (Money 32.95m), 10L)
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageConstruction/MessageExpiration.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageConstruction/MessageExpiration.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Format Indicator
 
@@ -297,4 +311,6 @@ stockTraderRef <! ExecuteBuyOrder.CreateV1 ("1", "11", 10, (Money 50.00m))
 stockTraderRef <! ExecuteBuyOrder.CreateV2 ("1", "11", 10, (Money 50.00m))
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageConstruction/FormatIndicator.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageConstruction/FormatIndicator.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)

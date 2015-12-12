@@ -81,7 +81,9 @@ let orderItemsOfTypeX = Map.ofList [(orderItem4.ItemType, orderItem4); (orderIte
 orderRouterRef <! OrderPlaced({ Id = "124"; OrderType = "TypeXYZ"; OrderItems = orderItemsOfTypeX })
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/ContentBasedRouter.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/ContentBasedRouter.fsx" target="_blank">Complete Code</a> 
+
+[Sections](#Sections)
 
 ##Message Filter
 
@@ -137,7 +139,9 @@ inventorySystemARef <! OrderPlaced({ Id = "124"; OrderType = "TypeXYZ"; OrderIte
 inventorySystemXRef <! OrderPlaced({ Id = "124"; OrderType = "TypeXYZ"; OrderItems = orderItemsOfTypeX })
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/MessageFilter.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/MessageFilter.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Dynamic Router
 
@@ -251,7 +255,9 @@ typedMessageInterestRouterRef <! TypeCMessage("Another message of TypeC.")
 typedMessageInterestRouterRef <! TypeDMessage("Message of TypeD.")
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/DynamicRouter.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/DynamicRouter.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Recipient List
 
@@ -417,7 +423,9 @@ orderProcessorRef <! { RfqId = "135"; RetailItems = [ { ItemId = "12"; RetailPri
 orderProcessorRef <! { RfqId = "140"; RetailItems = [ { ItemId = "15"; RetailPrice = 107.50m }; { ItemId = "16"; RetailPrice = 9.50m }; { ItemId = "17"; RetailPrice = 599.99m }; { ItemId = "18"; RetailPrice = 249.95m }; { ItemId = "19"; RetailPrice = 789.99m } ] }
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/RecipientList.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/RecipientList.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Splitter
 
@@ -493,7 +501,9 @@ let orderItems = Map.ofList [ (orderItem1.Id, orderItem1); (orderItem2.Id, order
 orderRouterRef <! OrderPlaced({ OrderItems = orderItems })
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/Splitter.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/Splitter.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Aggregator
 
@@ -688,7 +698,9 @@ orderProcessorRef <! { RfqId = "140"; RetailItems = [ { ItemId = "15"; RetailPri
 
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/Aggregator.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/Aggregator.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Resequencer
 
@@ -776,7 +788,9 @@ let chaosRouterRef = spawn system "chaosRouter" <| chaosRouter resequencerConsum
 [1 .. 5] |> List.iter (fun index -> chaosRouterRef <! SequencedMessage("XYZ", index, 5))
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/Resequencer.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/Resequencer.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Composed Message Processor
 
@@ -1009,7 +1023,9 @@ orderProcessorRef <! { RfqId = "140"; RetailItems = [ { ItemId = "15"; RetailPri
 
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/ScatterGather.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/ScatterGather.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Routing Slip
 
@@ -1092,7 +1108,9 @@ let registerCustomer = { RegistrationData = registrationData; RegistrationProces
 (registrationProcess.NextStep ()).Processor <! registerCustomer
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/RoutingSlip.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/RoutingSlip.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Process Manager
 
@@ -1244,7 +1262,9 @@ let loanBrokerRef = spawn system "loanBroker" <| loanBroker creditBureauRef [ban
 loanBrokerRef <! QuoteBestLoanRate("111-11-1111", 100000, 84)
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/ProcessManager.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageRouting/ProcessManager.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Message Broker
 

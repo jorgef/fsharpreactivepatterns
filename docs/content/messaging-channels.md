@@ -61,7 +61,9 @@ let actorARef = spawn system "actorA" <| actorA actorBRef
 let actorCRef = spawn system "actorC" <| actorC actorBRef
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/PointToPointChannel.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/PointToPointChannel.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Publish-Subscribe Channel
 
@@ -84,7 +86,9 @@ subscribe typeof<PricedQuoted> quoteListenerRef system.EventStream
 publish { Market = Market("quotes/NASDAQ"); Ticker = Symbol "MSFT"; Price = Money(37.16m) } system.EventStream
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/PublishSubscribeChannel.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/PublishSubscribeChannel.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Datatype Channel
 
@@ -107,7 +111,9 @@ let productQueriesChannelRef = spawn system "productQueriesChannel" productQueri
 productQueriesChannelRef <! Encoding.UTF8.GetBytes "test query"
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/DatatypeChannel.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/DatatypeChannel.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Invalid Message Channel
 
@@ -157,7 +163,9 @@ let authenticatorRef = spawn system "authenticator" <| authenticator nextFilterR
 authenticatorRef <! "Invalid message"
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/InvalidMessageChannel.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/InvalidMessageChannel.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 
 ##Dead Letter Channel
@@ -178,7 +186,9 @@ let deadActorRef = select "akka://system/user/deadActor" system
 deadActorRef <! "Message to dead actor"
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/DeadLetterChannel.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/DeadLetterChannel.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 
 ##Guaranteed Delivery
@@ -247,7 +257,9 @@ stockTraderRef <! ExecuteBuyOrder("1", Symbol "S1", 5, Money 10m)
 stockTraderRef <! ExecuteSellOrder("2", Symbol "S2", 3, Money 8m)
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/ChannelAdapter.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/ChannelAdapter.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 
 ##Message Bridge
@@ -275,7 +287,9 @@ let inventoryProductAllocationBridgeRef = spawn system "inventoryProductAllocati
 inventoryProductAllocationBridgeRef <! RabbitMQTextMessage "Rabbit test message"
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/MessageBridge.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/MessageBridge.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 
 ##Message Bus
@@ -397,4 +411,6 @@ tradingBusRef <! TradingCommand("ExecuteSellOrder", ExecuteSellOrder("p456", "MS
 tradingBusRef <! TradingCommand("ExecuteBuyOrder", ExecuteBuyOrder("p789", "MSFT", 100, Money 31.83m))
 ```
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/MessageBus.fsx" target="_blank">Complete Code</a> - [Sections](#Sections)
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/MessageBus.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
