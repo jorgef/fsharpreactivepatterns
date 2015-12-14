@@ -1,4 +1,4 @@
-#System Management and Infrastructure
+#Message Endpoints
 
 ##Sections
 
@@ -80,9 +80,9 @@ orderRef <! InitializeOrder 249.95m
 orderRef <! ProcessOrder
 ```
 
-[Sections](#Sections)
-
 <a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageEndpoints/MessagingGateway.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Messaging Mapper
 
@@ -124,9 +124,9 @@ let orderQueryServiceRef = spawn system "orderQueryService" <| orderQueryService
 let callerRef = spawn system "caller" <| caller orderQueryServiceRef
 ```
 
-[Sections](#Sections)
-
 <a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageEndpoints/MessagingMapper.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Transactional Client/Actor
 
@@ -134,9 +134,9 @@ let callerRef = spawn system "caller" <| caller orderQueryServiceRef
 // TBD: Akka Persistence is not fully supported yet
 ```
 
-[Sections](#Sections)
-
 <a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageEndpoints/TransactionalClientActor.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Polling Consumer
 
@@ -198,9 +198,9 @@ let workConsumerRef = spawn system "workConsumer" <| workConsumer workItemsProvi
 workConsumerRef <! WorkNeeded
 ```
 
-[Sections](#Sections)
-
 <a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageEndpoints/PollingConsumer.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Event-Driven Consumer
 
@@ -208,9 +208,9 @@ workConsumerRef <! WorkNeeded
 // No code example
 ```
 
-[Sections](#Sections)
-
 <a href="" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Competing Consumers
 
@@ -232,9 +232,9 @@ let workItemsProviderRef = spawnOpt system "workItemsProvider" workConsumer [ Ro
 
 ```
 
-[Sections](#Sections)
-
 <a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageEndpoints/CompetingConsumers.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Message Dispatcher
 
@@ -258,9 +258,9 @@ workItemsProvider <! { Name = "WorkItem4" }
 workItemsProvider <! { Name = "WorkItem5" }
 ```
 
-[Sections](#Sections)
-
 <a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageEndpoints/MessageDispatcher.fsx" target="_blank">Complete Code</a>
+
+[Sections](#Sections)
 
 ##Selective Consumer
 
@@ -320,29 +320,138 @@ selectiveConsumerRef <! MessageTypeB
 selectiveConsumerRef <! MessageTypeC
 ```
 
-[Sections](#Sections)
-
 <a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageEndpoints/SelectiveConsumer.fsx" target="_blank">Complete Code</a>
 
-##Durable Subscriber
-
-```fsharp
-// No code example
-```
-
 [Sections](#Sections)
 
-<a href="" target="_blank">Complete Code</a>
-
-##Idempotent Receiver
+##Durable Subscriber
 
 ```fsharp
 // TBD: Akka Persistence is not fully supported yet
 ```
 
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageEndpoints/DurableSubscriber.fsx" target="_blank">Complete Code</a>
+
 [Sections](#Sections)
 
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageEndpoints/DurableSubscriber.fsx" target="_blank">Complete Code</a>
+##Idempotent Receiver
+
+### Deduplication
+```fsharp
+type AccountId = AccountId of string
+type TransactionId = TransactionId of string
+type Money = Money of decimal
+type Transaction = Transaction of transactionId: TransactionId * amount: Money
+type AccountBalance = AccountBalance of accountId: AccountId * amount: Money
+type AccountMessage = 
+    | Deposit of transactionId: TransactionId * amount: Money
+    | Withdraw of transactionId: TransactionId * amount: Money
+    | QueryBalance
+
+let account accountId (mailbox: Actor<_>) =
+    let rec loop transactions = actor {
+        let calculateBalance () = 
+            let amount = 
+                transactions 
+                |> Map.toList
+                |> List.sumBy (fun (_,Transaction(_, Money amount)) -> amount)
+            printfn "Balance: %M" amount
+            AccountBalance(accountId, Money amount)
+
+        let! message = mailbox.Receive ()
+        match message with
+        | Deposit(transactionId, amount) -> 
+            let transaction = Transaction(transactionId, amount)
+            printfn "Deposit: %A" transaction
+            return! loop (transactions |> Map.add transactionId transaction)
+        | Withdraw(transactionId, Money amount) -> 
+            let transaction = Transaction(transactionId, Money -amount)
+            printfn "Withdraw: %A" transaction
+            return! loop (transactions |> Map.add transactionId transaction)
+        | QueryBalance -> 
+            mailbox.Sender () <! calculateBalance () // this msg is sent to the deadletter
+            return! loop transactions
+    }
+    loop Map.empty
+
+let accountRef = spawn system "account" <| account (AccountId "acc1")
+let deposit1 = Deposit(TransactionId "tx1", Money(100m))
+
+accountRef <! deposit1
+accountRef <! QueryBalance
+accountRef <! deposit1
+accountRef <! Deposit(TransactionId "tx2", Money(20m))
+accountRef <! QueryBalance
+accountRef <! deposit1
+accountRef <! Withdraw(TransactionId "tx3", Money(50m))
+accountRef <! QueryBalance
+accountRef <! deposit1
+accountRef <! Deposit(TransactionId "tx4", Money(70m))
+accountRef <! QueryBalance
+accountRef <! deposit1
+accountRef <! Withdraw(TransactionId "tx5", Money(100m))
+accountRef <! QueryBalance
+accountRef <! deposit1
+accountRef <! Deposit(TransactionId "tx6", Money(10m))
+accountRef <! QueryBalance
+```
+
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageEndpoints/IdempotentReceiverDeduplication.fsx" target="_blank">Complete Code (Deduplication)</a>
+
+### Become
+```fsharp
+type RiskAssessmentMessage = 
+    | AttachDocument of documentText: string
+    | ClassifyRisk
+type RiskClassified = RiskClassified of classification: string
+type Document = { Text: string option } with
+    member this.DetermineClassification () =
+        this.Text
+        |> Option.fold (fun _ text ->
+            match text.ToLower () with
+            | text when text.Contains "low" -> "Low"
+            | text when text.Contains "medium" -> "Medium"
+            | text when text.Contains "high" -> "High"
+            | _  -> "Unknown")
+            "Unknown"
+    member this.IsNotAttached with get () = this.Text |> Option.fold (fun _ text -> String.IsNullOrEmpty text) false 
+    member this.IsDefined with get () = this.Text.IsSome
+
+let riskAssessment (mailbox: Actor<_>) =
+    let rec documented (document: Document) = actor {
+        let! message = mailbox.Receive ()
+        match message with
+        | AttachDocument _ ->
+            // already received; ignore
+            return! documented document
+        | ClassifyRisk ->
+            mailbox.Sender () <! RiskClassified(document.DetermineClassification ())
+            return! documented document
+    }
+    let rec undocumented (document: Document) = actor {
+        let! message = mailbox.Receive ()
+        match message with
+        | AttachDocument documentText ->
+            let document = { Text = Some documentText }
+            return! documented document
+        | ClassifyRisk ->
+            mailbox.Sender () <! RiskClassified("Unknown")
+            return! undocumented document
+    }
+    undocumented { Text = None }
+
+let riskAssessmentRef = spawn system "riskAssessment" riskAssessment
+
+let futureAssessment1: RiskClassified = riskAssessmentRef <? ClassifyRisk |> Async.RunSynchronously
+printfn "%A" futureAssessment1
+riskAssessmentRef <! AttachDocument("This is a HIGH risk.")
+let futureAssessment2: RiskClassified = riskAssessmentRef <? ClassifyRisk |> Async.RunSynchronously
+printfn "%A" futureAssessment2
+```
+
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessageEndpoints/IdempotentReceiverBecome.fsx" target="_blank">Complete Code (Become)</a>
+
+[Sections](#Sections)
 
 ##Service Activator
 
