@@ -19,7 +19,7 @@ open System.IO
 
 // The name of the project
 // (used by attributes in AssemblyInfo, name of a NuGet package and directory in 'src')
-let project = "F# Reactive Messaging Patterns"
+let project = "fsharpreactivepatterns"
 
 // Short summary of the project
 // (used as description in AssemblyInfo and as a short summary for NuGet package)
@@ -27,7 +27,7 @@ let summary = "F# Reactive Messaging Patterns"
 
 // Longer description of the project
 // (used as a description for NuGet package; line breaks are automatically cleaned up)
-let description = "F# Reactive Messaging Patterns"
+let description = "F# Reactive Messaging Pattern"
 
 // List of author names (for NuGet package)
 let authors = [ "Jorge Fioranelli" ]
@@ -41,7 +41,7 @@ let gitOwner = "jorgef"
 let gitHome = "https://github.com/" + gitOwner
 
 // The name of the project on GitHub
-let gitName = "F# Reactive Messaging Patterns"
+let gitName = "fsharpreactivepatterns"
 
 // The url for the raw files hosted
 let gitRaw = environVarOrDefault "gitRaw" "https://raw.github.com/jorgef"
