@@ -12,8 +12,8 @@
     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
-    <link type="text/css" rel="stylesheet" href="/fsharpreactivepatterns/content/style.css" />
-    <script type="text/javascript" src="/fsharpreactivepatterns/content/tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="file://C:\Projects\fsharp\fsharpreactivepatterns\docs\tools\../output/content/style.css" />
+    <script type="text/javascript" src="file://C:\Projects\fsharp\fsharpreactivepatterns\docs\tools\../output/content/tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -26,15 +26,17 @@
           <li><a href="http://fsharp.org">fsharp.org</a></li>
           <li><a href="http://github.com/jorgef/fsharpreactivepatterns">github page</a></li>
         </ul>
-        <h3 class="muted"><a href="/fsharpreactivepatterns/index.html">Reactive Messaging Patterns with F# and Akka.NET</a></h3>
+        <h3 class="muted"><a href="file://C:\Projects\fsharp\fsharpreactivepatterns\docs\tools\../output/index.html">Reactive Messaging Patterns with F# and Akka.NET</a></h3>
       </div>
       <hr />
       <div class="row">
         <div class="span9" id="main">
           
-<p>Recently I've been reading the <a href=""http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> book by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>. This is a good book that applies the patterns described in the classic <a href="http://www.informit.com/store/enterprise-integration-patterns-designing-building-9780321200686" target="_blank">Enterprise Integration Patterns</a> book using the Scala language and the Akka framework (Actor Model).</p>
+<p><em>This article is part of the <a href="https://sergeytihon.wordpress.com/2015/10/25/f-advent-calendar-in-english-2015/">F# Advent Calendar in English 2015</a> organized by <a href="https://twitter.com/sergey_tihon" target="_blank">Sergey Tihon</a>.</em></p>
 
-<p>As I am an F# fan, I thought it would be a good exercise to translate the examples to F# and Akka.net. If you know F# and Akka.net (or want to learn), I encourage you to read the book and follow the examples I share here. Bear in mind that I won't cover in detail each pattern, I will just provide a short description and its F#/Akka.net example, for more details please refer to the book.</p>
+<p>Recently I've been reading <a href=""http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>. The book applies the patterns described in the classic <a href="http://www.informit.com/store/enterprise-integration-patterns-designing-building-9780321200686" target="_blank">Enterprise Integration Patterns</a> using the <a href="http://www.scala-lang.org" target="_blank">Scala</a> language and the <a href="http://akka.io/" target="_blank">Akka</a> framework (Actor Model).</p>
+
+<p>As I am an F# fan, I thought it would be good to translate the examples to <a href="http://fsharp.org" target="_blank">F#</a> and <a href="http://getakka.net" target="_blank"> Akka.NET </a>. If you know F# and Akka.NET (or want to learn), I encourage you to read the book and follow the examples I share here.</p>
 
 <h2><a name="Sections" class="anchor" href="#Sections">Sections</a></h2>
 
@@ -51,7 +53,7 @@
 
 <h2><a name="Introduction" class="anchor" href="#Introduction">Introduction</a></h2>
 
-<p>Before we start, it is worth mentioning that Akka.net's F# API allows you to create actors in different ways, the simplest one allows you to do it in just one line of code!</p>
+<p>Before we start, it is worth mentioning that the <a href="http://getakka.net/docs/FSharp API" target="_blank">Akka.NET F# API</a> allows you to create actors in different ways, the simplest one allows you to do it in just one line of code!</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 </pre></td>
@@ -60,7 +62,7 @@
 </tr>
 </table>
 
-<p>Although that is very impressive, the truth is that sometimes you will need more control over the way the actor is created and how it interacts with Akka.net. So, to keep all the examples consistent I chose to use a more advanced technique, the "actor" computation expression:</p>
+<p>Although that is very impressive, the truth is that sometimes you will need more control over the way the actor is created and how it interacts with Akka.NET. So, to keep the code examples consistent I chose to use a more advanced technique, the "actor" computation expression:</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
@@ -81,6 +83,22 @@
 </tr>
 </table>
 
+<p>This second option is more verbose but it is also more powerful as you have access to the mailbox and you can control when the recursive function is executed.</p>
+
+<p>So an actor in F# is just a function that:
+- Receives a mailbox as parameter
+- Returns an actor computation expression</p>
+
+<p>The mailbox's type is <strong>Actor<'a></strong>, where 'a is the type of message. In most cases you can leave it as <strong>Actor<_></strong> as the F# compiler will infer the right type for you.</p>
+
+<p>The returned type, the actor computation expression, is implemented using a self-invoking recursive function. Its first line <strong>let! message = mailbox.Receive ()</strong> is receiving the message sent to the actor. if no message is available yet, the actor will be blocked until a message arrives. After the message is received and handled, the line <strong>return! Loop ()</strong>  will be executed, which invokes the loop again to wait for the next message.</p>
+
+<p>Finally, the line <strong>loop ()</strong> executes the loop function for the first time to initiate the actor.</p>
+
+<p>Don't worry if you couldn't follow the code for the first time, it took me a while to get my mind around too. I recommend you to write a few actors to fully understand how it works.</p>
+
+<p>Once you define an actor, you can create a new instance using the <strong>spawn</strong> function:</p>
+
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 8)" onmouseover="showTip(event, 'fs1', 8)" class="i">actorRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;myActor&quot;</span> <span onmouseout="hideTip(event, 'fs2', 9)" onmouseover="showTip(event, 'fs2', 9)" class="i">actor</span>
@@ -88,19 +106,9 @@
 </tr>
 </table>
 
-<p>Although this second option is more verbose, it is also more powerful as you have access to the mailbox and you can control the actor's workflow (you will see in future examples).</p>
+<p>Here we need to provide the actor's system, its unique name ("myActor" in the example) and the actor function.</p>
 
-<p>As you can appreciate, an actor in F# is a function that:
-    - Receives a mailbox as parameter
-    - Returns an actor computation expression</p>
-
-<p>The mailbox's type is Actor<'a>, where 'a is the type of message. In most of the cases you can leave it as Actor<_> as the F# compiler will infer the type for you.</p>
-
-<p>The returned type, the actor computation expression, is implemented using a self-invoking recursive function. Its first line "let! message = mailbox.Receive ()" is receiving the message sent to the actor. if no message is available yet, the actor will be blocked until a message arrives. After the message is received and handled, the line "return! Loop ()" invokes the loop again to wait for the next message. The last line executes the loop function for the first time to initiate the actor.</p>
-
-<p>Don't worry if you couldn't follow the code for the first time, it took me a while to get my mind around. I recommend you to write a few actors to fully understand how it works.</p>
-
-<p>Once you create an actor, you have a reference to it, so now you can send messages to it in this way:</p>
+<p>Now that you have the actor created, you can send messages to it in this way:</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 </pre></td>
@@ -109,13 +117,30 @@
 </tr>
 </table>
 
-<p>The first 3 chapters of the book are basically about introducing Actor Model, Akka and Scala. The catalog really starts in chapter 4.</p>
+<p>And of course you can send all types of messages, not just strings.</p>
 
-<p>TODO:
-- Remove Chapters' reference
-- Add links to 
-    - Akka docs and F# api
-    - <a href="https://github.com/akkadotnet/akka.net/blob/dev/src/core/Akka.FSharp/FsApi.fs">https://github.com/akkadotnet/akka.net/blob/dev/src/core/Akka.FSharp/FsApi.fs</a></p>
+<p>If you want to see a full example check out the first one <a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/MessageChannel.fsx" target="_blank">here</a>, then you can start browsing all the <a href="#Sections">sections</a>.</p>
+
+<h3><a name="How-to-Run-the-Examples" class="anchor" href="#How-to-Run-the-Examples">How to Run the Examples</a></h3>
+
+<ol>
+<li>Clone <em><a href="https://github.com/jorgef/fsharpreactivepatterns.git">https://github.com/jorgef/fsharpreactivepatterns.git</a></em></li>
+<li>Open <em>FSharpReactivePatterns.sln</em> and build the solution (it will download the references)</li>
+<li>Open the example (fsx file) you want to run</li>
+<li>Select all the code but the part that sends the messages to the actor(s) and send it to the F# Interactive</li>
+<li>Clear the F# Interactive (optional)</li>
+<li>Select the code that sends the messages to the actor(s) and send it to the F# Interactive</li>
+</ol>
+
+<img src="img/run.gif" />
+
+<h3><a name="Special-Thanks" class="anchor" href="#Special-Thanks">Special Thanks</a></h3>
+
+<ul>
+<li>To <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a> for writing the <a href=""http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">book</a>.</li>
+<li>To <a href="https://twitter.com/Horusiath" target="_blank">Bartosz Sypytkowski</a> for providing support about <a href="https://getakka.net" target="_blank">Akka.NET</a> and the <a href="https://getakka.net" target="_blank">F# API</a>.</li>
+<li>To <a href="https://twitter.com/sforkmann" target="_blank">Steffen Forkmann</a> for helping me to setup the documentation.</li>
+</ul>
 
 <div class="tip" id="fs1">val actorRef : obj<br /><br />Full name: index.actorRef</div>
 <div class="tip" id="fs2">val actor : mailbox:&#39;a -&gt; &#39;b<br /><br />Full name: index.actor</div>
@@ -124,14 +149,14 @@
 
         </div>
         <div class="span3">
-          <img src="/fsharpreactivepatterns/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <img src="file://C:\Projects\fsharp\fsharpreactivepatterns\docs\tools\../output/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
             <li class="nav-header">Reactive Messaging Patterns with F# and Akka.NET</li>
-            <li><a href="/fsharpreactivepatterns/index.html">Home page</a></li>
+            <li><a href="file://C:\Projects\fsharp\fsharpreactivepatterns\docs\tools\../output/index.html">Home page</a></li>
             <li class="divider"></li>
             
             <li><a href="http://github.com/jorgef/fsharpreactivepatterns">Source Code on GitHub</a></li>
-            <li><a href="/fsharpreactivepatterns/license.html">License</a></li>
+            <li><a href="file://C:\Projects\fsharp\fsharpreactivepatterns\docs\tools\../output/license.html">License</a></li>
             
             
           </ul>

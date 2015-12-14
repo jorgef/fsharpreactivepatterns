@@ -13,8 +13,8 @@
     <script src="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/js/bootstrap.min.js"></script>
     <link href="https://netdna.bootstrapcdn.com/twitter-bootstrap/2.2.1/css/bootstrap-combined.min.css" rel="stylesheet"/>
 
-    <link type="text/css" rel="stylesheet" href="/fsharpreactivepatterns/content/style.css" />
-    <script type="text/javascript" src="/fsharpreactivepatterns/content/tips.js"></script>
+    <link type="text/css" rel="stylesheet" href="file://C:\Projects\fsharp\fsharpreactivepatterns\docs\tools\../output/content/style.css" />
+    <script type="text/javascript" src="file://C:\Projects\fsharp\fsharpreactivepatterns\docs\tools\../output/content/tips.js"></script>
     <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
     <!--[if lt IE 9]>
       <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -27,7 +27,7 @@
           <li><a href="http://fsharp.org">fsharp.org</a></li>
           <li><a href="http://github.com/jorgef/fsharpreactivepatterns">github page</a></li>
         </ul>
-        <h3 class="muted"><a href="/fsharpreactivepatterns/index.html">Reactive Messaging Patterns with F# and Akka.NET</a></h3>
+        <h3 class="muted"><a href="file://C:\Projects\fsharp\fsharpreactivepatterns\docs\tools\../output/index.html">Reactive Messaging Patterns with F# and Akka.NET</a></h3>
       </div>
       <hr />
       <div class="row">
@@ -57,8 +57,6 @@
 </ol>
 
 <h2><a name="Message-Channel" class="anchor" href="#Message-Channel">Message Channel</a></h2>
-
-<p>The Message Channel represents the way a consumer and a producer communicate. When using Akka.net, there is nothing special you need to do to implement this pattern as the actor's mailbox implements it for you.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -97,9 +95,7 @@
 
 <h2><a name="Message" class="anchor" href="#Message">Message</a></h2>
 
-<p>Messages are sent between actors, they don't have any metadata or header (at least not from the actor point of view), they are just plain data and can be any F# type.</p>
-
-<p>Example using multiple Primitive Types:</p>
+<h3><a name="Primitive-types" class="anchor" href="#Primitive-types">Primitive types</a></h3>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -126,7 +122,7 @@
 </tr>
 </table>
 
-<p>Example using Discriminated Unions:</p>
+<h3><a name="Discriminated-Unions" class="anchor" href="#Discriminated-Unions">Discriminated Unions</a></h3>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -536,14 +532,14 @@
 
         </div>
         <div class="span3">
-          <img src="/fsharpreactivepatterns/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
+          <img src="file://C:\Projects\fsharp\fsharpreactivepatterns\docs\tools\../output/img/logo.png" alt="F# Project" style="width:150px;margin:10px" />  
           <ul class="nav nav-list" id="menu" style="margin-top: 20px;">
             <li class="nav-header">Reactive Messaging Patterns with F# and Akka.NET</li>
-            <li><a href="/fsharpreactivepatterns/index.html">Home page</a></li>
+            <li><a href="file://C:\Projects\fsharp\fsharpreactivepatterns\docs\tools\../output/index.html">Home page</a></li>
             <li class="divider"></li>
             
             <li><a href="http://github.com/jorgef/fsharpreactivepatterns">Source Code on GitHub</a></li>
-            <li><a href="/fsharpreactivepatterns/license.html">License</a></li>
+            <li><a href="file://C:\Projects\fsharp\fsharpreactivepatterns\docs\tools\../output/license.html">License</a></li>
             
             
           </ul>
