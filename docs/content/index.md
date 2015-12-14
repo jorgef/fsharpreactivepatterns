@@ -1,5 +1,3 @@
-#Reactive Messaging Patterns with F# and Akka.NET
-
 Recently I've been reading the <a href=""http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> book by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>. This is a good book that applies the patterns described in the classic <a href="http://www.informit.com/store/enterprise-integration-patterns-designing-building-9780321200686" target="_blank">Enterprise Integration Patterns</a> book using the Scala language and the Akka framework (Actor Model).
 
 As I am an F# fan, I thought it would be a good exercise to translate the examples to F# and Akka.net. If you know F# and Akka.net (or want to learn), I encourage you to read the book and follow the examples I share here. Bear in mind that I won't cover in detail each pattern, I will just provide a short description and its F#/Akka.net example, for more details please refer to the book.

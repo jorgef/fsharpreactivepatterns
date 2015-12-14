@@ -7,9 +7,9 @@
 3. [Messaging Channels](messaging-channels.html)
 4. [Message Construction](message-construction.html)
 5. [Message Routing](message-routing.html)
-6. **Message Transformation**	
+6. **Message Transformation**
 	- [Envelope Wrapper](#Envelope-Wrapper)
-	- [Content Enricher](#Content Enricher)
+	- [Content Enricher](#Content-Enricher)
 	- [Content Filter](#Content-Filter)
 	- [Claim Check](#Claim-Check)
 	- [Normalizer](#Normalizer)

@@ -3,7 +3,7 @@
 ##Sections
 
 1. [Introduction](index.html)
-2. **Messaging with Actors (Chapter 4)**
+2. **Messaging with Actors**
 	- [Message Channel](#Message-Channel)
 	- [Message](#Message)
 	- [Pipes and Filters](#Pipes-and-Filters)

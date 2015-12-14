@@ -23,11 +23,11 @@ let project = "fsharpreactivepatterns"
 
 // Short summary of the project
 // (used as description in AssemblyInfo and as a short summary for NuGet package)
-let summary = "F# reactive patterns"
+let summary = "F# Reactive Messaging Patterns"
 
 // Longer description of the project
 // (used as a description for NuGet package; line breaks are automatically cleaned up)
-let description = "F# reactive patterns"
+let description = "F# Reactive Messaging Pattern"
 
 // List of author names (for NuGet package)
 let authors = [ "Jorge Fioranelli" ]
