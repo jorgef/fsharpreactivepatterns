@@ -7,12 +7,10 @@ open Akka.FSharp
 let system = System.create "system" <| Configuration.load ()
 
 type WorkItem = { Name: string }
-
 type WorkConsumerMessage = 
     | WorkNeeded
     | WorkItemsAllocated of workItems: WorkItem list
     | WorkOnItem of workItem: WorkItem
-
 type WorkItemsProvider = 
     | AllocateWorkItems of numberOfItems: int
 

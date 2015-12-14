@@ -9,7 +9,6 @@ type Who = Who of name: string
 type What = What of happened: string
 type Where = Where of actorType: string * actorName: string
 type Why = Why of explanation: string
-
 type Entry = { Who: Who; What: What; Where: Where; When: DateTimeOffset; Why: Why } with
     static member Create (who, what, where, ``when``, why) = { Who = who; What = what; Where = where; When = ``when``; Why = why }
     static member Create (who: Who, what: What, where: Where, why: Why) = Entry.Create (who, what, where, DateTimeOffset.UtcNow, why)
