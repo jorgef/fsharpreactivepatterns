@@ -17,11 +17,10 @@ let githubLink = "http://github.com/jorgef/fsharpreactivepatterns"
 
 // Specify more information about your project
 let info =
-  [ "project-name", "fsharpreactivepatterns"
+  [ "project-name", "Reactive Messaging Patterns with F# and Akka.NET"
     "project-author", "Jorge Fioranelli"
-    "project-summary", "F# reactive patterns"
-    "project-github", githubLink
-    "project-nuget", "http://nuget.org/packages/fsharpreactivepatterns" ]
+    "project-summary", "Reactive Messaging Patterns with F# and Akka.NET"
+    "project-github", githubLink ]
 
 // --------------------------------------------------------------------------------------
 // For typical project, no changes are needed below
