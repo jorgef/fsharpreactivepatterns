@@ -19,8 +19,6 @@
 
 ##Message Channel
 
-The Message Channel represents the way a consumer and a producer communicate. When using Akka.net, there is nothing special you need to do to implement this pattern as the actor's mailbox implements it for you. 
-
 ```fsharp
 type ProcessorMessage = ProcessJob of int * int * int
 
@@ -43,9 +41,7 @@ processorRef <! ProcessJob(1, 3, 5)
 
 ##Message
 
-Messages are sent between actors, they don't have any metadata or header (at least not from the actor point of view), they are just plain data and can be any F# type.
-
-Example using multiple Primitive Types:
+###Primitive types
 
 ```fsharp
 let scalarValuePrinter (mailbox: Actor<_>) = 
@@ -60,7 +56,7 @@ let scalarValuePrinter (mailbox: Actor<_>) =
     loop ()
 ```
 
-Example using Discriminated Unions:
+###Discriminated Unions
 
 ```fsharp
 type OrderProcessorCommand =
