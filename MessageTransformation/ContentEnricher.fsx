@@ -7,8 +7,10 @@ open Akka.FSharp
 let system = System.create "system" <| Configuration.load ()
 
 type PatientDetails = { LastName: string; SocialSecurityNumber: string; Carrier: string }
-type DoctorVisitCompleted = DoctorVisitCompleted of patientId: string * firstName: string * date: DateTimeOffset * carrier: string option * lastName: string option * socialSecurityNumber: string option with
-    static member Create (patientId, firstName, date, patientDetails) = DoctorVisitCompleted(patientId, firstName, date, Some patientDetails.Carrier, Some patientDetails.LastName, Some patientDetails.SocialSecurityNumber)
+type DoctorVisitCompleted = 
+    DoctorVisitCompleted of patientId: string * firstName: string * date: DateTimeOffset * carrier: string option * lastName: string option * socialSecurityNumber: string option with
+    static member Create (patientId, firstName, date, patientDetails) = 
+        DoctorVisitCompleted(patientId, firstName, date, Some patientDetails.Carrier, Some patientDetails.LastName, Some patientDetails.SocialSecurityNumber)
     static member Create (patientId, firstName, date) = DoctorVisitCompleted(patientId, firstName, date, None, None, None)
 type VisitCompleted = VisitCompleted of dispatcher: IActorRef
 
@@ -19,7 +21,8 @@ let accountingEnricherDispatcher (accountingSystemDispatcher: IActorRef) (mailbo
         let lastName = "Doe"
         let carrier = "Kaiser"
         let socialSecurityNumber = "111-22-3333"
-        let enrichedDoctorVisitCompleted = DoctorVisitCompleted.Create (patientId, firstName, date, { LastName = lastName; SocialSecurityNumber = socialSecurityNumber; Carrier = carrier })
+        let patientDetails = { LastName = lastName; SocialSecurityNumber = socialSecurityNumber; Carrier = carrier }
+        let enrichedDoctorVisitCompleted = DoctorVisitCompleted.Create (patientId, firstName, date, patientDetails)
         accountingSystemDispatcher.Forward enrichedDoctorVisitCompleted
         return! loop ()
     }

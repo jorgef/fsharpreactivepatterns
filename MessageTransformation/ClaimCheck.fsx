@@ -15,7 +15,6 @@ type ProcessStep = ProcessStep of id: string * claimCheck: ClaimCheck
 type ProcessMessage =
     | CompositeMessage of id: string * part1: Part * part2: Part * part3: Part
     | StepCompleted of id: string * claimCheck: ClaimCheck * stepName: string
-
 type ItemChecker() =
     let mutable checkedItems = Map.empty
     member this.CheckedItemFor (businessId, parts) = CheckedItem(ClaimCheck.Create(), businessId, parts)

@@ -9,17 +9,14 @@ let system = System.create "system" <| Configuration.load ()
 type IReplyToSupport =
     abstract member Reply: obj -> unit
     abstract member SetUpReplyToSupport: string -> unit
-
 type IRegisterCustomer = 
     inherit IReplyToSupport
     abstract member Message: string with get
-
 type RabbitMQReplyToSupport() =
     let mutable returnAddress = String.Empty
     interface IReplyToSupport with
         member this.Reply message = printfn "RabbitMQReplyToSupport: Replying %A to \"%s\"" message returnAddress
         member this.SetUpReplyToSupport replyReturnAddress = returnAddress <- replyReturnAddress
-
 type RegisterCustomerRabbitMQReplyToMapEnvelope(mapMessage: Map<string, string>) as this =
     inherit RabbitMQReplyToSupport()
     let this = this :> IReplyToSupport

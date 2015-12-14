@@ -28,11 +28,9 @@ scalarValuePrinterRef <! "hello"
 
 type Symbol = Symbol of string
 type Money = Money of decimal
-
 type OrderProcessorCommand =
     | ExecuteBuyOrder of portfolioId: string * symbol: Symbol * quantity: int * price: Money
     | ExecuteSellOrder of portfolioId: string * symbol: Symbol * quantity: int * price: Money
-
 type OrderProcessorEvent =
     | BuyOrderExecuted of portfolioId: string * symbol: Symbol * quantity: int * price: Money
     | SellOrderExecuted of portfolioId: string * symbol: Symbol * quantity: int * price: Money

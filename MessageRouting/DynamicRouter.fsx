@@ -9,7 +9,6 @@ let system = System.create "system" <| Configuration.load ()
 type Registration = 
     | InterestedIn of string
     | NoLongerInterestedIn of string
-
 type TypeAMessage = TypeAMessage of string
 type TypeBMessage = TypeBMessage of string
 type TypeCMessage = TypeCMessage of string

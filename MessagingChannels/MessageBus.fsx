@@ -6,22 +6,18 @@ open Akka.FSharp
 let system = System.create "system" <| Configuration.load ()
 
 type Money = Money of decimal
-
 type TradingCommand =
     | ExecuteBuyOrder of portfolioId: string * symbol: string * quantity: int * price: Money
     | ExecuteSellOrder of portfolioId: string * symbol: string * quantity: int * price: Money
-
 type TradingNotification =
     | BuyOrderExecuted of portfolioId: string * symbol: string * quantity: int * price: Money
     | SellOrderExecuted of portfolioId: string * symbol: string * quantity: int * price: Money
-
 type TradingBusMessage =
     | RegisterCommandHandler of applicationId: string * commandId: string *  handler: IActorRef
     | RegisterNotificationInterest of applicationId: string * notificationId: string * interested: IActorRef
     | TradingCommand of commandId: string * command: TradingCommand
     | TradingNotification of notificationId: string * notification: TradingNotification
     | Status
-
 type CommandHandler = CommandHandler of applicationId: string * handler: IActorRef
 type NotificationInterest = NotificationInterest of applicationId: string * interested: IActorRef
 

@@ -5,7 +5,6 @@ open Akka.FSharp
 let system = System.create "system" <| Configuration.load ()
 
 type Money = Money of decimal
-
 type TradingCommand =
     | ExecuteBuyOrder of portfolioId: string * symbol: string * quantity: int * price: Money
     | ExecuteSellOrder of portfolioId: string * symbol: string * quantity: int * price: Money

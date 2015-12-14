@@ -8,9 +8,7 @@ let system = System.create "system" <| Configuration.load ()
 type QuoteMessage =
     | RequestPriceQuote of retailerId: string * rfqId: string * itemId: string
     | DiscountPriceCalculated of requestedBy: IActorRef * retailerId: string * rfqId: string * itemId: string * retailPrice: decimal * discountPrice: decimal
-
 type CalculatedDiscountPriceFor = CalculatedDiscountPriceFor of requester: IActorRef * retailerId: string * rfqId: string * itemId: string
-
 type PriceQuote = PriceQuote of quoterId: string * retailerId: string * rfqId: string * itemId: string * retailPrice: decimal * discountPrice: decimal
 
 let highSierraPriceQuotes discounter (mailbox: Actor<_>) =
