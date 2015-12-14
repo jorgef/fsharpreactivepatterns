@@ -19,15 +19,15 @@ open System.IO
 
 // The name of the project
 // (used by attributes in AssemblyInfo, name of a NuGet package and directory in 'src')
-let project = "fsharpreactivepatterns"
+let project = "F# Reactive Messaging Patterns"
 
 // Short summary of the project
 // (used as description in AssemblyInfo and as a short summary for NuGet package)
-let summary = "F# reactive patterns"
+let summary = "F# Reactive Messaging Patterns"
 
 // Longer description of the project
 // (used as a description for NuGet package; line breaks are automatically cleaned up)
-let description = "F# reactive patterns"
+let description = "F# Reactive Messaging Patterns"
 
 // List of author names (for NuGet package)
 let authors = [ "Jorge Fioranelli" ]
