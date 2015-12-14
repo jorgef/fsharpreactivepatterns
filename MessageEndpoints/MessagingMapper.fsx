@@ -9,7 +9,6 @@ let system = System.create "system" <| Configuration.load ()
 
 type QueryMonthlyOrdersFor = QueryMonthlyOrdersFor of customerId: string
 type ReallyBigQueryResult = ReallyBigQueryResult of messageBody: string
-
 type IMessageSerializer =
     abstract member Serialize: obj -> string
     abstract member Deserialize: string -> 'a

@@ -96,7 +96,7 @@
     <None Include="MessageTransformation\ContentEnricher.fsx" />
     <None Include="MessageTransformation\ContentFilter.fsx" />
     <None Include="MessageTransformation\ClaimCheck.fsx" />
-    <None Include="MessageEndpoints\MessageGateway.fsx" />
+    <None Include="MessageEndpoints\MessagingGateway.fsx" />
     <None Include="MessageEndpoints\MessagingMapper.fsx" />
     <None Include="MessageEndpoints\TransactionalClientActor.fsx" />
     <None Include="MessageEndpoints\PollingConsumer.fsx" />
