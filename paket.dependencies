@@ -1,12 +1,5 @@
 source https://nuget.org/api/v2
 framework >= net452
 
-nuget Akka 
 nuget Akka.FSharp 
-nuget Akka.Persistence 
 nuget Akka.Persistence.FSharp 
-nuget FsPickler 
-nuget FSPowerPack.Core.Community 
-nuget FSPowerPack.Linq.Community 
-nuget Google.ProtocolBuffers
-nuget Newtonsoft.Json
