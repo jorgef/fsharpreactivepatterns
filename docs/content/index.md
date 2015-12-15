@@ -1,8 +1,8 @@
 *This article is part of the <a href="https://sergeytihon.wordpress.com/2015/10/25/f-advent-calendar-in-english-2015"  target="_blank">F# Advent Calendar in English 2015</a> organized by <a href="https://twitter.com/sergey_tihon" target="_blank">Sergey Tihon</a>.*
 
-Recently I've been reading <a href="http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>. The book applies the patterns described in the classic <a href="http://www.informit.com/store/enterprise-integration-patterns-designing-building-9780321200686" target="_blank">Enterprise Integration Patterns</a> using the <a href="http://www.scala-lang.org" target="_blank">Scala</a> language and the <a href="http://akka.io/" target="_blank">Akka</a> framework (Actor Model).
+Recently I've been reading the book <a href="http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>. This book applies the patterns described in the <a href="http://www.informit.com/store/enterprise-integration-patterns-designing-building-9780321200686" target="_blank">Enterprise Integration Patterns</a> book using the <a href="http://www.scala-lang.org" target="_blank">Scala</a> language and the <a href="http://akka.io/" target="_blank">Akka</a> framework (Actor Model).
 
-As I am an F# fan, I thought it would be good to translate the examples to <a href="http://fsharp.org" target="_blank">F#</a> and <a href="http://getakka.net" target="_blank"> Akka.NET </a>. If you know F# and Akka.NET (or want to learn), I encourage you to read the book and follow the examples I share here.
+As I am an F# fan, I thought it would be good to translate the examples to <a href="http://fsharp.org" target="_blank">F#</a> and <a href="http://getakka.net" target="_blank">Akka.NET</a>. If you already know F# and Akka.NET (or want to learn), I encourage you to read the book and follow the examples I share here.
 
 ##Sections
 
@@ -23,10 +23,10 @@ Before we start, it is worth mentioning that the <a href="http://getakka.net/doc
 let actorRef = spawn system "myActor" (actorOf (fun msg -> (* Handle message here *) () ))
 ```
 
-Although that is very impressive, the truth is that sometimes you will need more control over the way the actor is created and how it interacts with Akka.NET. So, to keep the code examples consistent I chose to use a more advanced technique, the "actor" computation expression:
+Although this is very impressive, the truth is that sometimes you will need more control over the way the actor is created and how it interacts with Akka.NET. So, to keep the code examples consistent I chose to use a more advanced technique, the "actor" computation expression:
 
 ```fsharp
-let actor (mailbox: Actor<_>) = 
+let myActor (mailbox: Actor<_>) = 
     let rec loop () = actor {
         let! message = mailbox.Receive ()
         // Handle message here
@@ -37,15 +37,16 @@ let actor (mailbox: Actor<_>) =
 
 This second option is more verbose but it is also more powerful as you have access to the mailbox and you can control when the recursive function is executed. 
 
-So an actor in F# is just a function that:
+So, as you can see, an actor in F# is just a function that:
+
 - Receives a mailbox as parameter
 - Returns an actor computation expression
 
-The mailbox's type is **Actor<'a>**, where 'a is the type of message. In most cases you can leave it as **Actor<_>** as the F# compiler will infer the right type for you.
+The mailbox is of type **Actor<'a>**, where 'a is the type of message the actor will handle. In most cases you can leave the type as **Actor<_>** as the F# compiler will infer the right message type for you.
 
-The returned type, the actor computation expression, is implemented using a self-invoking recursive function. Its first line **let! message = mailbox.Receive ()** is receiving the message sent to the actor. if no message is available yet, the actor will be blocked until a message arrives. After the message is received and handled, the line **return! Loop ()**  will be executed, which invokes the loop again to wait for the next message. 
+The returned type, the **actor** computation expression, is returned using a self-invoking recursive function called **loop**. Its first line **let! message = mailbox.Receive ()** is receiving the message sent to the actor. if no message is available yet, the actor will be blocked until a message arrives. After the message is received and handled, the line **return! Loop ()**  is executed, which invokes the loop again to wait for the next message. 
 
-Finally, the line **loop ()** executes the loop function for the first time to initiate the actor. 
+Finally, the last line **loop ()** executes the recursive function for the first time, starting the actor. 
 
 Don't worry if you couldn't follow the code for the first time, it took me a while to get my mind around too. I recommend you to write a few actors to fully understand how it works.
 
@@ -55,9 +56,9 @@ Once you define an actor, you can create a new instance using the **spawn** func
 let actorRef = spawn system "myActor" actor
 ```
 
-Here we need to provide the actor's system, its unique name ("myActor" in the example) and the actor function. 
+Here we need to provide the actor's system, a unique name ("myActor") and the actor function (myActor). 
 
-Now that you have the actor created, you can send messages to it in this way:
+Now that you have created the actor, you can send messages to it in this way:
 
 ```fsharp
 actorRef <! "message"
