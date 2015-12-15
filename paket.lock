@@ -15,9 +15,9 @@ NUGET
       Newtonsoft.Json (>= 7.0.1)
     Akka.Persistence.FSharp (1.0.5.15-beta)
       Akka.Persistence (>= 1.0.5.15-beta)
-    FsPickler (1.6.2)
+    FsPickler (1.7.0)
     FSPowerPack.Core.Community (3.0.0)
     FSPowerPack.Linq.Community (3.0.0)
       FSPowerPack.Core.Community
     Google.ProtocolBuffers (2.4.1.555)
-    Newtonsoft.Json (8.0.1-beta3)
+    Newtonsoft.Json (7.0.1)
