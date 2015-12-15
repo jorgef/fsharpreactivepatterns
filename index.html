@@ -34,9 +34,9 @@
           
 <p><em>This article is part of the <a href="https://sergeytihon.wordpress.com/2015/10/25/f-advent-calendar-in-english-2015"  target="_blank">F# Advent Calendar in English 2015</a> organized by <a href="https://twitter.com/sergey_tihon" target="_blank">Sergey Tihon</a>.</em></p>
 
-<p>Recently I've been reading <a href="http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>. The book applies the patterns described in the classic <a href="http://www.informit.com/store/enterprise-integration-patterns-designing-building-9780321200686" target="_blank">Enterprise Integration Patterns</a> using the <a href="http://www.scala-lang.org" target="_blank">Scala</a> language and the <a href="http://akka.io/" target="_blank">Akka</a> framework (Actor Model).</p>
+<p>Recently I've been reading the book <a href="http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>. This book applies the patterns described in the <a href="http://www.informit.com/store/enterprise-integration-patterns-designing-building-9780321200686" target="_blank">Enterprise Integration Patterns</a> book using the <a href="http://www.scala-lang.org" target="_blank">Scala</a> language and the <a href="http://akka.io/" target="_blank">Akka</a> framework (Actor Model).</p>
 
-<p>As I am an F# fan, I thought it would be good to translate the examples to <a href="http://fsharp.org" target="_blank">F#</a> and <a href="http://getakka.net" target="_blank"> Akka.NET </a>. If you know F# and Akka.NET (or want to learn), I encourage you to read the book and follow the examples I share here.</p>
+<p>As I am an F# fan, I thought it would be good to translate the examples to <a href="http://fsharp.org" target="_blank">F#</a> and <a href="http://getakka.net" target="_blank"> Akka.NET </a>. If you already know F# and Akka.NET (or want to learn), I encourage you to read the book and follow the examples I share here.</p>
 
 <h2><a name="Sections" class="anchor" href="#Sections">Sections</a></h2>
 
@@ -62,7 +62,7 @@
 </tr>
 </table>
 
-<p>Although that is very impressive, the truth is that sometimes you will need more control over the way the actor is created and how it interacts with Akka.NET. So, to keep the code examples consistent I chose to use a more advanced technique, the "actor" computation expression:</p>
+<p>Although this is very impressive, the truth is that sometimes you will need more control over the way the actor is created and how it interacts with Akka.NET. So, to keep the code examples consistent I chose to use a more advanced technique, the "actor" computation expression:</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
@@ -72,7 +72,7 @@
 <span class="l">6: </span>
 <span class="l">7: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="f">actor</span> (<span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span> 
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs2', 2)" onmouseover="showTip(event, 'fs2', 2)" class="f">myActor</span> (<span onmouseout="hideTip(event, 'fs3', 3)" onmouseover="showTip(event, 'fs3', 3)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span> 
     <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 4)" onmouseover="showTip(event, 'fs4', 4)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
         <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 5)" onmouseover="showTip(event, 'fs3', 5)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
         <span class="c">// Handle message here</span>
@@ -85,15 +85,18 @@
 
 <p>This second option is more verbose but it is also more powerful as you have access to the mailbox and you can control when the recursive function is executed.</p>
 
-<p>So an actor in F# is just a function that:
-- Receives a mailbox as parameter
-- Returns an actor computation expression</p>
+<p>So, as you can see, an actor in F# is just a function that:</p>
 
-<p>The mailbox's type is <strong>Actor<'a></strong>, where 'a is the type of message. In most cases you can leave it as <strong>Actor<_></strong> as the F# compiler will infer the right type for you.</p>
+<ul>
+<li>Receives a mailbox as parameter</li>
+<li>Returns an actor computation expression</li>
+</ul>
 
-<p>The returned type, the actor computation expression, is implemented using a self-invoking recursive function. Its first line <strong>let! message = mailbox.Receive ()</strong> is receiving the message sent to the actor. if no message is available yet, the actor will be blocked until a message arrives. After the message is received and handled, the line <strong>return! Loop ()</strong>  will be executed, which invokes the loop again to wait for the next message.</p>
+<p>The mailbox is of type <strong>Actor<'a></strong>, where 'a is the type of message the actor will handle. In most cases you can leave the type as <strong>Actor<_></strong> as the F# compiler will infer the right message type for you.</p>
 
-<p>Finally, the line <strong>loop ()</strong> executes the loop function for the first time to initiate the actor.</p>
+<p>The returned type, the <strong>actor</strong> computation expression, is returned using a self-invoking recursive function called <strong>loop</strong>. Its first line <strong>let! message = mailbox.Receive ()</strong> is receiving the message sent to the actor. if no message is available yet, the actor will be blocked until a message arrives. After the message is received and handled, the line <strong>return! Loop ()</strong>  is executed, which invokes the loop again to wait for the next message.</p>
+
+<p>Finally, the last line <strong>loop ()</strong> executes the recursive function for the first time, starting the actor.</p>
 
 <p>Don't worry if you couldn't follow the code for the first time, it took me a while to get my mind around too. I recommend you to write a few actors to fully understand how it works.</p>
 
@@ -101,18 +104,18 @@
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 8)" onmouseover="showTip(event, 'fs1', 8)" class="i">actorRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;myActor&quot;</span> <span onmouseout="hideTip(event, 'fs2', 9)" onmouseover="showTip(event, 'fs2', 9)" class="i">actor</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs1', 8)" onmouseover="showTip(event, 'fs1', 8)" class="i">actorRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;myActor&quot;</span> <span class="i">actor</span>
 </code></pre></td>
 </tr>
 </table>
 
-<p>Here we need to provide the actor's system, its unique name ("myActor" in the example) and the actor function.</p>
+<p>Here we need to provide the actor's system, a unique name ("myActor") and the actor function (myActor).</p>
 
-<p>Now that you have the actor created, you can send messages to it in this way:</p>
+<p>Now that you have created the actor, you can send messages to it in this way:</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs1', 10)" onmouseover="showTip(event, 'fs1', 10)" class="i">actorRef</span> <span class="o">&lt;!</span> <span class="s">&quot;message&quot;</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span onmouseout="hideTip(event, 'fs1', 9)" onmouseover="showTip(event, 'fs1', 9)" class="i">actorRef</span> <span class="o">&lt;!</span> <span class="s">&quot;message&quot;</span>
 </code></pre></td>
 </tr>
 </table>
@@ -143,7 +146,7 @@
 </ul>
 
 <div class="tip" id="fs1">val actorRef : obj<br /><br />Full name: index.actorRef</div>
-<div class="tip" id="fs2">val actor : mailbox:&#39;a -&gt; &#39;b<br /><br />Full name: index.actor</div>
+<div class="tip" id="fs2">val myActor : mailbox:&#39;a -&gt; &#39;b<br /><br />Full name: index.myActor</div>
 <div class="tip" id="fs3">val mailbox : &#39;a</div>
 <div class="tip" id="fs4">val loop : (unit -&gt; &#39;c)</div>
 
