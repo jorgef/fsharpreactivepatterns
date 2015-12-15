@@ -1,0 +1,12 @@
+source https://nuget.org/api/v2
+framework >= net452
+
+nuget Akka 1.0.5
+nuget Akka.FSharp 1.0.5
+nuget Akka.Persistence 1.0.5.15-beta
+nuget Akka.Persistence.FSharp 1.0.5.15-beta
+nuget FsPickler 1.6.2
+nuget FSPowerPack.Core.Community 3.0.0.0
+nuget FSPowerPack.Linq.Community 3.0.0.0
+nuget Google.ProtocolBuffers 2.4.1.555
+nuget Newtonsoft.Json 8.0.1-beta3

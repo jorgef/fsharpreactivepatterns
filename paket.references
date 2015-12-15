@@ -1,0 +1,9 @@
+Akka
+Akka.FSharp
+Akka.Persistence
+Akka.Persistence.FSharp
+FsPickler
+FSPowerPack.Core.Community
+FSPowerPack.Linq.Community
+Google.ProtocolBuffers
+Newtonsoft.Json
