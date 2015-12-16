@@ -68,12 +68,12 @@ Of course you can send all types of messages, not just strings.
 
 ###How to Run the Examples
 
-1. Clone *https://github.com/jorgef/fsharpreactivepatterns.git*
-2. Open *FSharpReactivePatterns.sln* and build the solution (it will download the references)
+1. Clone *https://github.com/jorgef/fsharpreactivepatterns.git* (more info: <a href="https://help.github.com/articles/cloning-a-repository" targe="_blank">cloning a repository</a>)
+2. Open *FSharpReactivePatterns.sln* and build the solution (you need internet connection, it will download the dependencies)
 3. Open the example (fsx file) you want to run
-4. Select all the code but the part that sends the messages to the actor(s) and send it to the F# Interactive
+4. Select all the code except the part where it calls the actor(s), and send it to the F# Interactive
 5. Clear the F# Interactive (optional)
-6. Select the code that sends the messages to the actor(s) and send it to the F# Interactive
+6. Select the code that calls the actor(s) and send it to the F# Interactive
 
 ![How to Run](http://jorgef.github.io/fsharpreactivepatterns/img/run.gif)
 
