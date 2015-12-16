@@ -23,7 +23,7 @@ Before we start, it is worth mentioning that the <a href="http://getakka.net/doc
 let actorRef = spawn system "myActor" (actorOf (fun msg -> (* Handle message here *) () ))
 ```
 
-Although this is very impressive, the truth is that sometimes you will need more control over the way the actor is created and how it interacts with Akka.NET. So, to keep the code examples consistent, I chose to use a more advanced technique, the "actor" computation expression:
+Although this is very impressive, the truth is that sometimes you will need more control over the way the actor is created and how it interacts with Akka.NET. So, to keep the code examples consistent, I chose to use a more advanced technique, the "actor" <a href="https://msdn.microsoft.com/en-us/library/dd233182.aspx" target="_blank">computation expression</a>:
 
 ```fsharp
 let myActor (mailbox: Actor<_>) = 
@@ -75,9 +75,11 @@ Of course you can send all types of messages, not just strings.
 5. Clear the F# Interactive (optional)
 6. Select the code that sends the messages to the actor(s) and send it to the F# Interactive
 
-<img src="img/run.gif" />
+![How to Run](http://jorgef.github.io/fsharpreactivepatterns/img/run.gif)
 
-Great, now that you know the basics you can start browsing and running the different [patterns](#Sections), enjoy! 
+### What's Next
+
+Great! Now that you know the basics you can start browsing and running the [patterns](#Sections), enjoy! 
 
 And also let me know what you think: <a href="https://twitter.com/jorgefioranelli" target="_blank">@jorgefioranelli</a>
 
