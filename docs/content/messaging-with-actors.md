@@ -19,6 +19,8 @@
 
 ##Message Channel
 
+The Message Channel represents the way a consumer and a producer communicate. When using Akka.NET, there is nothing special you need to do to implement this pattern as the actor's mailbox implements it for you.  For more details see chapter 4 of the book.
+
 ```fsharp
 type ProcessorMessage = ProcessJob of int * int * int
 
@@ -40,6 +42,8 @@ processorRef <! ProcessJob(1, 3, 5)
 [Sections](#Sections)
 
 ##Message
+
+Messages are sent between actors, they don't have any metadata or header (at least not from the actor point of view), they are just plain data and can be any F# type. For more details see chapter 4 of the book.
 
 ###Primitive types
 
@@ -83,9 +87,9 @@ let orderProcessor (mailbox: Actor<_>) =
 
 ##Pipes and Filters
 
-```fsharp
-type ProcessIncomingOrder = ProcessIncomingOrder of byte array
+This pattern allows you to chain actors together keeping them independent. For more details see chapter 4 of the book.
 
+```fsharp
 let orderAcceptanceEndpoint nextFilter (mailbox: Actor<_>) =
     let rec loop () = actor {
         let! message = mailbox.Receive ()
@@ -165,6 +169,8 @@ filter1 <! rawOrderBytes
 
 ##Message Router
 
+The Message Router allows you to redirect messages to other actors depending on certain condition. For more details see chapter 4 of the book.
+
 ```fsharp
 let alternatingRouter (processor1: IActorRef) (processor2: IActorRef) (mailbox: Actor<_>) =
     let rec loop alternate = actor {
@@ -183,6 +189,8 @@ let alternatingRouter (processor1: IActorRef) (processor2: IActorRef) (mailbox: 
 
 ##Message Translator
 
+This pattern transforms messages sent between systems. For more details see chapter 4 of the book.
+
 ```fsharp
 // No code example
 ```
@@ -190,13 +198,9 @@ let alternatingRouter (processor1: IActorRef) (processor2: IActorRef) (mailbox: 
 
 ##Message Endpoint
 
-```fsharp
-type QuoteMessage =
-    | RequestPriceQuote of retailerId: string * rfqId: string * itemId: string
-    | DiscountPriceCalculated of requestedBy: IActorRef * retailerId: string * rfqId: string * itemId: string * retailPrice: decimal * discountPrice: decimal
-type CalculatedDiscountPriceFor = CalculatedDiscountPriceFor of requester: IActorRef * retailerId: string * rfqId: string * itemId: string
-type PriceQuote = PriceQuote of quoterId: string * retailerId: string * rfqId: string * itemId: string * retailPrice: decimal * discountPrice: decimal
+Message Endpoints allow integration between applications. For more details see chapter 4 of the book.
 
+```fsharp
 let highSierraPriceQuotes discounter (mailbox: Actor<_>) =
     let quoterId = mailbox.Self.Path.Name
     let rec loop () = actor {
