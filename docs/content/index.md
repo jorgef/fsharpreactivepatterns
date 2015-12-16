@@ -17,13 +17,13 @@ As I am an F# fan, I thought it would be good to translate the examples to <a hr
 
 ##Introduction
 
-Before we start, it is worth mentioning that the <a href="http://getakka.net/docs/FSharp API" target="_blank">Akka.NET F# API</a> allows you to create actors in different ways, the simplest one allows you to do it in just one line of code!
+Before we start, it is worth mentioning that the <a href="http://getakka.net/docs/FSharp API" target="_blank">Akka.NET F# API</a> provides different ways to create actors, the simplest one allows you to do it in just one line of code!
 
 ```fsharp
 let actorRef = spawn system "myActor" (actorOf (fun msg -> (* Handle message here *) () ))
 ```
 
-Although this is very impressive, the truth is that sometimes you will need more control over the way the actor is created and how it interacts with Akka.NET. So, to keep the code examples consistent I chose to use a more advanced technique, the "actor" computation expression:
+Although this is very impressive, the truth is that sometimes you will need more control over the way the actor is created and how it interacts with Akka.NET. So, to keep the code examples consistent, I chose to use a more advanced technique, the "actor" computation expression:
 
 ```fsharp
 let myActor (mailbox: Actor<_>) = 
@@ -35,25 +35,25 @@ let myActor (mailbox: Actor<_>) =
     loop ()
 ```
 
-This second option is more verbose but it is also more powerful as you have access to the mailbox and you can control when the recursive function is executed. 
+This second option is more verbose but it is also more powerful, as you have full access to the mailbox and you can control when the recursive function is executed. 
 
-So, as you can see, an actor in F# is just a function that:
+As you can see, an actor is just a function that:
 
-- Receives a mailbox as parameter
+- Receives the mailbox as parameter
 - Returns an actor computation expression
 
-The mailbox is of type **Actor<'a>**, where 'a is the type of message the actor will handle. In most cases you can leave the type as **Actor<_>** as the F# compiler will infer the right message type for you.
+The mailbox is of type **Actor<'a>**, where 'a is the type of message the actor will handle. In most cases you can leave the type as **Actor<_>** and the F# compiler will infer the right message type for you.
 
 The returned type, the **actor** computation expression, is returned using a self-invoking recursive function called **loop**. Its first line **let! message = mailbox.Receive ()** is receiving the message sent to the actor. if no message is available yet, the actor will be blocked until a message arrives. After the message is received and handled, the line **return! Loop ()**  is executed, which invokes the loop again to wait for the next message. 
 
 Finally, the last line **loop ()** executes the recursive function for the first time, starting the actor. 
 
-Don't worry if you couldn't follow the code for the first time, it took me a while to get my mind around too. I recommend you to write a few actors to fully understand how it works.
+Don't worry if you couldn't follow easily the code, it took me a while to get my mind around too. I recommend you to write a few actors to fully understand how it works.
 
-Once you define an actor, you can create a new instance using the **spawn** function:
+Once you have defined an actor, you can create a new instance using the **spawn** function:
 
 ```fsharp
-let actorRef = spawn system "myActor" actor
+let actorRef = spawn system "myActor" myActor
 ```
 
 Here we need to provide the actor's system, a unique name ("myActor") and the actor function (myActor). 
@@ -64,9 +64,7 @@ Now that you have created the actor, you can send messages to it in this way:
 actorRef <! "message"
 ```
 
-And of course you can send all types of messages, not just strings. 
-
-If you want to see a full example check out the first one <a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/MessageChannel.fsx" target="_blank">here</a>, then you can start browsing all the [sections](#Sections).
+Of course you can send all types of messages, not just strings.
 
 ###How to Run the Examples
 
@@ -78,6 +76,10 @@ If you want to see a full example check out the first one <a href="https://githu
 6. Select the code that sends the messages to the actor(s) and send it to the F# Interactive
 
 <img src="img/run.gif" />
+
+Great, now that you know the basics you can start browsing and running the different [patterns](#Sections), enjoy! 
+
+And also let me know what you think: <a href="https://twitter.com/jorgefioranelli" target="_blank">@jorgefioranelli</a>
 
 ### Special Thanks
 
