@@ -7,11 +7,8 @@ open Akka.FSharp
 
 let system = System.create "system" <| Configuration.load ()
 
-type InvalidMessage<'a> = {
-    Sender: IActorRef
-    Receiver: IActorRef
-    Message: 'a
-}
+type InvalidMessage<'a> = { Sender: IActorRef; Receiver: IActorRef; Message: 'a }
+type ProcessIncomingOrder = ProcessIncomingOrder of byte array
 
 let invalidMessageChannel (mailbox: Actor<_>) =
     let rec loop () = actor {
@@ -20,8 +17,6 @@ let invalidMessageChannel (mailbox: Actor<_>) =
         return! loop ()
     }
     loop ()
-
-type ProcessIncomingOrder = ProcessIncomingOrder of byte array
 
 let authenticator (nextFilter: IActorRef) (invalidMessageChannel: IActorRef) (mailbox: Actor<_>) =
     let rec loop () = actor {
