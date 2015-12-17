@@ -1,6 +1,6 @@
 #Message Construction
 
-For more details and full analysis of the patterns described in this section, please refer to the **Chapter 6** of the book <a href="http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>.
+For more details and full analysis of the patterns described in this section, please refer to **Chapter 6** of <a href="http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>.
 
 
 ##Sections
@@ -24,6 +24,8 @@ For more details and full analysis of the patterns described in this section, pl
 8. [System Management and Infrastructure](system-management-and-infrastructure.html)
 
 ##Command Message
+
+A Command is message sent to an actor to request an action/operation. 
 
 ```fsharp
 type TradingCommand =
@@ -53,6 +55,8 @@ stockTraderRef <! ExecuteSellOrder("p456", "MSFT", 200, Money 31.80m)
 [Sections](#Sections)
 
 ##Document Message
+
+A Document is a message that carries information without an specific intended use.
 
 ```fsharp
 type PriceQuote = { QuoterId: string; RetailerId: string; RfqId: string; ItemId: string; RetailPrice: decimal; DiscountPrice: decimal }
@@ -87,6 +91,8 @@ let requesterRef = spawn system "requester" <| requester quotationRef
 
 ##Event Message
 
+Events are messages sent to notify other actors about actions that occurred.
+
 ```fsharp
 type PriceQuote = { QuoterId: string; RetailerId: string; RfqId: string; ItemId: string; RetailPrice: decimal; DiscountPrice: decimal }
 type RequestPriceQuote = RequestPriceQuote of rfqId: string * itemId: string * retailPrice: Money * orderTotalRetailPrice: Money
@@ -120,6 +126,8 @@ quotationRef <! RequestPriceQuote("1", "1", Money 10m, Money 10m)
 [Sections](#Sections)
 
 ##Request-Reply
+
+This pattern is used when one actor sends a message and expects a response. Most of the time the Request is a Command and the Reply is a Document.
 
 ```fsharp
 type ServerMessage = Request of string
@@ -159,6 +167,8 @@ clientRef <! StartWith serverRef
 [Sections](#Sections)
 
 ##Return Address
+
+The Return Address pattern allows replying to an actor that is not the sender of the message.
 
 ```fsharp
 type ServerMessage = 
@@ -222,6 +232,8 @@ clientRef <! StartWith serverRef
 
 ##Correlation Identifier
 
+This pattern allows messages to be associated using a unique identifier.
+
 ```fsharp
 type PriceQuote = { QuoterId: string; RetailerId: string; RfqId: string; ItemId: string; RetailPrice: decimal; DiscountPrice: decimal }
 type RequestPriceQuote = RequestPriceQuote of rfqId: string * itemId: string * retailPrice: decimal * orderTotalRetailPrice: decimal
@@ -237,6 +249,8 @@ type BestPriceQuotation = BestPriceQuotation of rfqId: string * priceQuotes: Pri
 
 ##Message Sequence
 
+The Message Sequence pattern establishes the logical order in which messages should be delivered. 
+
 ```fsharp
 // No code example
 ```
@@ -244,6 +258,8 @@ type BestPriceQuotation = BestPriceQuotation of rfqId: string * priceQuotes: Pri
 [Sections](#Sections)
 
 ##Message Expiration
+
+This pattern allows to determine whether a message is obsolete or not.
 
 ```fsharp
 type PlaceOrder = { Id: string; OccurredOn: int64; TimeToLive: int64; ItemId: string; Price: Money } with
@@ -292,6 +308,8 @@ purchaseRouterRef <! PlaceOrder.Create ("3", "33", (Money 32.95m), 10L)
 [Sections](#Sections)
 
 ##Format Indicator
+
+A Format Indicator is used to specify the version of the message.
 
 ```fsharp
 type ExecuteBuyOrder = { PortfolioId: string; Symbol: string; Quantity: int; Price: Money; DateTimeOrdered: DateTimeOffset option; Version: int } with
