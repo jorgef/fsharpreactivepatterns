@@ -1,5 +1,7 @@
 #Messaging with Actors
 
+For more details and full analysis of the patterns described in this section, please refer to the **Chapter 4** of the book <a href="http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>.
+
 ##Sections
 
 1. [Introduction](index.html)
@@ -19,7 +21,7 @@
 
 ##Message Channel
 
-The Message Channel represents the way a consumer and a producer communicate. When using Akka.NET, there is nothing special you need to do to implement this pattern as the actor's mailbox implements it for you.  For more details see chapter 4 of the book.
+The Message Channel represents the way a consumer and a producer communicate. When using Akka.NET, there is nothing special you need to do to implement this pattern as the actor's mailbox implements it for you.
 
 ```fsharp
 type ProcessorMessage = ProcessJob of int * int * int
@@ -43,7 +45,7 @@ processorRef <! ProcessJob(1, 3, 5)
 
 ##Message
 
-Messages are sent between actors, they don't have any metadata or header (at least not from the actor point of view), they are just plain data and can be any F# type. For more details see chapter 4 of the book.
+Messages are sent between actors, they don't have any metadata or header (at least not from the actor point of view), they are just plain data and can be any F# type.
 
 ###Primitive types
 
@@ -87,7 +89,7 @@ let orderProcessor (mailbox: Actor<_>) =
 
 ##Pipes and Filters
 
-This pattern allows you to chain actors together keeping them independent. For more details see chapter 4 of the book.
+This pattern allows you to chain actors together keeping them independent.
 
 ```fsharp
 let orderAcceptanceEndpoint nextFilter (mailbox: Actor<_>) =
@@ -169,7 +171,7 @@ filter1 <! rawOrderBytes
 
 ##Message Router
 
-The Message Router allows you to redirect messages to other actors depending on certain condition. For more details see chapter 4 of the book.
+The Message Router allows you to redirect messages to other actors depending on certain condition.
 
 ```fsharp
 let alternatingRouter (processor1: IActorRef) (processor2: IActorRef) (mailbox: Actor<_>) =
@@ -189,7 +191,7 @@ let alternatingRouter (processor1: IActorRef) (processor2: IActorRef) (mailbox: 
 
 ##Message Translator
 
-This pattern transforms messages sent between systems. For more details see chapter 4 of the book.
+This pattern transforms messages sent between systems.
 
 ```fsharp
 // No code example
@@ -198,7 +200,7 @@ This pattern transforms messages sent between systems. For more details see chap
 
 ##Message Endpoint
 
-Message Endpoints allow integration between applications. For more details see chapter 4 of the book.
+Message Endpoints allow integration between applications.
 
 ```fsharp
 let highSierraPriceQuotes discounter (mailbox: Actor<_>) =

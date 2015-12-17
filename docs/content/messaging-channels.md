@@ -1,5 +1,8 @@
 #Messaging Channels
 
+For more details and full analysis of the patterns described in this section, please refer to the **Chapter 5** of the book <a href="http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>.
+
+
 ##Sections
 
 1. [Introduction](index.html)
@@ -21,6 +24,8 @@
 8. [System Management and Infrastructure](system-management-and-infrastructure.html)
 
 ##Point-to-Point Channel
+
+When an actor sends a message to another specific actor, it is using a Point-to-Point Channel.
 
 ```fsharp
 let actorA actorB (mailbox: Actor<_>) =
@@ -66,12 +71,9 @@ let actorCRef = spawn system "actorC" <| actorC actorBRef
 
 ##Publish-Subscribe Channel
 
-```fsharp
-type Symbol = Symbol of string
-type Money = Money of decimal
-type Market = Market of string
-type PricedQuoted = { Market: Market; Ticker: Symbol; Price: Money }
+This pattern allows actors to publish messages that can be delivered to multiple (subscribed) actors.
 
+```fsharp
 let quoteListener (mailbox: Actor<_>) =
     let rec loop () = actor {
         let! { Market = Market m; Ticker = Symbol t; Price = Money p } = mailbox.Receive ()
@@ -91,9 +93,9 @@ publish { Market = Market("quotes/NASDAQ"); Ticker = Symbol "MSFT"; Price = Mone
 
 ##Datatype Channel
 
-```fsharp
-type ProductQuery = ProductQuery of string
+When actors receive typed messages, they are using a Datatype Channel. In cases when they receive serialized messages, you can use specific actors to create a typed message.
 
+```fsharp
 let productQueriesChannel (mailbox: Actor<_>) =
     let translateToProductQuery message = message |> Encoding.UTF8.GetString |> ProductQuery
     
@@ -116,12 +118,11 @@ productQueriesChannelRef <! Encoding.UTF8.GetBytes "test query"
 
 ##Invalid Message Channel
 
+This pattern deals with not supported messages received by an actor.
+
+
 ```fsharp
-type InvalidMessage<'a> = {
-    Sender: IActorRef
-    Receiver: IActorRef
-    Message: 'a
-}
+type InvalidMessage<'a> = { Sender: IActorRef; Receiver: IActorRef; Message: 'a }
 
 let invalidMessageChannel (mailbox: Actor<_>) =
     let rec loop () = actor {
@@ -130,8 +131,6 @@ let invalidMessageChannel (mailbox: Actor<_>) =
         return! loop ()
     }
     loop ()
-
-type ProcessIncomingOrder = ProcessIncomingOrder of byte array
 
 let authenticator (nextFilter: IActorRef) (invalidMessageChannel: IActorRef) (mailbox: Actor<_>) =
     let rec loop () = actor {
@@ -169,6 +168,8 @@ authenticatorRef <! "Invalid message"
 
 ##Dead Letter Channel
 
+The Dead Letter Channel receives all the messages that didn't reach the destination. Any actor can subscribe to the Dead Letter Channel implemented by Akka.NET.
+
 ```fsharp
 let sysListener (mailbox: Actor<DeadLetter>) = 
     let rec loop () = actor {
@@ -192,6 +193,8 @@ deadActorRef <! "Message to dead actor"
 
 ##Guaranteed Delivery
 
+This pattern ensures that all the messages are received by the destination actor. 
+
 ```fsharp
 // TBD: Akka Persistence is not fully supported yet
 ```
@@ -201,28 +204,9 @@ deadActorRef <! "Message to dead actor"
 
 ##Channel Adapter
 
-```fsharp
-type Symbol = Symbol of string
-type Money = Money of decimal
-type Market = Market of string
-type ServiceResult = { PortfolioId: string; Symbol: Symbol; Quantity: int; OrderId: int; TotalCost: Money }
-type BuyerService () =
-    member this.PlaceBuyOrder (portfolioId: string, symbol: Symbol, quantity: int, price: Money) = 
-        let (Money p) = price
-        { PortfolioId = portfolioId; Symbol = symbol; Quantity = quantity; OrderId = 2; TotalCost = Money (p * 0.01m) }
-type SellerService () =
-    member this.PlaceSellOrder (portfolioId: string, symbol: Symbol, quantity: int, price: Money) =
-        let (Money p) = price
-        { PortfolioId = portfolioId; Symbol = symbol; Quantity = quantity; OrderId = 1; TotalCost = Money (p * 0.05m) }
-type RegisterCommandHandler = RegisterCommandHandler of applicationId: string * commandName: string * handler: IActorRef
-type Command =
-    | ExecuteBuyOrder of portfolioId: string * symbol: Symbol * quantity: int * price: Money
-    | ExecuteSellOrder of portfolioId: string * symbol: Symbol * quantity: int * price: Money
-type Event =
-    | BuyOrderExecuted of portfolioId: string * orderId: int * symbol: Symbol * quantity: int * totalCost: Money
-    | SellOrderExecuted of portfolioId: string * orderId: int * symbol: Symbol * quantity: int * totalCost: Money
-type TradingNotification = TradingNotification of string * Event 
+This pattern is used to expose a messaging interface and redirect the messages to application.
 
+```fsharp
 let stockTrader (tradingBus: IActorRef) (buyerService: BuyerService) (sellerService: SellerService) (mailbox: Actor<_>) =
     let applicationId = mailbox.Self.Path.Name
     tradingBus <! RegisterCommandHandler(applicationId, "ExecuteBuyOrder", mailbox.Self)
@@ -263,6 +247,8 @@ stockTraderRef <! ExecuteSellOrder("2", Symbol "S2", 3, Money 8m)
 
 ##Message Bridge
 
+A Message Bridge is used to integrate two applications that use different messaging technologies.
+
 ```fsharp
 type RabbitMQTextMessage = RabbitMQTextMessage of string
 
@@ -293,23 +279,9 @@ inventoryProductAllocationBridgeRef <! RabbitMQTextMessage "Rabbit test message"
 
 ##Message Bus
 
-```fsharp
-type Money = Money of decimal
-type TradingCommand =
-    | ExecuteBuyOrder of portfolioId: string * symbol: string * quantity: int * price: Money
-    | ExecuteSellOrder of portfolioId: string * symbol: string * quantity: int * price: Money
-type TradingNotification =
-    | BuyOrderExecuted of portfolioId: string * symbol: string * quantity: int * price: Money
-    | SellOrderExecuted of portfolioId: string * symbol: string * quantity: int * price: Money
-type TradingBusMessage =
-    | RegisterCommandHandler of applicationId: string * commandId: string *  handler: IActorRef
-    | RegisterNotificationInterest of applicationId: string * notificationId: string * interested: IActorRef
-    | TradingCommand of commandId: string * command: TradingCommand
-    | TradingNotification of notificationId: string * notification: TradingNotification
-    | Status
-type CommandHandler = CommandHandler of applicationId: string * handler: IActorRef
-type NotificationInterest = NotificationInterest of applicationId: string * interested: IActorRef
+The Message Bus is used to communicate different applications that need to work together.
 
+```fsharp
 let tradingBus (mailbox: Actor<_>) =
     let rec loop commandHandlers notificationInterests = actor {
         let dispatchCommand commandId command =
