@@ -33,7 +33,11 @@
       <div class="row">
         <div class="span9" id="main">
           
+<p>title: Messaging with Actors</p>
+
 <h1><a name="Messaging-with-Actors" class="anchor" href="#Messaging-with-Actors">Messaging with Actors</a></h1>
+
+<p>For more details and full analysis of the patterns described in this section, please refer to the <strong>Chapter 4</strong> of the book <a href="http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>.</p>
 
 <h2><a name="Sections" class="anchor" href="#Sections">Sections</a></h2>
 
@@ -58,7 +62,7 @@
 
 <h2><a name="Message-Channel" class="anchor" href="#Message-Channel">Message Channel</a></h2>
 
-<p>The Message Channel represents the way a consumer and a producer communicate. When using Akka.NET, there is nothing special you need to do to implement this pattern as the actor's mailbox implements it for you.  For more details see chapter 4 of the book.</p>
+<p>The Message Channel represents the way a consumer and a producer communicate. When using Akka.NET, there is nothing special you need to do to implement this pattern as the actor's mailbox implements it for you.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -97,7 +101,7 @@
 
 <h2><a name="Message" class="anchor" href="#Message">Message</a></h2>
 
-<p>Messages are sent between actors, they don't have any metadata or header (at least not from the actor point of view), they are just plain data and can be any F# type. For more details see chapter 4 of the book.</p>
+<p>Messages are sent between actors, they don't have any metadata or header (at least not from the actor point of view), they are just plain data and can be any F# type.</p>
 
 <h3><a name="Primitive-types" class="anchor" href="#Primitive-types">Primitive types</a></h3>
 
@@ -171,7 +175,7 @@
 
 <h2><a name="Pipes-and-Filters" class="anchor" href="#Pipes-and-Filters">Pipes and Filters</a></h2>
 
-<p>This pattern allows you to chain actors together keeping them independent. For more details see chapter 4 of the book.</p>
+<p>This pattern allows you to chain actors together keeping them independent.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -328,7 +332,7 @@
 
 <h2><a name="Message-Router" class="anchor" href="#Message-Router">Message Router</a></h2>
 
-<p>The Message Router allows you to redirect messages to other actors depending on certain condition. For more details see chapter 4 of the book.</p>
+<p>The Message Router allows you to redirect messages to other actors depending on certain condition.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -361,7 +365,7 @@
 
 <h2><a name="Message-Translator" class="anchor" href="#Message-Translator">Message Translator</a></h2>
 
-<p>This pattern transforms messages sent between systems. For more details see chapter 4 of the book.</p>
+<p>This pattern transforms messages sent between systems.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 </pre></td>
@@ -374,7 +378,7 @@
 
 <h2><a name="Message-Endpoint" class="anchor" href="#Message-Endpoint">Message Endpoint</a></h2>
 
-<p>Message Endpoints allow integration between applications. For more details see chapter 4 of the book.</p>
+<p>Message Endpoints allow integration between applications.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>

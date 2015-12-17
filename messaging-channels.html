@@ -61,6 +61,8 @@
 
 <h2><a name="Point-to-Point-Channel" class="anchor" href="#Point-to-Point-Channel">Point-to-Point Channel</a></h2>
 
+<p>When an actor sends a message to another specific actor, it is using a Point-to-Point Channel. For more details see chapter 5 of the book.</p>
+
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -142,6 +144,8 @@
 
 <h2><a name="Publish-Subscribe-Channel" class="anchor" href="#Publish-Subscribe-Channel">Publish-Subscribe Channel</a></h2>
 
+<p>This pattern allows actors to publish messages that can be delivered to multiple (subscribed) actors. For more details see chapter 5 of the book.</p>
+
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -153,28 +157,18 @@
 <span class="l"> 9: </span>
 <span class="l">10: </span>
 <span class="l">11: </span>
-<span class="l">12: </span>
-<span class="l">13: </span>
-<span class="l">14: </span>
-<span class="l">15: </span>
-<span class="l">16: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs17', 57)" onmouseover="showTip(event, 'fs17', 57)" class="t">Symbol</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 58)" onmouseover="showTip(event, 'fs17', 58)" class="p">Symbol</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs6', 59)" onmouseover="showTip(event, 'fs6', 59)" class="t">string</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs18', 60)" onmouseover="showTip(event, 'fs18', 60)" class="t">Money</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs18', 61)" onmouseover="showTip(event, 'fs18', 61)" class="p">Money</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs19', 62)" onmouseover="showTip(event, 'fs19', 62)" class="t">decimal</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs20', 63)" onmouseover="showTip(event, 'fs20', 63)" class="t">Market</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs20', 64)" onmouseover="showTip(event, 'fs20', 64)" class="p">Market</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs6', 65)" onmouseover="showTip(event, 'fs6', 65)" class="t">string</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs21', 66)" onmouseover="showTip(event, 'fs21', 66)" class="t">PricedQuoted</span> <span class="o">=</span> { <span onmouseout="hideTip(event, 'fs22', 67)" onmouseover="showTip(event, 'fs22', 67)" class="i">Market</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs22', 68)" onmouseover="showTip(event, 'fs22', 68)" class="t">Market</span>; <span onmouseout="hideTip(event, 'fs23', 69)" onmouseover="showTip(event, 'fs23', 69)" class="i">Ticker</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs17', 70)" onmouseover="showTip(event, 'fs17', 70)" class="t">Symbol</span>; <span onmouseout="hideTip(event, 'fs24', 71)" onmouseover="showTip(event, 'fs24', 71)" class="i">Price</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs18', 72)" onmouseover="showTip(event, 'fs18', 72)" class="t">Money</span> }
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs25', 73)" onmouseover="showTip(event, 'fs25', 73)" class="f">quoteListener</span> (<span onmouseout="hideTip(event, 'fs3', 74)" onmouseover="showTip(event, 'fs3', 74)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 75)" onmouseover="showTip(event, 'fs4', 75)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
-        <span class="k">let!</span> { <span onmouseout="hideTip(event, 'fs20', 76)" onmouseover="showTip(event, 'fs20', 76)" class="i">Market</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs20', 77)" onmouseover="showTip(event, 'fs20', 77)" class="i">Market</span> <span class="i">m</span>; <span class="i">Ticker</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 78)" onmouseover="showTip(event, 'fs17', 78)" class="i">Symbol</span> <span class="i">t</span>; <span class="i">Price</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs18', 79)" onmouseover="showTip(event, 'fs18', 79)" class="i">Money</span> <span class="i">p</span> } <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 80)" onmouseover="showTip(event, 'fs3', 80)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
-        <span onmouseout="hideTip(event, 'fs12', 81)" onmouseover="showTip(event, 'fs12', 81)" class="i">printfn</span> <span class="s">&quot;QuoteListener: PricedQuoted received, market: %s, ticker: %s, price: %M&quot;</span> <span class="i">m</span> <span class="i">t</span> <span class="i">p</span> 
-        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 82)" onmouseover="showTip(event, 'fs4', 82)" class="i">loop</span> ()
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs17', 57)" onmouseover="showTip(event, 'fs17', 57)" class="f">quoteListener</span> (<span onmouseout="hideTip(event, 'fs3', 58)" onmouseover="showTip(event, 'fs3', 58)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 59)" onmouseover="showTip(event, 'fs4', 59)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
+        <span class="k">let!</span> { <span class="i">Market</span> <span class="o">=</span> <span class="i">Market</span> <span class="i">m</span>; <span class="i">Ticker</span> <span class="o">=</span> <span class="i">Symbol</span> <span class="i">t</span>; <span class="i">Price</span> <span class="o">=</span> <span class="i">Money</span> <span class="i">p</span> } <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 60)" onmouseover="showTip(event, 'fs3', 60)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
+        <span onmouseout="hideTip(event, 'fs12', 61)" onmouseover="showTip(event, 'fs12', 61)" class="i">printfn</span> <span class="s">&quot;QuoteListener: PricedQuoted received, market: %s, ticker: %s, price: %M&quot;</span> <span class="i">m</span> <span class="i">t</span> <span class="i">p</span> 
+        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 62)" onmouseover="showTip(event, 'fs4', 62)" class="i">loop</span> ()
     }
-    <span onmouseout="hideTip(event, 'fs4', 83)" onmouseover="showTip(event, 'fs4', 83)" class="f">loop</span> () 
+    <span onmouseout="hideTip(event, 'fs4', 63)" onmouseover="showTip(event, 'fs4', 63)" class="f">loop</span> () 
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs26', 84)" onmouseover="showTip(event, 'fs26', 84)" class="i">quoteListenerRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;quoteListenerRef&quot;</span> <span onmouseout="hideTip(event, 'fs25', 85)" onmouseover="showTip(event, 'fs25', 85)" class="i">quoteListener</span>
-<span class="i">subscribe</span> <span onmouseout="hideTip(event, 'fs27', 86)" onmouseover="showTip(event, 'fs27', 86)" class="i">typeof</span><span class="o">&lt;</span><span onmouseout="hideTip(event, 'fs21', 87)" onmouseover="showTip(event, 'fs21', 87)" class="i">PricedQuoted</span><span class="o">&gt;</span> <span onmouseout="hideTip(event, 'fs26', 88)" onmouseover="showTip(event, 'fs26', 88)" class="i">quoteListenerRef</span> <span class="i">system</span><span class="o">.</span><span class="i">EventStream</span>
-<span class="i">publish</span> { <span onmouseout="hideTip(event, 'fs20', 89)" onmouseover="showTip(event, 'fs20', 89)" class="i">Market</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs20', 90)" onmouseover="showTip(event, 'fs20', 90)" class="i">Market</span>(<span class="s">&quot;quotes/NASDAQ&quot;</span>); <span class="i">Ticker</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 91)" onmouseover="showTip(event, 'fs17', 91)" class="i">Symbol</span> <span class="s">&quot;MSFT&quot;</span>; <span class="i">Price</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs18', 92)" onmouseover="showTip(event, 'fs18', 92)" class="i">Money</span>(<span class="n">37.16m</span>) } <span class="i">system</span><span class="o">.</span><span class="i">EventStream</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs18', 64)" onmouseover="showTip(event, 'fs18', 64)" class="i">quoteListenerRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;quoteListenerRef&quot;</span> <span onmouseout="hideTip(event, 'fs17', 65)" onmouseover="showTip(event, 'fs17', 65)" class="i">quoteListener</span>
+<span class="i">subscribe</span> <span onmouseout="hideTip(event, 'fs19', 66)" onmouseover="showTip(event, 'fs19', 66)" class="i">typeof</span><span class="o">&lt;</span><span class="i">PricedQuoted</span><span class="o">&gt;</span> <span onmouseout="hideTip(event, 'fs18', 67)" onmouseover="showTip(event, 'fs18', 67)" class="i">quoteListenerRef</span> <span class="i">system</span><span class="o">.</span><span class="i">EventStream</span>
+<span class="i">publish</span> { <span class="i">Market</span> <span class="o">=</span> <span class="i">Market</span>(<span class="s">&quot;quotes/NASDAQ&quot;</span>); <span class="i">Ticker</span> <span class="o">=</span> <span class="i">Symbol</span> <span class="s">&quot;MSFT&quot;</span>; <span class="i">Price</span> <span class="o">=</span> <span class="i">Money</span>(<span class="n">37.16m</span>) } <span class="i">system</span><span class="o">.</span><span class="i">EventStream</span>
 </code></pre></td>
 </tr>
 </table>
@@ -185,6 +179,8 @@
 
 <h2><a name="Datatype-Channel" class="anchor" href="#Datatype-Channel">Datatype Channel</a></h2>
 
+<p>This pattern is used for when For more details see chapter 5 of the book.</p>
+
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
 <span class="l"> 3: </span>
@@ -199,25 +195,21 @@
 <span class="l">12: </span>
 <span class="l">13: </span>
 <span class="l">14: </span>
-<span class="l">15: </span>
-<span class="l">16: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs28', 93)" onmouseover="showTip(event, 'fs28', 93)" class="t">ProductQuery</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs28', 94)" onmouseover="showTip(event, 'fs28', 94)" class="p">ProductQuery</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs6', 95)" onmouseover="showTip(event, 'fs6', 95)" class="t">string</span>
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs29', 96)" onmouseover="showTip(event, 'fs29', 96)" class="f">productQueriesChannel</span> (<span onmouseout="hideTip(event, 'fs3', 97)" onmouseover="showTip(event, 'fs3', 97)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs30', 98)" onmouseover="showTip(event, 'fs30', 98)" class="f">translateToProductQuery</span> <span onmouseout="hideTip(event, 'fs31', 99)" onmouseover="showTip(event, 'fs31', 99)" class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs31', 100)" onmouseover="showTip(event, 'fs31', 100)" class="i">message</span> <span class="o">|&gt;</span> <span class="i">Encoding</span><span class="o">.</span><span class="i">UTF8</span><span class="o">.</span><span class="i">GetString</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs28', 101)" onmouseover="showTip(event, 'fs28', 101)" class="p">ProductQuery</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs20', 68)" onmouseover="showTip(event, 'fs20', 68)" class="f">productQueriesChannel</span> (<span onmouseout="hideTip(event, 'fs3', 69)" onmouseover="showTip(event, 'fs3', 69)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs21', 70)" onmouseover="showTip(event, 'fs21', 70)" class="f">translateToProductQuery</span> <span onmouseout="hideTip(event, 'fs22', 71)" onmouseover="showTip(event, 'fs22', 71)" class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs22', 72)" onmouseover="showTip(event, 'fs22', 72)" class="i">message</span> <span class="o">|&gt;</span> <span class="i">Encoding</span><span class="o">.</span><span class="i">UTF8</span><span class="o">.</span><span class="i">GetString</span> <span class="o">|&gt;</span> <span class="i">ProductQuery</span>
     
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 102)" onmouseover="showTip(event, 'fs4', 102)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
-        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 103)" onmouseover="showTip(event, 'fs3', 103)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
-        <span class="k">let</span> (<span onmouseout="hideTip(event, 'fs28', 104)" onmouseover="showTip(event, 'fs28', 104)" class="i">ProductQuery</span> <span class="i">value</span>) <span class="o">=</span> <span class="i">message</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs30', 105)" onmouseover="showTip(event, 'fs30', 105)" class="i">translateToProductQuery</span>
-        <span onmouseout="hideTip(event, 'fs12', 106)" onmouseover="showTip(event, 'fs12', 106)" class="i">printfn</span> <span class="s">&quot;ProductQueriesChannel: ProductQuery received, value: %s&quot;</span> <span class="o">&lt;|</span> <span class="i">value</span>
-        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 107)" onmouseover="showTip(event, 'fs4', 107)" class="i">loop</span> ()
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 73)" onmouseover="showTip(event, 'fs4', 73)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
+        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 74)" onmouseover="showTip(event, 'fs3', 74)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
+        <span class="k">let</span> (<span class="i">ProductQuery</span> <span class="i">value</span>) <span class="o">=</span> <span class="i">message</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs21', 75)" onmouseover="showTip(event, 'fs21', 75)" class="i">translateToProductQuery</span>
+        <span onmouseout="hideTip(event, 'fs12', 76)" onmouseover="showTip(event, 'fs12', 76)" class="i">printfn</span> <span class="s">&quot;ProductQueriesChannel: ProductQuery received, value: %s&quot;</span> <span class="o">&lt;|</span> <span class="i">value</span>
+        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 77)" onmouseover="showTip(event, 'fs4', 77)" class="i">loop</span> ()
     }
-    <span onmouseout="hideTip(event, 'fs4', 108)" onmouseover="showTip(event, 'fs4', 108)" class="f">loop</span> ()
+    <span onmouseout="hideTip(event, 'fs4', 78)" onmouseover="showTip(event, 'fs4', 78)" class="f">loop</span> ()
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs32', 109)" onmouseover="showTip(event, 'fs32', 109)" class="i">productQueriesChannelRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;productQueriesChannel&quot;</span> <span onmouseout="hideTip(event, 'fs29', 110)" onmouseover="showTip(event, 'fs29', 110)" class="i">productQueriesChannel</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs23', 79)" onmouseover="showTip(event, 'fs23', 79)" class="i">productQueriesChannelRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;productQueriesChannel&quot;</span> <span onmouseout="hideTip(event, 'fs20', 80)" onmouseover="showTip(event, 'fs20', 80)" class="i">productQueriesChannel</span>
 
-<span onmouseout="hideTip(event, 'fs32', 111)" onmouseover="showTip(event, 'fs32', 111)" class="i">productQueriesChannelRef</span> <span class="o">&lt;!</span> <span class="i">Encoding</span><span class="o">.</span><span class="i">UTF8</span><span class="o">.</span><span class="i">GetBytes</span> <span class="s">&quot;test query&quot;</span>
+<span onmouseout="hideTip(event, 'fs23', 81)" onmouseover="showTip(event, 'fs23', 81)" class="i">productQueriesChannelRef</span> <span class="o">&lt;!</span> <span class="i">Encoding</span><span class="o">.</span><span class="i">UTF8</span><span class="o">.</span><span class="i">GetBytes</span> <span class="s">&quot;test query&quot;</span>
 </code></pre></td>
 </tr>
 </table>
@@ -227,6 +219,8 @@
 <p><a href="#Sections">Sections</a></p>
 
 <h2><a name="Invalid-Message-Channel" class="anchor" href="#Invalid-Message-Channel">Invalid Message Channel</a></h2>
+
+<p>For more details see chapter 5 of the book.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -272,49 +266,49 @@
 <span class="l">42: </span>
 <span class="l">43: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs33', 112)" onmouseover="showTip(event, 'fs33', 112)" class="t">InvalidMessage</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="o">=</span> {
-    <span onmouseout="hideTip(event, 'fs34', 113)" onmouseover="showTip(event, 'fs34', 113)" class="i">Sender</span><span class="o">:</span> <span class="i">IActorRef</span>
-    <span onmouseout="hideTip(event, 'fs35', 114)" onmouseover="showTip(event, 'fs35', 114)" class="i">Receiver</span><span class="o">:</span> <span class="i">IActorRef</span>
-    <span onmouseout="hideTip(event, 'fs36', 115)" onmouseover="showTip(event, 'fs36', 115)" class="i">Message</span><span class="o">:</span> <span class="o">&#39;</span><span class="i">a</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs24', 82)" onmouseover="showTip(event, 'fs24', 82)" class="t">InvalidMessage</span><span class="o">&lt;</span><span class="o">&#39;</span><span class="i">a</span><span class="o">&gt;</span> <span class="o">=</span> {
+    <span onmouseout="hideTip(event, 'fs25', 83)" onmouseover="showTip(event, 'fs25', 83)" class="i">Sender</span><span class="o">:</span> <span class="i">IActorRef</span>
+    <span onmouseout="hideTip(event, 'fs26', 84)" onmouseover="showTip(event, 'fs26', 84)" class="i">Receiver</span><span class="o">:</span> <span class="i">IActorRef</span>
+    <span onmouseout="hideTip(event, 'fs27', 85)" onmouseover="showTip(event, 'fs27', 85)" class="i">Message</span><span class="o">:</span> <span class="o">&#39;</span><span class="i">a</span>
 }
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs37', 116)" onmouseover="showTip(event, 'fs37', 116)" class="f">invalidMessageChannel</span> (<span onmouseout="hideTip(event, 'fs3', 117)" onmouseover="showTip(event, 'fs3', 117)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 118)" onmouseover="showTip(event, 'fs4', 118)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
-        <span class="k">let!</span> { <span class="i">Sender</span> <span class="o">=</span> <span class="i">s</span>; <span class="i">Receiver</span> <span class="o">=</span> <span class="i">r</span>; <span class="i">Message</span> <span class="o">=</span> <span class="i">m</span> } <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 119)" onmouseover="showTip(event, 'fs3', 119)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
-        <span onmouseout="hideTip(event, 'fs12', 120)" onmouseover="showTip(event, 'fs12', 120)" class="i">printfn</span> <span class="s">&quot;InvalidMessageChannel: InvalidMessage received, message: %A&quot;</span> <span class="i">m</span>
-        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 121)" onmouseover="showTip(event, 'fs4', 121)" class="i">loop</span> ()
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs28', 86)" onmouseover="showTip(event, 'fs28', 86)" class="f">invalidMessageChannel</span> (<span onmouseout="hideTip(event, 'fs3', 87)" onmouseover="showTip(event, 'fs3', 87)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 88)" onmouseover="showTip(event, 'fs4', 88)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
+        <span class="k">let!</span> { <span class="i">Sender</span> <span class="o">=</span> <span class="i">s</span>; <span class="i">Receiver</span> <span class="o">=</span> <span class="i">r</span>; <span class="i">Message</span> <span class="o">=</span> <span class="i">m</span> } <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 89)" onmouseover="showTip(event, 'fs3', 89)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
+        <span onmouseout="hideTip(event, 'fs12', 90)" onmouseover="showTip(event, 'fs12', 90)" class="i">printfn</span> <span class="s">&quot;InvalidMessageChannel: InvalidMessage received, message: %A&quot;</span> <span class="i">m</span>
+        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 91)" onmouseover="showTip(event, 'fs4', 91)" class="i">loop</span> ()
     }
-    <span onmouseout="hideTip(event, 'fs4', 122)" onmouseover="showTip(event, 'fs4', 122)" class="f">loop</span> ()
+    <span onmouseout="hideTip(event, 'fs4', 92)" onmouseover="showTip(event, 'fs4', 92)" class="f">loop</span> ()
 
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs38', 123)" onmouseover="showTip(event, 'fs38', 123)" class="t">ProcessIncomingOrder</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs38', 124)" onmouseover="showTip(event, 'fs38', 124)" class="p">ProcessIncomingOrder</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs39', 125)" onmouseover="showTip(event, 'fs39', 125)" class="t">byte</span> <span onmouseout="hideTip(event, 'fs40', 126)" onmouseover="showTip(event, 'fs40', 126)" class="t">array</span>
+<span class="k">type</span> <span onmouseout="hideTip(event, 'fs29', 93)" onmouseover="showTip(event, 'fs29', 93)" class="t">ProcessIncomingOrder</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs29', 94)" onmouseover="showTip(event, 'fs29', 94)" class="p">ProcessIncomingOrder</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs30', 95)" onmouseover="showTip(event, 'fs30', 95)" class="t">byte</span> <span onmouseout="hideTip(event, 'fs31', 96)" onmouseover="showTip(event, 'fs31', 96)" class="t">array</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs41', 127)" onmouseover="showTip(event, 'fs41', 127)" class="f">authenticator</span> (<span onmouseout="hideTip(event, 'fs42', 128)" onmouseover="showTip(event, 'fs42', 128)" class="i">nextFilter</span><span class="o">:</span> <span class="i">IActorRef</span>) (<span onmouseout="hideTip(event, 'fs43', 129)" onmouseover="showTip(event, 'fs43', 129)" class="i">invalidMessageChannel</span><span class="o">:</span> <span class="i">IActorRef</span>) (<span onmouseout="hideTip(event, 'fs3', 130)" onmouseover="showTip(event, 'fs3', 130)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 131)" onmouseover="showTip(event, 'fs4', 131)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
-        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 132)" onmouseover="showTip(event, 'fs3', 132)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
-        <span class="k">match</span> <span onmouseout="hideTip(event, 'fs44', 133)" onmouseover="showTip(event, 'fs44', 133)" class="i">box</span> <span class="i">message</span> <span class="k">with</span>
-        | <span class="o">:?</span> <span onmouseout="hideTip(event, 'fs38', 134)" onmouseover="showTip(event, 'fs38', 134)" class="i">ProcessIncomingOrder</span> <span class="k">as</span> <span class="i">message</span> <span class="k">-&gt;</span>
-            <span class="k">let</span> (<span onmouseout="hideTip(event, 'fs38', 135)" onmouseover="showTip(event, 'fs38', 135)" class="i">ProcessIncomingOrder</span>(<span class="i">bytes</span>)) <span class="o">=</span> <span class="i">message</span> 
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs32', 97)" onmouseover="showTip(event, 'fs32', 97)" class="f">authenticator</span> (<span onmouseout="hideTip(event, 'fs33', 98)" onmouseover="showTip(event, 'fs33', 98)" class="i">nextFilter</span><span class="o">:</span> <span class="i">IActorRef</span>) (<span onmouseout="hideTip(event, 'fs34', 99)" onmouseover="showTip(event, 'fs34', 99)" class="i">invalidMessageChannel</span><span class="o">:</span> <span class="i">IActorRef</span>) (<span onmouseout="hideTip(event, 'fs3', 100)" onmouseover="showTip(event, 'fs3', 100)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 101)" onmouseover="showTip(event, 'fs4', 101)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
+        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 102)" onmouseover="showTip(event, 'fs3', 102)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
+        <span class="k">match</span> <span onmouseout="hideTip(event, 'fs35', 103)" onmouseover="showTip(event, 'fs35', 103)" class="i">box</span> <span class="i">message</span> <span class="k">with</span>
+        | <span class="o">:?</span> <span onmouseout="hideTip(event, 'fs29', 104)" onmouseover="showTip(event, 'fs29', 104)" class="i">ProcessIncomingOrder</span> <span class="k">as</span> <span class="i">message</span> <span class="k">-&gt;</span>
+            <span class="k">let</span> (<span onmouseout="hideTip(event, 'fs29', 105)" onmouseover="showTip(event, 'fs29', 105)" class="i">ProcessIncomingOrder</span>(<span class="i">bytes</span>)) <span class="o">=</span> <span class="i">message</span> 
             <span class="k">let</span> <span class="i">text</span> <span class="o">=</span> <span class="i">Encoding</span><span class="o">.</span><span class="i">Default</span><span class="o">.</span><span class="i">GetString</span> <span class="i">bytes</span>
-            <span onmouseout="hideTip(event, 'fs12', 136)" onmouseover="showTip(event, 'fs12', 136)" class="i">printfn</span> <span class="s">&quot;Decrypter: processing %s&quot;</span> <span class="i">text</span>
-            <span class="k">let</span> <span class="i">orderText</span> <span class="o">=</span> <span class="i">text</span><span class="o">.</span><span class="i">Replace</span> (<span class="s">&quot;(encryption)&quot;</span>, <span onmouseout="hideTip(event, 'fs45', 137)" onmouseover="showTip(event, 'fs45', 137)" class="i">String</span><span class="o">.</span><span class="i">Empty</span>)
-            <span onmouseout="hideTip(event, 'fs42', 138)" onmouseover="showTip(event, 'fs42', 138)" class="i">nextFilter</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs38', 139)" onmouseover="showTip(event, 'fs38', 139)" class="i">ProcessIncomingOrder</span>(<span class="i">Encoding</span><span class="o">.</span><span class="i">Default</span><span class="o">.</span><span class="i">GetBytes</span> <span class="i">orderText</span>)
-        | <span class="i">invalid</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs43', 140)" onmouseover="showTip(event, 'fs43', 140)" class="i">invalidMessageChannel</span> <span class="o">&lt;!</span> { <span class="i">Sender</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 141)" onmouseover="showTip(event, 'fs3', 141)" class="i">mailbox</span><span class="o">.</span><span class="i">Sender</span> (); <span class="i">Receiver</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 142)" onmouseover="showTip(event, 'fs3', 142)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>; <span class="i">Message</span> <span class="o">=</span> <span class="i">invalid</span> }
-        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 143)" onmouseover="showTip(event, 'fs4', 143)" class="i">loop</span> () 
+            <span onmouseout="hideTip(event, 'fs12', 106)" onmouseover="showTip(event, 'fs12', 106)" class="i">printfn</span> <span class="s">&quot;Decrypter: processing %s&quot;</span> <span class="i">text</span>
+            <span class="k">let</span> <span class="i">orderText</span> <span class="o">=</span> <span class="i">text</span><span class="o">.</span><span class="i">Replace</span> (<span class="s">&quot;(encryption)&quot;</span>, <span onmouseout="hideTip(event, 'fs36', 107)" onmouseover="showTip(event, 'fs36', 107)" class="i">String</span><span class="o">.</span><span class="i">Empty</span>)
+            <span onmouseout="hideTip(event, 'fs33', 108)" onmouseover="showTip(event, 'fs33', 108)" class="i">nextFilter</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs29', 109)" onmouseover="showTip(event, 'fs29', 109)" class="i">ProcessIncomingOrder</span>(<span class="i">Encoding</span><span class="o">.</span><span class="i">Default</span><span class="o">.</span><span class="i">GetBytes</span> <span class="i">orderText</span>)
+        | <span class="i">invalid</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs34', 110)" onmouseover="showTip(event, 'fs34', 110)" class="i">invalidMessageChannel</span> <span class="o">&lt;!</span> { <span class="i">Sender</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 111)" onmouseover="showTip(event, 'fs3', 111)" class="i">mailbox</span><span class="o">.</span><span class="i">Sender</span> (); <span class="i">Receiver</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 112)" onmouseover="showTip(event, 'fs3', 112)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>; <span class="i">Message</span> <span class="o">=</span> <span class="i">invalid</span> }
+        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 113)" onmouseover="showTip(event, 'fs4', 113)" class="i">loop</span> () 
     }
-    <span onmouseout="hideTip(event, 'fs4', 144)" onmouseover="showTip(event, 'fs4', 144)" class="f">loop</span> ()
+    <span onmouseout="hideTip(event, 'fs4', 114)" onmouseover="showTip(event, 'fs4', 114)" class="f">loop</span> ()
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs46', 145)" onmouseover="showTip(event, 'fs46', 145)" class="f">nextFilter</span> (<span onmouseout="hideTip(event, 'fs3', 146)" onmouseover="showTip(event, 'fs3', 146)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 147)" onmouseover="showTip(event, 'fs4', 147)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
-        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 148)" onmouseover="showTip(event, 'fs3', 148)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
-        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 149)" onmouseover="showTip(event, 'fs4', 149)" class="i">loop</span> ()
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs37', 115)" onmouseover="showTip(event, 'fs37', 115)" class="f">nextFilter</span> (<span onmouseout="hideTip(event, 'fs3', 116)" onmouseover="showTip(event, 'fs3', 116)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 117)" onmouseover="showTip(event, 'fs4', 117)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
+        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 118)" onmouseover="showTip(event, 'fs3', 118)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
+        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 119)" onmouseover="showTip(event, 'fs4', 119)" class="i">loop</span> ()
     }
-    <span onmouseout="hideTip(event, 'fs4', 150)" onmouseover="showTip(event, 'fs4', 150)" class="f">loop</span> ()
+    <span onmouseout="hideTip(event, 'fs4', 120)" onmouseover="showTip(event, 'fs4', 120)" class="f">loop</span> ()
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs47', 151)" onmouseover="showTip(event, 'fs47', 151)" class="i">invalidMessageChannelRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;invalidMessageChannel&quot;</span> <span onmouseout="hideTip(event, 'fs37', 152)" onmouseover="showTip(event, 'fs37', 152)" class="i">invalidMessageChannel</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs48', 153)" onmouseover="showTip(event, 'fs48', 153)" class="i">nextFilterRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;nextFilter&quot;</span> <span onmouseout="hideTip(event, 'fs46', 154)" onmouseover="showTip(event, 'fs46', 154)" class="i">nextFilter</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs49', 155)" onmouseover="showTip(event, 'fs49', 155)" class="i">authenticatorRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;authenticator&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs41', 156)" onmouseover="showTip(event, 'fs41', 156)" class="f">authenticator</span> <span onmouseout="hideTip(event, 'fs48', 157)" onmouseover="showTip(event, 'fs48', 157)" class="i">nextFilterRef</span> <span onmouseout="hideTip(event, 'fs47', 158)" onmouseover="showTip(event, 'fs47', 158)" class="i">invalidMessageChannelRef</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs38', 121)" onmouseover="showTip(event, 'fs38', 121)" class="i">invalidMessageChannelRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;invalidMessageChannel&quot;</span> <span onmouseout="hideTip(event, 'fs28', 122)" onmouseover="showTip(event, 'fs28', 122)" class="i">invalidMessageChannel</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs39', 123)" onmouseover="showTip(event, 'fs39', 123)" class="i">nextFilterRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;nextFilter&quot;</span> <span onmouseout="hideTip(event, 'fs37', 124)" onmouseover="showTip(event, 'fs37', 124)" class="i">nextFilter</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs40', 125)" onmouseover="showTip(event, 'fs40', 125)" class="i">authenticatorRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;authenticator&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs32', 126)" onmouseover="showTip(event, 'fs32', 126)" class="f">authenticator</span> <span onmouseout="hideTip(event, 'fs39', 127)" onmouseover="showTip(event, 'fs39', 127)" class="i">nextFilterRef</span> <span onmouseout="hideTip(event, 'fs38', 128)" onmouseover="showTip(event, 'fs38', 128)" class="i">invalidMessageChannelRef</span>
 
-<span onmouseout="hideTip(event, 'fs49', 159)" onmouseover="showTip(event, 'fs49', 159)" class="i">authenticatorRef</span> <span class="o">&lt;!</span> <span class="s">&quot;Invalid message&quot;</span>
+<span onmouseout="hideTip(event, 'fs40', 129)" onmouseover="showTip(event, 'fs40', 129)" class="i">authenticatorRef</span> <span class="o">&lt;!</span> <span class="s">&quot;Invalid message&quot;</span>
 </code></pre></td>
 </tr>
 </table>
@@ -324,6 +318,8 @@
 <p><a href="#Sections">Sections</a></p>
 
 <h2><a name="Dead-Letter-Channel" class="anchor" href="#Dead-Letter-Channel">Dead Letter Channel</a></h2>
+
+<p>For more details see chapter 5 of the book.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -339,19 +335,19 @@
 <span class="l">12: </span>
 <span class="l">13: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs50', 160)" onmouseover="showTip(event, 'fs50', 160)" class="f">sysListener</span> (<span onmouseout="hideTip(event, 'fs3', 161)" onmouseover="showTip(event, 'fs3', 161)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span><span class="i">DeadLetter</span><span class="o">&gt;</span>) <span class="o">=</span> 
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 162)" onmouseover="showTip(event, 'fs4', 162)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
-        <span class="k">let!</span> <span class="i">deadLetter</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 163)" onmouseover="showTip(event, 'fs3', 163)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
-        <span onmouseout="hideTip(event, 'fs12', 164)" onmouseover="showTip(event, 'fs12', 164)" class="i">printfn</span> <span class="s">&quot;SysListner, DeadLetter received: %A&quot;</span> <span class="i">deadLetter</span><span class="o">.</span><span class="i">Message</span>
-        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 165)" onmouseover="showTip(event, 'fs4', 165)" class="i">loop</span> ()
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs41', 130)" onmouseover="showTip(event, 'fs41', 130)" class="f">sysListener</span> (<span onmouseout="hideTip(event, 'fs3', 131)" onmouseover="showTip(event, 'fs3', 131)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span><span class="i">DeadLetter</span><span class="o">&gt;</span>) <span class="o">=</span> 
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 132)" onmouseover="showTip(event, 'fs4', 132)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
+        <span class="k">let!</span> <span class="i">deadLetter</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 133)" onmouseover="showTip(event, 'fs3', 133)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
+        <span onmouseout="hideTip(event, 'fs12', 134)" onmouseover="showTip(event, 'fs12', 134)" class="i">printfn</span> <span class="s">&quot;SysListner, DeadLetter received: %A&quot;</span> <span class="i">deadLetter</span><span class="o">.</span><span class="i">Message</span>
+        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 135)" onmouseover="showTip(event, 'fs4', 135)" class="i">loop</span> ()
     }
-    <span onmouseout="hideTip(event, 'fs4', 166)" onmouseover="showTip(event, 'fs4', 166)" class="f">loop</span> ()
+    <span onmouseout="hideTip(event, 'fs4', 136)" onmouseover="showTip(event, 'fs4', 136)" class="f">loop</span> ()
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs51', 167)" onmouseover="showTip(event, 'fs51', 167)" class="i">sysListenerRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;sysListener&quot;</span> <span onmouseout="hideTip(event, 'fs50', 168)" onmouseover="showTip(event, 'fs50', 168)" class="i">sysListener</span>
-<span class="i">subscribe</span> <span onmouseout="hideTip(event, 'fs27', 169)" onmouseover="showTip(event, 'fs27', 169)" class="i">typeof</span><span class="o">&lt;</span><span class="i">DeadLetter</span><span class="o">&gt;</span> <span onmouseout="hideTip(event, 'fs51', 170)" onmouseover="showTip(event, 'fs51', 170)" class="i">sysListenerRef</span> <span class="i">system</span><span class="o">.</span><span class="i">EventStream</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs42', 137)" onmouseover="showTip(event, 'fs42', 137)" class="i">sysListenerRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;sysListener&quot;</span> <span onmouseout="hideTip(event, 'fs41', 138)" onmouseover="showTip(event, 'fs41', 138)" class="i">sysListener</span>
+<span class="i">subscribe</span> <span onmouseout="hideTip(event, 'fs19', 139)" onmouseover="showTip(event, 'fs19', 139)" class="i">typeof</span><span class="o">&lt;</span><span class="i">DeadLetter</span><span class="o">&gt;</span> <span onmouseout="hideTip(event, 'fs42', 140)" onmouseover="showTip(event, 'fs42', 140)" class="i">sysListenerRef</span> <span class="i">system</span><span class="o">.</span><span class="i">EventStream</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs52', 171)" onmouseover="showTip(event, 'fs52', 171)" class="i">deadActorRef</span> <span class="o">=</span> <span class="i">select</span> <span class="s">&quot;akka://system/user/deadActor&quot;</span> <span class="i">system</span>
-<span onmouseout="hideTip(event, 'fs52', 172)" onmouseover="showTip(event, 'fs52', 172)" class="i">deadActorRef</span> <span class="o">&lt;!</span> <span class="s">&quot;Message to dead actor&quot;</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs43', 141)" onmouseover="showTip(event, 'fs43', 141)" class="i">deadActorRef</span> <span class="o">=</span> <span class="i">select</span> <span class="s">&quot;akka://system/user/deadActor&quot;</span> <span class="i">system</span>
+<span onmouseout="hideTip(event, 'fs43', 142)" onmouseover="showTip(event, 'fs43', 142)" class="i">deadActorRef</span> <span class="o">&lt;!</span> <span class="s">&quot;Message to dead actor&quot;</span>
 </code></pre></td>
 </tr>
 </table>
@@ -361,6 +357,8 @@
 <p><a href="#Sections">Sections</a></p>
 
 <h2><a name="Guaranteed-Delivery" class="anchor" href="#Guaranteed-Delivery">Guaranteed Delivery</a></h2>
+
+<p>For more details see chapter 5 of the book.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 </pre></td>
@@ -372,6 +370,136 @@
 <p><a href="#Sections">Sections</a></p>
 
 <h2><a name="Channel-Adapter" class="anchor" href="#Channel-Adapter">Channel Adapter</a></h2>
+
+<p>For more details see chapter 5 of the book.</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+<span class="l">21: </span>
+<span class="l">22: </span>
+<span class="l">23: </span>
+<span class="l">24: </span>
+<span class="l">25: </span>
+<span class="l">26: </span>
+<span class="l">27: </span>
+<span class="l">28: </span>
+<span class="l">29: </span>
+<span class="l">30: </span>
+<span class="l">31: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs44', 143)" onmouseover="showTip(event, 'fs44', 143)" class="f">stockTrader</span> (<span onmouseout="hideTip(event, 'fs45', 144)" onmouseover="showTip(event, 'fs45', 144)" class="i">tradingBus</span><span class="o">:</span> <span class="i">IActorRef</span>) (<span onmouseout="hideTip(event, 'fs46', 145)" onmouseover="showTip(event, 'fs46', 145)" class="i">buyerService</span><span class="o">:</span> <span class="i">BuyerService</span>) (<span onmouseout="hideTip(event, 'fs47', 146)" onmouseover="showTip(event, 'fs47', 146)" class="i">sellerService</span><span class="o">:</span> <span class="i">SellerService</span>) (<span onmouseout="hideTip(event, 'fs3', 147)" onmouseover="showTip(event, 'fs3', 147)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs48', 148)" onmouseover="showTip(event, 'fs48', 148)" class="i">applicationId</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 149)" onmouseover="showTip(event, 'fs3', 149)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span><span class="o">.</span><span class="i">Path</span><span class="o">.</span><span class="i">Name</span>
+    <span onmouseout="hideTip(event, 'fs45', 150)" onmouseover="showTip(event, 'fs45', 150)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span class="i">RegisterCommandHandler</span>(<span onmouseout="hideTip(event, 'fs48', 151)" onmouseover="showTip(event, 'fs48', 151)" class="i">applicationId</span>, <span class="s">&quot;ExecuteBuyOrder&quot;</span>, <span onmouseout="hideTip(event, 'fs3', 152)" onmouseover="showTip(event, 'fs3', 152)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>)
+    <span onmouseout="hideTip(event, 'fs45', 153)" onmouseover="showTip(event, 'fs45', 153)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span class="i">RegisterCommandHandler</span>(<span onmouseout="hideTip(event, 'fs48', 154)" onmouseover="showTip(event, 'fs48', 154)" class="i">applicationId</span>, <span class="s">&quot;ExecuteSellOrder&quot;</span>, <span onmouseout="hideTip(event, 'fs3', 155)" onmouseover="showTip(event, 'fs3', 155)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>)
+    
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 156)" onmouseover="showTip(event, 'fs4', 156)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
+        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 157)" onmouseover="showTip(event, 'fs3', 157)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
+        <span class="k">match</span> <span class="i">message</span> <span class="k">with</span>
+        | <span class="i">ExecuteBuyOrder</span>(<span class="i">i</span>, <span class="i">s</span>, <span class="i">q</span>, <span class="i">p</span>) <span class="k">-&gt;</span> 
+            <span class="k">let</span> <span class="i">result</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs46', 158)" onmouseover="showTip(event, 'fs46', 158)" class="i">buyerService</span><span class="o">.</span><span class="i">PlaceBuyOrder</span> (<span class="i">i</span>, <span class="i">s</span>, <span class="i">q</span>, <span class="i">p</span>)
+            <span onmouseout="hideTip(event, 'fs45', 159)" onmouseover="showTip(event, 'fs45', 159)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span class="i">TradingNotification</span>(<span class="s">&quot;BuyOrderExecuted&quot;</span>, <span class="i">BuyOrderExecuted</span>(<span class="i">result</span><span class="o">.</span><span class="i">PortfolioId</span>, <span class="i">result</span><span class="o">.</span><span class="i">OrderId</span>, <span class="i">result</span><span class="o">.</span><span class="i">Symbol</span>, <span class="i">result</span><span class="o">.</span><span class="i">Quantity</span>, <span class="i">result</span><span class="o">.</span><span class="i">TotalCost</span>))
+        | <span class="i">ExecuteSellOrder</span>(<span class="i">i</span>, <span class="i">s</span>, <span class="i">q</span>, <span class="i">p</span>) <span class="k">-&gt;</span> 
+            <span class="k">let</span> <span class="i">result</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs46', 160)" onmouseover="showTip(event, 'fs46', 160)" class="i">buyerService</span><span class="o">.</span><span class="i">PlaceBuyOrder</span> (<span class="i">i</span>, <span class="i">s</span>, <span class="i">q</span>, <span class="i">p</span>)
+            <span onmouseout="hideTip(event, 'fs45', 161)" onmouseover="showTip(event, 'fs45', 161)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span class="i">TradingNotification</span>(<span class="s">&quot;SellOrderExecuted&quot;</span>, <span class="i">SellOrderExecuted</span>(<span class="i">result</span><span class="o">.</span><span class="i">PortfolioId</span>, <span class="i">result</span><span class="o">.</span><span class="i">OrderId</span>, <span class="i">result</span><span class="o">.</span><span class="i">Symbol</span>, <span class="i">result</span><span class="o">.</span><span class="i">Quantity</span>, <span class="i">result</span><span class="o">.</span><span class="i">TotalCost</span>))
+        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 162)" onmouseover="showTip(event, 'fs4', 162)" class="i">loop</span> ()
+    }
+    <span onmouseout="hideTip(event, 'fs4', 163)" onmouseover="showTip(event, 'fs4', 163)" class="f">loop</span> ()
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs49', 164)" onmouseover="showTip(event, 'fs49', 164)" class="f">tradingBus</span> (<span onmouseout="hideTip(event, 'fs3', 165)" onmouseover="showTip(event, 'fs3', 165)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 166)" onmouseover="showTip(event, 'fs4', 166)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
+        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 167)" onmouseover="showTip(event, 'fs3', 167)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
+        <span onmouseout="hideTip(event, 'fs12', 168)" onmouseover="showTip(event, 'fs12', 168)" class="i">printfn</span> <span class="s">&quot;TradingBus: received %A&quot;</span> <span class="i">message</span>
+        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 169)" onmouseover="showTip(event, 'fs4', 169)" class="i">loop</span> ()
+    }
+    <span onmouseout="hideTip(event, 'fs4', 170)" onmouseover="showTip(event, 'fs4', 170)" class="f">loop</span> ()
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs50', 171)" onmouseover="showTip(event, 'fs50', 171)" class="i">tradingBusRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;tradingBus&quot;</span> <span onmouseout="hideTip(event, 'fs49', 172)" onmouseover="showTip(event, 'fs49', 172)" class="i">tradingBus</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs51', 173)" onmouseover="showTip(event, 'fs51', 173)" class="i">stockTraderRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;stockTrader&quot;</span> (<span onmouseout="hideTip(event, 'fs44', 174)" onmouseover="showTip(event, 'fs44', 174)" class="i">stockTrader</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs50', 175)" onmouseover="showTip(event, 'fs50', 175)" class="i">tradingBusRef</span> <span class="o">&lt;|</span> <span class="k">new</span> <span class="i">BuyerService</span>() <span class="o">&lt;|</span> <span class="k">new</span> <span class="i">SellerService</span> ())
+
+<span onmouseout="hideTip(event, 'fs51', 176)" onmouseover="showTip(event, 'fs51', 176)" class="i">stockTraderRef</span> <span class="o">&lt;!</span> <span class="i">ExecuteBuyOrder</span>(<span class="s">&quot;1&quot;</span>, <span class="i">Symbol</span> <span class="s">&quot;S1&quot;</span>, <span class="n">5</span>, <span class="i">Money</span> <span class="n">10m</span>)
+<span onmouseout="hideTip(event, 'fs51', 177)" onmouseover="showTip(event, 'fs51', 177)" class="i">stockTraderRef</span> <span class="o">&lt;!</span> <span class="i">ExecuteSellOrder</span>(<span class="s">&quot;2&quot;</span>, <span class="i">Symbol</span> <span class="s">&quot;S2&quot;</span>, <span class="n">3</span>, <span class="i">Money</span> <span class="n">8m</span>)
+</code></pre></td>
+</tr>
+</table>
+
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/ChannelAdapter.fsx" target="_blank">Complete Code</a>
+
+<p><a href="#Sections">Sections</a></p>
+
+<h2><a name="Message-Bridge" class="anchor" href="#Message-Bridge">Message Bridge</a></h2>
+
+<p>For more details see chapter 5 of the book.</p>
+
+<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
+<span class="l"> 2: </span>
+<span class="l"> 3: </span>
+<span class="l"> 4: </span>
+<span class="l"> 5: </span>
+<span class="l"> 6: </span>
+<span class="l"> 7: </span>
+<span class="l"> 8: </span>
+<span class="l"> 9: </span>
+<span class="l">10: </span>
+<span class="l">11: </span>
+<span class="l">12: </span>
+<span class="l">13: </span>
+<span class="l">14: </span>
+<span class="l">15: </span>
+<span class="l">16: </span>
+<span class="l">17: </span>
+<span class="l">18: </span>
+<span class="l">19: </span>
+<span class="l">20: </span>
+</pre></td>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs52', 178)" onmouseover="showTip(event, 'fs52', 178)" class="t">RabbitMQTextMessage</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs52', 179)" onmouseover="showTip(event, 'fs52', 179)" class="p">RabbitMQTextMessage</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs6', 180)" onmouseover="showTip(event, 'fs6', 180)" class="t">string</span>
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs53', 181)" onmouseover="showTip(event, 'fs53', 181)" class="f">inventoryProductAllocationBridge</span> (<span onmouseout="hideTip(event, 'fs3', 182)" onmouseover="showTip(event, 'fs3', 182)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs54', 183)" onmouseover="showTip(event, 'fs54', 183)" class="f">translatedToInventoryProductAlloction</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs55', 184)" onmouseover="showTip(event, 'fs55', 184)" class="f">sprintf</span> <span class="s">&quot;Inventory product alloction for </span><span class="pf">%s</span><span class="s">&quot;</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs56', 185)" onmouseover="showTip(event, 'fs56', 185)" class="f">acknowledgeDelivery</span> (<span onmouseout="hideTip(event, 'fs52', 186)" onmouseover="showTip(event, 'fs52', 186)" class="p">RabbitMQTextMessage</span> <span onmouseout="hideTip(event, 'fs57', 187)" onmouseover="showTip(event, 'fs57', 187)" class="i">textMessage</span>) <span class="o">=</span> <span onmouseout="hideTip(event, 'fs12', 188)" onmouseover="showTip(event, 'fs12', 188)" class="f">printfn</span> <span class="s">&quot;InventoryProductAllocationBridge: acknowledged &#39;</span><span class="pf">%s</span><span class="s">&#39;&quot;</span> <span class="i">textMessage</span>
+
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 189)" onmouseover="showTip(event, 'fs4', 189)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
+        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 190)" onmouseover="showTip(event, 'fs3', 190)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
+        <span class="k">let</span> (<span onmouseout="hideTip(event, 'fs52', 191)" onmouseover="showTip(event, 'fs52', 191)" class="i">RabbitMQTextMessage</span> <span class="i">textMessage</span>) <span class="o">=</span> <span class="i">message</span>
+        <span onmouseout="hideTip(event, 'fs12', 192)" onmouseover="showTip(event, 'fs12', 192)" class="i">printfn</span> <span class="s">&quot;InventoryProductAllocationBridge: received &#39;%s&#39;&quot;</span> <span class="i">textMessage</span>
+        <span class="k">let</span> <span class="i">inventoryProductAllocation</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs54', 193)" onmouseover="showTip(event, 'fs54', 193)" class="i">translatedToInventoryProductAlloction</span> <span class="i">textMessage</span>
+        <span onmouseout="hideTip(event, 'fs12', 194)" onmouseover="showTip(event, 'fs12', 194)" class="i">printfn</span> <span class="s">&quot;InventoryProductAllocationBridge: translated &#39;%s&#39;&quot;</span> <span class="i">inventoryProductAllocation</span>
+        <span onmouseout="hideTip(event, 'fs56', 195)" onmouseover="showTip(event, 'fs56', 195)" class="i">acknowledgeDelivery</span> <span class="i">message</span>
+        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 196)" onmouseover="showTip(event, 'fs4', 196)" class="i">loop</span> ()
+    }
+    <span onmouseout="hideTip(event, 'fs4', 197)" onmouseover="showTip(event, 'fs4', 197)" class="f">loop</span> ()
+
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs58', 198)" onmouseover="showTip(event, 'fs58', 198)" class="i">inventoryProductAllocationBridgeRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;inventoryProductAllocationBridge&quot;</span> <span onmouseout="hideTip(event, 'fs53', 199)" onmouseover="showTip(event, 'fs53', 199)" class="i">inventoryProductAllocationBridge</span>
+
+<span onmouseout="hideTip(event, 'fs58', 200)" onmouseover="showTip(event, 'fs58', 200)" class="i">inventoryProductAllocationBridgeRef</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs52', 201)" onmouseover="showTip(event, 'fs52', 201)" class="p">RabbitMQTextMessage</span> <span class="s">&quot;Rabbit test message&quot;</span>
+</code></pre></td>
+</tr>
+</table>
+
+<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/MessageBridge.fsx" target="_blank">Complete Code</a>
+
+<p><a href="#Sections">Sections</a></p>
+
+<h2><a name="Message-Bus" class="anchor" href="#Message-Bus">Message Bus</a></h2>
+
+<p>For more details see chapter 5 of the book.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -425,349 +553,151 @@
 <span class="l">50: </span>
 <span class="l">51: </span>
 <span class="l">52: </span>
+<span class="l">53: </span>
+<span class="l">54: </span>
+<span class="l">55: </span>
+<span class="l">56: </span>
+<span class="l">57: </span>
+<span class="l">58: </span>
+<span class="l">59: </span>
+<span class="l">60: </span>
+<span class="l">61: </span>
+<span class="l">62: </span>
+<span class="l">63: </span>
+<span class="l">64: </span>
+<span class="l">65: </span>
+<span class="l">66: </span>
+<span class="l">67: </span>
+<span class="l">68: </span>
+<span class="l">69: </span>
+<span class="l">70: </span>
+<span class="l">71: </span>
+<span class="l">72: </span>
+<span class="l">73: </span>
+<span class="l">74: </span>
+<span class="l">75: </span>
+<span class="l">76: </span>
+<span class="l">77: </span>
+<span class="l">78: </span>
+<span class="l">79: </span>
+<span class="l">80: </span>
+<span class="l">81: </span>
+<span class="l">82: </span>
+<span class="l">83: </span>
+<span class="l">84: </span>
+<span class="l">85: </span>
+<span class="l">86: </span>
+<span class="l">87: </span>
+<span class="l">88: </span>
+<span class="l">89: </span>
+<span class="l">90: </span>
+<span class="l">91: </span>
+<span class="l">92: </span>
+<span class="l">93: </span>
+<span class="l">94: </span>
+<span class="l">95: </span>
+<span class="l">96: </span>
+<span class="l">97: </span>
+<span class="l">98: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs17', 173)" onmouseover="showTip(event, 'fs17', 173)" class="i">Symbol</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs17', 174)" onmouseover="showTip(event, 'fs17', 174)" class="i">Symbol</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs6', 175)" onmouseover="showTip(event, 'fs6', 175)" class="i">string</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs18', 176)" onmouseover="showTip(event, 'fs18', 176)" class="i">Money</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs18', 177)" onmouseover="showTip(event, 'fs18', 177)" class="i">Money</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs19', 178)" onmouseover="showTip(event, 'fs19', 178)" class="i">decimal</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs20', 179)" onmouseover="showTip(event, 'fs20', 179)" class="i">Market</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs20', 180)" onmouseover="showTip(event, 'fs20', 180)" class="i">Market</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs6', 181)" onmouseover="showTip(event, 'fs6', 181)" class="i">string</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs53', 182)" onmouseover="showTip(event, 'fs53', 182)" class="t">ServiceResult</span> <span class="o">=</span> { <span onmouseout="hideTip(event, 'fs54', 183)" onmouseover="showTip(event, 'fs54', 183)" class="i">PortfolioId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 184)" onmouseover="showTip(event, 'fs6', 184)" class="t">string</span>; <span onmouseout="hideTip(event, 'fs55', 185)" onmouseover="showTip(event, 'fs55', 185)" class="i">Symbol</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs55', 186)" onmouseover="showTip(event, 'fs55', 186)" class="t">Symbol</span>; <span onmouseout="hideTip(event, 'fs56', 187)" onmouseover="showTip(event, 'fs56', 187)" class="i">Quantity</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs57', 188)" onmouseover="showTip(event, 'fs57', 188)" class="t">int</span>; <span onmouseout="hideTip(event, 'fs58', 189)" onmouseover="showTip(event, 'fs58', 189)" class="i">OrderId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs57', 190)" onmouseover="showTip(event, 'fs57', 190)" class="t">int</span>; <span onmouseout="hideTip(event, 'fs59', 191)" onmouseover="showTip(event, 'fs59', 191)" class="i">TotalCost</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs18', 192)" onmouseover="showTip(event, 'fs18', 192)" class="t">Money</span> }
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs60', 193)" onmouseover="showTip(event, 'fs60', 193)" class="t">BuyerService</span> () <span class="o">=</span>
-    <span class="k">member</span> <span onmouseout="hideTip(event, 'fs61', 194)" onmouseover="showTip(event, 'fs61', 194)" class="i">this</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs62', 195)" onmouseover="showTip(event, 'fs62', 195)" class="f">PlaceBuyOrder</span> (<span onmouseout="hideTip(event, 'fs63', 196)" onmouseover="showTip(event, 'fs63', 196)" class="i">portfolioId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 197)" onmouseover="showTip(event, 'fs6', 197)" class="t">string</span>, <span onmouseout="hideTip(event, 'fs64', 198)" onmouseover="showTip(event, 'fs64', 198)" class="i">symbol</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs17', 199)" onmouseover="showTip(event, 'fs17', 199)" class="t">Symbol</span>, <span onmouseout="hideTip(event, 'fs65', 200)" onmouseover="showTip(event, 'fs65', 200)" class="i">quantity</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs57', 201)" onmouseover="showTip(event, 'fs57', 201)" class="t">int</span>, <span onmouseout="hideTip(event, 'fs66', 202)" onmouseover="showTip(event, 'fs66', 202)" class="i">price</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs18', 203)" onmouseover="showTip(event, 'fs18', 203)" class="t">Money</span>) <span class="o">=</span> 
-        <span class="k">let</span> (<span onmouseout="hideTip(event, 'fs18', 204)" onmouseover="showTip(event, 'fs18', 204)" class="p">Money</span> <span onmouseout="hideTip(event, 'fs67', 205)" onmouseover="showTip(event, 'fs67', 205)" class="i">p</span>) <span class="o">=</span> <span onmouseout="hideTip(event, 'fs66', 206)" onmouseover="showTip(event, 'fs66', 206)" class="i">price</span>
-        { <span class="i">PortfolioId</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs63', 207)" onmouseover="showTip(event, 'fs63', 207)" class="i">portfolioId</span>; <span onmouseout="hideTip(event, 'fs17', 208)" onmouseover="showTip(event, 'fs17', 208)" class="i">Symbol</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs64', 209)" onmouseover="showTip(event, 'fs64', 209)" class="i">symbol</span>; <span class="i">Quantity</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs65', 210)" onmouseover="showTip(event, 'fs65', 210)" class="i">quantity</span>; <span class="i">OrderId</span> <span class="o">=</span> <span class="n">2</span>; <span class="i">TotalCost</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs18', 211)" onmouseover="showTip(event, 'fs18', 211)" class="p">Money</span> (<span onmouseout="hideTip(event, 'fs67', 212)" onmouseover="showTip(event, 'fs67', 212)" class="i">p</span> <span class="o">*</span> <span class="n">0.01m</span>) }
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs68', 213)" onmouseover="showTip(event, 'fs68', 213)" class="t">SellerService</span> () <span class="o">=</span>
-    <span class="k">member</span> <span onmouseout="hideTip(event, 'fs69', 214)" onmouseover="showTip(event, 'fs69', 214)" class="i">this</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs70', 215)" onmouseover="showTip(event, 'fs70', 215)" class="f">PlaceSellOrder</span> (<span onmouseout="hideTip(event, 'fs63', 216)" onmouseover="showTip(event, 'fs63', 216)" class="i">portfolioId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 217)" onmouseover="showTip(event, 'fs6', 217)" class="t">string</span>, <span onmouseout="hideTip(event, 'fs64', 218)" onmouseover="showTip(event, 'fs64', 218)" class="i">symbol</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs17', 219)" onmouseover="showTip(event, 'fs17', 219)" class="t">Symbol</span>, <span onmouseout="hideTip(event, 'fs65', 220)" onmouseover="showTip(event, 'fs65', 220)" class="i">quantity</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs57', 221)" onmouseover="showTip(event, 'fs57', 221)" class="t">int</span>, <span onmouseout="hideTip(event, 'fs66', 222)" onmouseover="showTip(event, 'fs66', 222)" class="i">price</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs18', 223)" onmouseover="showTip(event, 'fs18', 223)" class="t">Money</span>) <span class="o">=</span>
-        <span class="k">let</span> (<span onmouseout="hideTip(event, 'fs18', 224)" onmouseover="showTip(event, 'fs18', 224)" class="p">Money</span> <span onmouseout="hideTip(event, 'fs67', 225)" onmouseover="showTip(event, 'fs67', 225)" class="i">p</span>) <span class="o">=</span> <span onmouseout="hideTip(event, 'fs66', 226)" onmouseover="showTip(event, 'fs66', 226)" class="i">price</span>
-        { <span class="i">PortfolioId</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs63', 227)" onmouseover="showTip(event, 'fs63', 227)" class="i">portfolioId</span>; <span onmouseout="hideTip(event, 'fs17', 228)" onmouseover="showTip(event, 'fs17', 228)" class="i">Symbol</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs64', 229)" onmouseover="showTip(event, 'fs64', 229)" class="i">symbol</span>; <span class="i">Quantity</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs65', 230)" onmouseover="showTip(event, 'fs65', 230)" class="i">quantity</span>; <span class="i">OrderId</span> <span class="o">=</span> <span class="n">1</span>; <span class="i">TotalCost</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs18', 231)" onmouseover="showTip(event, 'fs18', 231)" class="p">Money</span> (<span onmouseout="hideTip(event, 'fs67', 232)" onmouseover="showTip(event, 'fs67', 232)" class="i">p</span> <span class="o">*</span> <span class="n">0.05m</span>) }
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs71', 233)" onmouseover="showTip(event, 'fs71', 233)" class="t">RegisterCommandHandler</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs71', 234)" onmouseover="showTip(event, 'fs71', 234)" class="p">RegisterCommandHandler</span> <span class="k">of</span> <span class="i">applicationId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 235)" onmouseover="showTip(event, 'fs6', 235)" class="t">string</span> <span class="o">*</span> <span class="i">commandName</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 236)" onmouseover="showTip(event, 'fs6', 236)" class="t">string</span> <span class="o">*</span> <span class="i">handler</span><span class="o">:</span> <span class="i">IActorRef</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs72', 237)" onmouseover="showTip(event, 'fs72', 237)" class="t">Command</span> <span class="o">=</span>
-    | <span onmouseout="hideTip(event, 'fs73', 238)" onmouseover="showTip(event, 'fs73', 238)" class="p">ExecuteBuyOrder</span> <span class="k">of</span> <span class="i">portfolioId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 239)" onmouseover="showTip(event, 'fs6', 239)" class="t">string</span> <span class="o">*</span> <span class="i">symbol</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs17', 240)" onmouseover="showTip(event, 'fs17', 240)" class="t">Symbol</span> <span class="o">*</span> <span class="i">quantity</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs57', 241)" onmouseover="showTip(event, 'fs57', 241)" class="t">int</span> <span class="o">*</span> <span class="i">price</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs18', 242)" onmouseover="showTip(event, 'fs18', 242)" class="t">Money</span>
-    | <span onmouseout="hideTip(event, 'fs74', 243)" onmouseover="showTip(event, 'fs74', 243)" class="p">ExecuteSellOrder</span> <span class="k">of</span> <span class="i">portfolioId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 244)" onmouseover="showTip(event, 'fs6', 244)" class="t">string</span> <span class="o">*</span> <span class="i">symbol</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs17', 245)" onmouseover="showTip(event, 'fs17', 245)" class="t">Symbol</span> <span class="o">*</span> <span class="i">quantity</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs57', 246)" onmouseover="showTip(event, 'fs57', 246)" class="t">int</span> <span class="o">*</span> <span class="i">price</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs18', 247)" onmouseover="showTip(event, 'fs18', 247)" class="t">Money</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs75', 248)" onmouseover="showTip(event, 'fs75', 248)" class="t">Event</span> <span class="o">=</span>
-    | <span onmouseout="hideTip(event, 'fs76', 249)" onmouseover="showTip(event, 'fs76', 249)" class="p">BuyOrderExecuted</span> <span class="k">of</span> <span class="i">portfolioId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 250)" onmouseover="showTip(event, 'fs6', 250)" class="t">string</span> <span class="o">*</span> <span class="i">orderId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs57', 251)" onmouseover="showTip(event, 'fs57', 251)" class="t">int</span> <span class="o">*</span> <span class="i">symbol</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs17', 252)" onmouseover="showTip(event, 'fs17', 252)" class="t">Symbol</span> <span class="o">*</span> <span class="i">quantity</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs57', 253)" onmouseover="showTip(event, 'fs57', 253)" class="t">int</span> <span class="o">*</span> <span class="i">totalCost</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs18', 254)" onmouseover="showTip(event, 'fs18', 254)" class="t">Money</span>
-    | <span onmouseout="hideTip(event, 'fs77', 255)" onmouseover="showTip(event, 'fs77', 255)" class="p">SellOrderExecuted</span> <span class="k">of</span> <span class="i">portfolioId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 256)" onmouseover="showTip(event, 'fs6', 256)" class="t">string</span> <span class="o">*</span> <span class="i">orderId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs57', 257)" onmouseover="showTip(event, 'fs57', 257)" class="t">int</span> <span class="o">*</span> <span class="i">symbol</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs17', 258)" onmouseover="showTip(event, 'fs17', 258)" class="t">Symbol</span> <span class="o">*</span> <span class="i">quantity</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs57', 259)" onmouseover="showTip(event, 'fs57', 259)" class="t">int</span> <span class="o">*</span> <span class="i">totalCost</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs18', 260)" onmouseover="showTip(event, 'fs18', 260)" class="t">Money</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs78', 261)" onmouseover="showTip(event, 'fs78', 261)" class="t">TradingNotification</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs78', 262)" onmouseover="showTip(event, 'fs78', 262)" class="p">TradingNotification</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs6', 263)" onmouseover="showTip(event, 'fs6', 263)" class="t">string</span> <span class="o">*</span> <span onmouseout="hideTip(event, 'fs75', 264)" onmouseover="showTip(event, 'fs75', 264)" class="t">Event</span> 
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs79', 265)" onmouseover="showTip(event, 'fs79', 265)" class="f">stockTrader</span> (<span onmouseout="hideTip(event, 'fs80', 266)" onmouseover="showTip(event, 'fs80', 266)" class="i">tradingBus</span><span class="o">:</span> <span class="i">IActorRef</span>) (<span onmouseout="hideTip(event, 'fs81', 267)" onmouseover="showTip(event, 'fs81', 267)" class="i">buyerService</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs60', 268)" onmouseover="showTip(event, 'fs60', 268)" class="t">BuyerService</span>) (<span onmouseout="hideTip(event, 'fs82', 269)" onmouseover="showTip(event, 'fs82', 269)" class="i">sellerService</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs68', 270)" onmouseover="showTip(event, 'fs68', 270)" class="t">SellerService</span>) (<span onmouseout="hideTip(event, 'fs3', 271)" onmouseover="showTip(event, 'fs3', 271)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs83', 272)" onmouseover="showTip(event, 'fs83', 272)" class="i">applicationId</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 273)" onmouseover="showTip(event, 'fs3', 273)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span><span class="o">.</span><span class="i">Path</span><span class="o">.</span><span class="i">Name</span>
-    <span onmouseout="hideTip(event, 'fs80', 274)" onmouseover="showTip(event, 'fs80', 274)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs71', 275)" onmouseover="showTip(event, 'fs71', 275)" class="p">RegisterCommandHandler</span>(<span onmouseout="hideTip(event, 'fs83', 276)" onmouseover="showTip(event, 'fs83', 276)" class="i">applicationId</span>, <span class="s">&quot;ExecuteBuyOrder&quot;</span>, <span onmouseout="hideTip(event, 'fs3', 277)" onmouseover="showTip(event, 'fs3', 277)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>)
-    <span onmouseout="hideTip(event, 'fs80', 278)" onmouseover="showTip(event, 'fs80', 278)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs71', 279)" onmouseover="showTip(event, 'fs71', 279)" class="p">RegisterCommandHandler</span>(<span onmouseout="hideTip(event, 'fs83', 280)" onmouseover="showTip(event, 'fs83', 280)" class="i">applicationId</span>, <span class="s">&quot;ExecuteSellOrder&quot;</span>, <span onmouseout="hideTip(event, 'fs3', 281)" onmouseover="showTip(event, 'fs3', 281)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>)
-    
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 282)" onmouseover="showTip(event, 'fs4', 282)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
-        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 283)" onmouseover="showTip(event, 'fs3', 283)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
-        <span class="k">match</span> <span class="i">message</span> <span class="k">with</span>
-        | <span onmouseout="hideTip(event, 'fs73', 284)" onmouseover="showTip(event, 'fs73', 284)" class="i">ExecuteBuyOrder</span>(<span class="i">i</span>, <span class="i">s</span>, <span class="i">q</span>, <span class="i">p</span>) <span class="k">-&gt;</span> 
-            <span class="k">let</span> <span class="i">result</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs81', 285)" onmouseover="showTip(event, 'fs81', 285)" class="i">buyerService</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs84', 286)" onmouseover="showTip(event, 'fs84', 286)" class="i">PlaceBuyOrder</span> (<span class="i">i</span>, <span class="i">s</span>, <span class="i">q</span>, <span class="i">p</span>)
-            <span onmouseout="hideTip(event, 'fs80', 287)" onmouseover="showTip(event, 'fs80', 287)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs78', 288)" onmouseover="showTip(event, 'fs78', 288)" class="i">TradingNotification</span>(<span class="s">&quot;BuyOrderExecuted&quot;</span>, <span onmouseout="hideTip(event, 'fs76', 289)" onmouseover="showTip(event, 'fs76', 289)" class="i">BuyOrderExecuted</span>(<span class="i">result</span><span class="o">.</span><span class="i">PortfolioId</span>, <span class="i">result</span><span class="o">.</span><span class="i">OrderId</span>, <span class="i">result</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs17', 290)" onmouseover="showTip(event, 'fs17', 290)" class="i">Symbol</span>, <span class="i">result</span><span class="o">.</span><span class="i">Quantity</span>, <span class="i">result</span><span class="o">.</span><span class="i">TotalCost</span>))
-        | <span onmouseout="hideTip(event, 'fs74', 291)" onmouseover="showTip(event, 'fs74', 291)" class="i">ExecuteSellOrder</span>(<span class="i">i</span>, <span class="i">s</span>, <span class="i">q</span>, <span class="i">p</span>) <span class="k">-&gt;</span> 
-            <span class="k">let</span> <span class="i">result</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs81', 292)" onmouseover="showTip(event, 'fs81', 292)" class="i">buyerService</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs84', 293)" onmouseover="showTip(event, 'fs84', 293)" class="i">PlaceBuyOrder</span> (<span class="i">i</span>, <span class="i">s</span>, <span class="i">q</span>, <span class="i">p</span>)
-            <span onmouseout="hideTip(event, 'fs80', 294)" onmouseover="showTip(event, 'fs80', 294)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs78', 295)" onmouseover="showTip(event, 'fs78', 295)" class="i">TradingNotification</span>(<span class="s">&quot;SellOrderExecuted&quot;</span>, <span onmouseout="hideTip(event, 'fs77', 296)" onmouseover="showTip(event, 'fs77', 296)" class="i">SellOrderExecuted</span>(<span class="i">result</span><span class="o">.</span><span class="i">PortfolioId</span>, <span class="i">result</span><span class="o">.</span><span class="i">OrderId</span>, <span class="i">result</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs17', 297)" onmouseover="showTip(event, 'fs17', 297)" class="i">Symbol</span>, <span class="i">result</span><span class="o">.</span><span class="i">Quantity</span>, <span class="i">result</span><span class="o">.</span><span class="i">TotalCost</span>))
-        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 298)" onmouseover="showTip(event, 'fs4', 298)" class="i">loop</span> ()
-    }
-    <span onmouseout="hideTip(event, 'fs4', 299)" onmouseover="showTip(event, 'fs4', 299)" class="f">loop</span> ()
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs85', 300)" onmouseover="showTip(event, 'fs85', 300)" class="f">tradingBus</span> (<span onmouseout="hideTip(event, 'fs3', 301)" onmouseover="showTip(event, 'fs3', 301)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 302)" onmouseover="showTip(event, 'fs4', 302)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
-        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 303)" onmouseover="showTip(event, 'fs3', 303)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
-        <span onmouseout="hideTip(event, 'fs12', 304)" onmouseover="showTip(event, 'fs12', 304)" class="i">printfn</span> <span class="s">&quot;TradingBus: received %A&quot;</span> <span class="i">message</span>
-        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 305)" onmouseover="showTip(event, 'fs4', 305)" class="i">loop</span> ()
-    }
-    <span onmouseout="hideTip(event, 'fs4', 306)" onmouseover="showTip(event, 'fs4', 306)" class="f">loop</span> ()
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs86', 307)" onmouseover="showTip(event, 'fs86', 307)" class="i">tradingBusRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;tradingBus&quot;</span> <span onmouseout="hideTip(event, 'fs85', 308)" onmouseover="showTip(event, 'fs85', 308)" class="i">tradingBus</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs87', 309)" onmouseover="showTip(event, 'fs87', 309)" class="i">stockTraderRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;stockTrader&quot;</span> (<span onmouseout="hideTip(event, 'fs79', 310)" onmouseover="showTip(event, 'fs79', 310)" class="i">stockTrader</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs86', 311)" onmouseover="showTip(event, 'fs86', 311)" class="i">tradingBusRef</span> <span class="o">&lt;|</span> <span class="k">new</span> <span onmouseout="hideTip(event, 'fs60', 312)" onmouseover="showTip(event, 'fs60', 312)" class="i">BuyerService</span>() <span class="o">&lt;|</span> <span class="k">new</span> <span onmouseout="hideTip(event, 'fs68', 313)" onmouseover="showTip(event, 'fs68', 313)" class="i">SellerService</span> ())
-
-<span onmouseout="hideTip(event, 'fs87', 314)" onmouseover="showTip(event, 'fs87', 314)" class="i">stockTraderRef</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs73', 315)" onmouseover="showTip(event, 'fs73', 315)" class="p">ExecuteBuyOrder</span>(<span class="s">&quot;1&quot;</span>, <span onmouseout="hideTip(event, 'fs17', 316)" onmouseover="showTip(event, 'fs17', 316)" class="p">Symbol</span> <span class="s">&quot;S1&quot;</span>, <span class="n">5</span>, <span onmouseout="hideTip(event, 'fs18', 317)" onmouseover="showTip(event, 'fs18', 317)" class="p">Money</span> <span class="n">10m</span>)
-<span onmouseout="hideTip(event, 'fs87', 318)" onmouseover="showTip(event, 'fs87', 318)" class="i">stockTraderRef</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs74', 319)" onmouseover="showTip(event, 'fs74', 319)" class="p">ExecuteSellOrder</span>(<span class="s">&quot;2&quot;</span>, <span onmouseout="hideTip(event, 'fs17', 320)" onmouseover="showTip(event, 'fs17', 320)" class="p">Symbol</span> <span class="s">&quot;S2&quot;</span>, <span class="n">3</span>, <span onmouseout="hideTip(event, 'fs18', 321)" onmouseover="showTip(event, 'fs18', 321)" class="p">Money</span> <span class="n">8m</span>)
-</code></pre></td>
-</tr>
-</table>
-
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/ChannelAdapter.fsx" target="_blank">Complete Code</a>
-
-<p><a href="#Sections">Sections</a></p>
-
-<h2><a name="Message-Bridge" class="anchor" href="#Message-Bridge">Message Bridge</a></h2>
-
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
-<span class="l"> 2: </span>
-<span class="l"> 3: </span>
-<span class="l"> 4: </span>
-<span class="l"> 5: </span>
-<span class="l"> 6: </span>
-<span class="l"> 7: </span>
-<span class="l"> 8: </span>
-<span class="l"> 9: </span>
-<span class="l">10: </span>
-<span class="l">11: </span>
-<span class="l">12: </span>
-<span class="l">13: </span>
-<span class="l">14: </span>
-<span class="l">15: </span>
-<span class="l">16: </span>
-<span class="l">17: </span>
-<span class="l">18: </span>
-<span class="l">19: </span>
-<span class="l">20: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs88', 322)" onmouseover="showTip(event, 'fs88', 322)" class="t">RabbitMQTextMessage</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs88', 323)" onmouseover="showTip(event, 'fs88', 323)" class="p">RabbitMQTextMessage</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs6', 324)" onmouseover="showTip(event, 'fs6', 324)" class="t">string</span>
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs89', 325)" onmouseover="showTip(event, 'fs89', 325)" class="f">inventoryProductAllocationBridge</span> (<span onmouseout="hideTip(event, 'fs3', 326)" onmouseover="showTip(event, 'fs3', 326)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs90', 327)" onmouseover="showTip(event, 'fs90', 327)" class="f">translatedToInventoryProductAlloction</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs91', 328)" onmouseover="showTip(event, 'fs91', 328)" class="f">sprintf</span> <span class="s">&quot;Inventory product alloction for </span><span class="pf">%s</span><span class="s">&quot;</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs92', 329)" onmouseover="showTip(event, 'fs92', 329)" class="f">acknowledgeDelivery</span> (<span onmouseout="hideTip(event, 'fs88', 330)" onmouseover="showTip(event, 'fs88', 330)" class="p">RabbitMQTextMessage</span> <span onmouseout="hideTip(event, 'fs93', 331)" onmouseover="showTip(event, 'fs93', 331)" class="i">textMessage</span>) <span class="o">=</span> <span onmouseout="hideTip(event, 'fs12', 332)" onmouseover="showTip(event, 'fs12', 332)" class="f">printfn</span> <span class="s">&quot;InventoryProductAllocationBridge: acknowledged &#39;</span><span class="pf">%s</span><span class="s">&#39;&quot;</span> <span class="i">textMessage</span>
-
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 333)" onmouseover="showTip(event, 'fs4', 333)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
-        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 334)" onmouseover="showTip(event, 'fs3', 334)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
-        <span class="k">let</span> (<span onmouseout="hideTip(event, 'fs88', 335)" onmouseover="showTip(event, 'fs88', 335)" class="i">RabbitMQTextMessage</span> <span class="i">textMessage</span>) <span class="o">=</span> <span class="i">message</span>
-        <span onmouseout="hideTip(event, 'fs12', 336)" onmouseover="showTip(event, 'fs12', 336)" class="i">printfn</span> <span class="s">&quot;InventoryProductAllocationBridge: received &#39;%s&#39;&quot;</span> <span class="i">textMessage</span>
-        <span class="k">let</span> <span class="i">inventoryProductAllocation</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs90', 337)" onmouseover="showTip(event, 'fs90', 337)" class="i">translatedToInventoryProductAlloction</span> <span class="i">textMessage</span>
-        <span onmouseout="hideTip(event, 'fs12', 338)" onmouseover="showTip(event, 'fs12', 338)" class="i">printfn</span> <span class="s">&quot;InventoryProductAllocationBridge: translated &#39;%s&#39;&quot;</span> <span class="i">inventoryProductAllocation</span>
-        <span onmouseout="hideTip(event, 'fs92', 339)" onmouseover="showTip(event, 'fs92', 339)" class="i">acknowledgeDelivery</span> <span class="i">message</span>
-        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 340)" onmouseover="showTip(event, 'fs4', 340)" class="i">loop</span> ()
-    }
-    <span onmouseout="hideTip(event, 'fs4', 341)" onmouseover="showTip(event, 'fs4', 341)" class="f">loop</span> ()
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs94', 342)" onmouseover="showTip(event, 'fs94', 342)" class="i">inventoryProductAllocationBridgeRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;inventoryProductAllocationBridge&quot;</span> <span onmouseout="hideTip(event, 'fs89', 343)" onmouseover="showTip(event, 'fs89', 343)" class="i">inventoryProductAllocationBridge</span>
-
-<span onmouseout="hideTip(event, 'fs94', 344)" onmouseover="showTip(event, 'fs94', 344)" class="i">inventoryProductAllocationBridgeRef</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs88', 345)" onmouseover="showTip(event, 'fs88', 345)" class="p">RabbitMQTextMessage</span> <span class="s">&quot;Rabbit test message&quot;</span>
-</code></pre></td>
-</tr>
-</table>
-
-<a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingChannels/MessageBridge.fsx" target="_blank">Complete Code</a>
-
-<p><a href="#Sections">Sections</a></p>
-
-<h2><a name="Message-Bus" class="anchor" href="#Message-Bus">Message Bus</a></h2>
-
-<table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">  1: </span>
-<span class="l">  2: </span>
-<span class="l">  3: </span>
-<span class="l">  4: </span>
-<span class="l">  5: </span>
-<span class="l">  6: </span>
-<span class="l">  7: </span>
-<span class="l">  8: </span>
-<span class="l">  9: </span>
-<span class="l"> 10: </span>
-<span class="l"> 11: </span>
-<span class="l"> 12: </span>
-<span class="l"> 13: </span>
-<span class="l"> 14: </span>
-<span class="l"> 15: </span>
-<span class="l"> 16: </span>
-<span class="l"> 17: </span>
-<span class="l"> 18: </span>
-<span class="l"> 19: </span>
-<span class="l"> 20: </span>
-<span class="l"> 21: </span>
-<span class="l"> 22: </span>
-<span class="l"> 23: </span>
-<span class="l"> 24: </span>
-<span class="l"> 25: </span>
-<span class="l"> 26: </span>
-<span class="l"> 27: </span>
-<span class="l"> 28: </span>
-<span class="l"> 29: </span>
-<span class="l"> 30: </span>
-<span class="l"> 31: </span>
-<span class="l"> 32: </span>
-<span class="l"> 33: </span>
-<span class="l"> 34: </span>
-<span class="l"> 35: </span>
-<span class="l"> 36: </span>
-<span class="l"> 37: </span>
-<span class="l"> 38: </span>
-<span class="l"> 39: </span>
-<span class="l"> 40: </span>
-<span class="l"> 41: </span>
-<span class="l"> 42: </span>
-<span class="l"> 43: </span>
-<span class="l"> 44: </span>
-<span class="l"> 45: </span>
-<span class="l"> 46: </span>
-<span class="l"> 47: </span>
-<span class="l"> 48: </span>
-<span class="l"> 49: </span>
-<span class="l"> 50: </span>
-<span class="l"> 51: </span>
-<span class="l"> 52: </span>
-<span class="l"> 53: </span>
-<span class="l"> 54: </span>
-<span class="l"> 55: </span>
-<span class="l"> 56: </span>
-<span class="l"> 57: </span>
-<span class="l"> 58: </span>
-<span class="l"> 59: </span>
-<span class="l"> 60: </span>
-<span class="l"> 61: </span>
-<span class="l"> 62: </span>
-<span class="l"> 63: </span>
-<span class="l"> 64: </span>
-<span class="l"> 65: </span>
-<span class="l"> 66: </span>
-<span class="l"> 67: </span>
-<span class="l"> 68: </span>
-<span class="l"> 69: </span>
-<span class="l"> 70: </span>
-<span class="l"> 71: </span>
-<span class="l"> 72: </span>
-<span class="l"> 73: </span>
-<span class="l"> 74: </span>
-<span class="l"> 75: </span>
-<span class="l"> 76: </span>
-<span class="l"> 77: </span>
-<span class="l"> 78: </span>
-<span class="l"> 79: </span>
-<span class="l"> 80: </span>
-<span class="l"> 81: </span>
-<span class="l"> 82: </span>
-<span class="l"> 83: </span>
-<span class="l"> 84: </span>
-<span class="l"> 85: </span>
-<span class="l"> 86: </span>
-<span class="l"> 87: </span>
-<span class="l"> 88: </span>
-<span class="l"> 89: </span>
-<span class="l"> 90: </span>
-<span class="l"> 91: </span>
-<span class="l"> 92: </span>
-<span class="l"> 93: </span>
-<span class="l"> 94: </span>
-<span class="l"> 95: </span>
-<span class="l"> 96: </span>
-<span class="l"> 97: </span>
-<span class="l"> 98: </span>
-<span class="l"> 99: </span>
-<span class="l">100: </span>
-<span class="l">101: </span>
-<span class="l">102: </span>
-<span class="l">103: </span>
-<span class="l">104: </span>
-<span class="l">105: </span>
-<span class="l">106: </span>
-<span class="l">107: </span>
-<span class="l">108: </span>
-<span class="l">109: </span>
-<span class="l">110: </span>
-<span class="l">111: </span>
-<span class="l">112: </span>
-<span class="l">113: </span>
-<span class="l">114: </span>
-</pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">type</span> <span onmouseout="hideTip(event, 'fs18', 346)" onmouseover="showTip(event, 'fs18', 346)" class="i">Money</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs18', 347)" onmouseover="showTip(event, 'fs18', 347)" class="i">Money</span> <span class="k">of</span> <span onmouseout="hideTip(event, 'fs19', 348)" onmouseover="showTip(event, 'fs19', 348)" class="i">decimal</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs95', 349)" onmouseover="showTip(event, 'fs95', 349)" class="t">TradingCommand</span> <span class="o">=</span>
-    | <span onmouseout="hideTip(event, 'fs96', 350)" onmouseover="showTip(event, 'fs96', 350)" class="p">ExecuteBuyOrder</span> <span class="k">of</span> <span class="i">portfolioId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 351)" onmouseover="showTip(event, 'fs6', 351)" class="t">string</span> <span class="o">*</span> <span class="i">symbol</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 352)" onmouseover="showTip(event, 'fs6', 352)" class="t">string</span> <span class="o">*</span> <span class="i">quantity</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs57', 353)" onmouseover="showTip(event, 'fs57', 353)" class="t">int</span> <span class="o">*</span> <span class="i">price</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs18', 354)" onmouseover="showTip(event, 'fs18', 354)" class="t">Money</span>
-    | <span onmouseout="hideTip(event, 'fs97', 355)" onmouseover="showTip(event, 'fs97', 355)" class="p">ExecuteSellOrder</span> <span class="k">of</span> <span class="i">portfolioId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 356)" onmouseover="showTip(event, 'fs6', 356)" class="t">string</span> <span class="o">*</span> <span class="i">symbol</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 357)" onmouseover="showTip(event, 'fs6', 357)" class="t">string</span> <span class="o">*</span> <span class="i">quantity</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs57', 358)" onmouseover="showTip(event, 'fs57', 358)" class="t">int</span> <span class="o">*</span> <span class="i">price</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs18', 359)" onmouseover="showTip(event, 'fs18', 359)" class="t">Money</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs78', 360)" onmouseover="showTip(event, 'fs78', 360)" class="i">TradingNotification</span> <span class="o">=</span>
-    | <span onmouseout="hideTip(event, 'fs76', 361)" onmouseover="showTip(event, 'fs76', 361)" class="i">BuyOrderExecuted</span> <span class="k">of</span> <span class="i">portfolioId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 362)" onmouseover="showTip(event, 'fs6', 362)" class="i">string</span> <span class="o">*</span> <span class="i">symbol</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 363)" onmouseover="showTip(event, 'fs6', 363)" class="i">string</span> <span class="o">*</span> <span class="i">quantity</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs57', 364)" onmouseover="showTip(event, 'fs57', 364)" class="i">int</span> <span class="o">*</span> <span class="i">price</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs18', 365)" onmouseover="showTip(event, 'fs18', 365)" class="i">Money</span>
-    | <span onmouseout="hideTip(event, 'fs77', 366)" onmouseover="showTip(event, 'fs77', 366)" class="i">SellOrderExecuted</span> <span class="k">of</span> <span class="i">portfolioId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 367)" onmouseover="showTip(event, 'fs6', 367)" class="i">string</span> <span class="o">*</span> <span class="i">symbol</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 368)" onmouseover="showTip(event, 'fs6', 368)" class="i">string</span> <span class="o">*</span> <span class="i">quantity</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs57', 369)" onmouseover="showTip(event, 'fs57', 369)" class="i">int</span> <span class="o">*</span> <span class="i">price</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs18', 370)" onmouseover="showTip(event, 'fs18', 370)" class="i">Money</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs98', 371)" onmouseover="showTip(event, 'fs98', 371)" class="t">TradingBusMessage</span> <span class="o">=</span>
-    | <span onmouseout="hideTip(event, 'fs99', 372)" onmouseover="showTip(event, 'fs99', 372)" class="p">RegisterCommandHandler</span> <span class="k">of</span> <span class="i">applicationId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 373)" onmouseover="showTip(event, 'fs6', 373)" class="t">string</span> <span class="o">*</span> <span class="i">commandId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 374)" onmouseover="showTip(event, 'fs6', 374)" class="t">string</span> <span class="o">*</span>  <span class="i">handler</span><span class="o">:</span> <span class="i">IActorRef</span>
-    | <span onmouseout="hideTip(event, 'fs100', 375)" onmouseover="showTip(event, 'fs100', 375)" class="p">RegisterNotificationInterest</span> <span class="k">of</span> <span class="i">applicationId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 376)" onmouseover="showTip(event, 'fs6', 376)" class="t">string</span> <span class="o">*</span> <span class="i">notificationId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 377)" onmouseover="showTip(event, 'fs6', 377)" class="t">string</span> <span class="o">*</span> <span class="i">interested</span><span class="o">:</span> <span class="i">IActorRef</span>
-    | <span onmouseout="hideTip(event, 'fs101', 378)" onmouseover="showTip(event, 'fs101', 378)" class="p">TradingCommand</span> <span class="k">of</span> <span class="i">commandId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 379)" onmouseover="showTip(event, 'fs6', 379)" class="t">string</span> <span class="o">*</span> <span class="i">command</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs101', 380)" onmouseover="showTip(event, 'fs101', 380)" class="t">TradingCommand</span>
-    | <span onmouseout="hideTip(event, 'fs102', 381)" onmouseover="showTip(event, 'fs102', 381)" class="p">TradingNotification</span> <span class="k">of</span> <span class="i">notificationId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 382)" onmouseover="showTip(event, 'fs6', 382)" class="t">string</span> <span class="o">*</span> <span class="i">notification</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs102', 383)" onmouseover="showTip(event, 'fs102', 383)" class="t">TradingNotification</span>
-    | <span onmouseout="hideTip(event, 'fs103', 384)" onmouseover="showTip(event, 'fs103', 384)" class="p">Status</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs104', 385)" onmouseover="showTip(event, 'fs104', 385)" class="t">CommandHandler</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs104', 386)" onmouseover="showTip(event, 'fs104', 386)" class="p">CommandHandler</span> <span class="k">of</span> <span class="i">applicationId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 387)" onmouseover="showTip(event, 'fs6', 387)" class="t">string</span> <span class="o">*</span> <span class="i">handler</span><span class="o">:</span> <span class="i">IActorRef</span>
-<span class="k">type</span> <span onmouseout="hideTip(event, 'fs105', 388)" onmouseover="showTip(event, 'fs105', 388)" class="t">NotificationInterest</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs105', 389)" onmouseover="showTip(event, 'fs105', 389)" class="p">NotificationInterest</span> <span class="k">of</span> <span class="i">applicationId</span><span class="o">:</span> <span onmouseout="hideTip(event, 'fs6', 390)" onmouseover="showTip(event, 'fs6', 390)" class="t">string</span> <span class="o">*</span> <span class="i">interested</span><span class="o">:</span> <span class="i">IActorRef</span>
-
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs85', 391)" onmouseover="showTip(event, 'fs85', 391)" class="f">tradingBus</span> (<span onmouseout="hideTip(event, 'fs3', 392)" onmouseover="showTip(event, 'fs3', 392)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs106', 393)" onmouseover="showTip(event, 'fs106', 393)" class="f">loop</span> <span onmouseout="hideTip(event, 'fs107', 394)" onmouseover="showTip(event, 'fs107', 394)" class="i">commandHandlers</span> <span onmouseout="hideTip(event, 'fs108', 395)" onmouseover="showTip(event, 'fs108', 395)" class="i">notificationInterests</span> <span class="o">=</span> <span class="i">actor</span> {
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs49', 202)" onmouseover="showTip(event, 'fs49', 202)" class="f">tradingBus</span> (<span onmouseout="hideTip(event, 'fs3', 203)" onmouseover="showTip(event, 'fs3', 203)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs59', 204)" onmouseover="showTip(event, 'fs59', 204)" class="f">loop</span> <span onmouseout="hideTip(event, 'fs60', 205)" onmouseover="showTip(event, 'fs60', 205)" class="i">commandHandlers</span> <span onmouseout="hideTip(event, 'fs61', 206)" onmouseover="showTip(event, 'fs61', 206)" class="i">notificationInterests</span> <span class="o">=</span> <span class="i">actor</span> {
         <span class="k">let</span> <span class="i">dispatchCommand</span> <span class="i">commandId</span> <span class="i">command</span> <span class="o">=</span>
-            <span onmouseout="hideTip(event, 'fs107', 396)" onmouseover="showTip(event, 'fs107', 396)" class="i">commandHandlers</span> 
-            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs109', 397)" onmouseover="showTip(event, 'fs109', 397)" class="i">Map</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs110', 398)" onmouseover="showTip(event, 'fs110', 398)" class="i">tryFind</span> <span class="i">commandId</span>
-            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs111', 399)" onmouseover="showTip(event, 'fs111', 399)" class="i">Option</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs112', 400)" onmouseover="showTip(event, 'fs112', 400)" class="i">map</span> (<span class="k">fun</span> <span class="i">hs</span> <span class="k">-&gt;</span> <span class="i">hs</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs113', 401)" onmouseover="showTip(event, 'fs113', 401)" class="i">List</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs114', 402)" onmouseover="showTip(event, 'fs114', 402)" class="i">iter</span> (<span class="k">fun</span> (<span onmouseout="hideTip(event, 'fs104', 403)" onmouseover="showTip(event, 'fs104', 403)" class="i">CommandHandler</span>(_, <span class="i">h</span>)) <span class="k">-&gt;</span> <span class="i">h</span> <span class="o">&lt;!</span> <span class="i">command</span>))
-            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs115', 404)" onmouseover="showTip(event, 'fs115', 404)" class="i">ignore</span>
+            <span onmouseout="hideTip(event, 'fs60', 207)" onmouseover="showTip(event, 'fs60', 207)" class="i">commandHandlers</span> 
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs62', 208)" onmouseover="showTip(event, 'fs62', 208)" class="i">Map</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs63', 209)" onmouseover="showTip(event, 'fs63', 209)" class="i">tryFind</span> <span class="i">commandId</span>
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs64', 210)" onmouseover="showTip(event, 'fs64', 210)" class="i">Option</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs65', 211)" onmouseover="showTip(event, 'fs65', 211)" class="i">map</span> (<span class="k">fun</span> <span class="i">hs</span> <span class="k">-&gt;</span> <span class="i">hs</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs66', 212)" onmouseover="showTip(event, 'fs66', 212)" class="i">List</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs67', 213)" onmouseover="showTip(event, 'fs67', 213)" class="i">iter</span> (<span class="k">fun</span> (<span class="i">CommandHandler</span>(_, <span class="i">h</span>)) <span class="k">-&gt;</span> <span class="i">h</span> <span class="o">&lt;!</span> <span class="i">command</span>))
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs68', 214)" onmouseover="showTip(event, 'fs68', 214)" class="i">ignore</span>
 
         <span class="k">let</span> <span class="i">dispatchNotification</span> <span class="i">notificationId</span> <span class="i">notification</span> <span class="o">=</span>
-            <span onmouseout="hideTip(event, 'fs108', 405)" onmouseover="showTip(event, 'fs108', 405)" class="i">notificationInterests</span> 
-            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs109', 406)" onmouseover="showTip(event, 'fs109', 406)" class="i">Map</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs110', 407)" onmouseover="showTip(event, 'fs110', 407)" class="i">tryFind</span> <span class="i">notificationId</span>
-            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs111', 408)" onmouseover="showTip(event, 'fs111', 408)" class="i">Option</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs112', 409)" onmouseover="showTip(event, 'fs112', 409)" class="i">map</span> (<span class="k">fun</span> <span class="i">hs</span> <span class="k">-&gt;</span> <span class="i">hs</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs113', 410)" onmouseover="showTip(event, 'fs113', 410)" class="i">List</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs114', 411)" onmouseover="showTip(event, 'fs114', 411)" class="i">iter</span> (<span class="k">fun</span> (<span onmouseout="hideTip(event, 'fs105', 412)" onmouseover="showTip(event, 'fs105', 412)" class="i">NotificationInterest</span>(_, <span class="i">i</span>)) <span class="k">-&gt;</span> <span class="i">i</span> <span class="o">&lt;!</span> <span class="i">notification</span>))
-            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs115', 413)" onmouseover="showTip(event, 'fs115', 413)" class="i">ignore</span>
+            <span onmouseout="hideTip(event, 'fs61', 215)" onmouseover="showTip(event, 'fs61', 215)" class="i">notificationInterests</span> 
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs62', 216)" onmouseover="showTip(event, 'fs62', 216)" class="i">Map</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs63', 217)" onmouseover="showTip(event, 'fs63', 217)" class="i">tryFind</span> <span class="i">notificationId</span>
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs64', 218)" onmouseover="showTip(event, 'fs64', 218)" class="i">Option</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs65', 219)" onmouseover="showTip(event, 'fs65', 219)" class="i">map</span> (<span class="k">fun</span> <span class="i">hs</span> <span class="k">-&gt;</span> <span class="i">hs</span> <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs66', 220)" onmouseover="showTip(event, 'fs66', 220)" class="i">List</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs67', 221)" onmouseover="showTip(event, 'fs67', 221)" class="i">iter</span> (<span class="k">fun</span> (<span class="i">NotificationInterest</span>(_, <span class="i">i</span>)) <span class="k">-&gt;</span> <span class="i">i</span> <span class="o">&lt;!</span> <span class="i">notification</span>))
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs68', 222)" onmouseover="showTip(event, 'fs68', 222)" class="i">ignore</span>
 
         <span class="k">let</span> <span class="i">registerCommandHandler</span> <span class="i">commandId</span> <span class="i">applicationId</span> <span class="i">handler</span> <span class="o">=</span>
-            <span class="k">let</span> <span class="i">commandHandler</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs104', 414)" onmouseover="showTip(event, 'fs104', 414)" class="i">CommandHandler</span>(<span class="i">applicationId</span>, <span class="i">handler</span>)
-            <span onmouseout="hideTip(event, 'fs107', 415)" onmouseover="showTip(event, 'fs107', 415)" class="i">commandHandlers</span>
-            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs109', 416)" onmouseover="showTip(event, 'fs109', 416)" class="i">Map</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs110', 417)" onmouseover="showTip(event, 'fs110', 417)" class="i">tryFind</span> <span class="i">commandId</span>
-            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs111', 418)" onmouseover="showTip(event, 'fs111', 418)" class="i">Option</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs116', 419)" onmouseover="showTip(event, 'fs116', 419)" class="i">fold</span> (<span class="k">fun</span> _ <span class="i">hs</span> <span class="k">-&gt;</span> <span class="i">commandHandler</span> <span class="o">::</span> <span class="i">hs</span>) [<span class="i">commandHandler</span>]
-            <span class="o">|&gt;</span> <span class="k">fun</span> <span class="i">hs</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs109', 420)" onmouseover="showTip(event, 'fs109', 420)" class="i">Map</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs117', 421)" onmouseover="showTip(event, 'fs117', 421)" class="i">add</span> <span class="i">commandId</span> <span class="i">hs</span> <span onmouseout="hideTip(event, 'fs107', 422)" onmouseover="showTip(event, 'fs107', 422)" class="i">commandHandlers</span>
+            <span class="k">let</span> <span class="i">commandHandler</span> <span class="o">=</span> <span class="i">CommandHandler</span>(<span class="i">applicationId</span>, <span class="i">handler</span>)
+            <span onmouseout="hideTip(event, 'fs60', 223)" onmouseover="showTip(event, 'fs60', 223)" class="i">commandHandlers</span>
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs62', 224)" onmouseover="showTip(event, 'fs62', 224)" class="i">Map</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs63', 225)" onmouseover="showTip(event, 'fs63', 225)" class="i">tryFind</span> <span class="i">commandId</span>
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs64', 226)" onmouseover="showTip(event, 'fs64', 226)" class="i">Option</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs69', 227)" onmouseover="showTip(event, 'fs69', 227)" class="i">fold</span> (<span class="k">fun</span> _ <span class="i">hs</span> <span class="k">-&gt;</span> <span class="i">commandHandler</span> <span class="o">::</span> <span class="i">hs</span>) [<span class="i">commandHandler</span>]
+            <span class="o">|&gt;</span> <span class="k">fun</span> <span class="i">hs</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs62', 228)" onmouseover="showTip(event, 'fs62', 228)" class="i">Map</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs70', 229)" onmouseover="showTip(event, 'fs70', 229)" class="i">add</span> <span class="i">commandId</span> <span class="i">hs</span> <span onmouseout="hideTip(event, 'fs60', 230)" onmouseover="showTip(event, 'fs60', 230)" class="i">commandHandlers</span>
 
         <span class="k">let</span> <span class="i">registerNotificationInterest</span> <span class="i">notificationId</span> <span class="i">applicationId</span> <span class="i">interested</span> <span class="o">=</span>
-            <span class="k">let</span> <span class="i">notificationInterest</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs105', 423)" onmouseover="showTip(event, 'fs105', 423)" class="i">NotificationInterest</span>(<span class="i">applicationId</span>, <span class="i">interested</span>)
-            <span onmouseout="hideTip(event, 'fs108', 424)" onmouseover="showTip(event, 'fs108', 424)" class="i">notificationInterests</span>
-            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs109', 425)" onmouseover="showTip(event, 'fs109', 425)" class="i">Map</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs110', 426)" onmouseover="showTip(event, 'fs110', 426)" class="i">tryFind</span> <span class="i">notificationId</span>
-            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs111', 427)" onmouseover="showTip(event, 'fs111', 427)" class="i">Option</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs116', 428)" onmouseover="showTip(event, 'fs116', 428)" class="i">fold</span> (<span class="k">fun</span> _ <span class="i">is</span> <span class="k">-&gt;</span> <span class="i">notificationInterest</span> <span class="o">::</span> <span class="i">is</span>) [<span class="i">notificationInterest</span>]
-            <span class="o">|&gt;</span> <span class="k">fun</span> <span class="i">is</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs109', 429)" onmouseover="showTip(event, 'fs109', 429)" class="i">Map</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs117', 430)" onmouseover="showTip(event, 'fs117', 430)" class="i">add</span> <span class="i">notificationId</span> <span class="i">is</span> <span onmouseout="hideTip(event, 'fs108', 431)" onmouseover="showTip(event, 'fs108', 431)" class="i">notificationInterests</span>
+            <span class="k">let</span> <span class="i">notificationInterest</span> <span class="o">=</span> <span class="i">NotificationInterest</span>(<span class="i">applicationId</span>, <span class="i">interested</span>)
+            <span onmouseout="hideTip(event, 'fs61', 231)" onmouseover="showTip(event, 'fs61', 231)" class="i">notificationInterests</span>
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs62', 232)" onmouseover="showTip(event, 'fs62', 232)" class="i">Map</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs63', 233)" onmouseover="showTip(event, 'fs63', 233)" class="i">tryFind</span> <span class="i">notificationId</span>
+            <span class="o">|&gt;</span> <span onmouseout="hideTip(event, 'fs64', 234)" onmouseover="showTip(event, 'fs64', 234)" class="i">Option</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs69', 235)" onmouseover="showTip(event, 'fs69', 235)" class="i">fold</span> (<span class="k">fun</span> _ <span class="i">is</span> <span class="k">-&gt;</span> <span class="i">notificationInterest</span> <span class="o">::</span> <span class="i">is</span>) [<span class="i">notificationInterest</span>]
+            <span class="o">|&gt;</span> <span class="k">fun</span> <span class="i">is</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs62', 236)" onmouseover="showTip(event, 'fs62', 236)" class="i">Map</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs70', 237)" onmouseover="showTip(event, 'fs70', 237)" class="i">add</span> <span class="i">notificationId</span> <span class="i">is</span> <span onmouseout="hideTip(event, 'fs61', 238)" onmouseover="showTip(event, 'fs61', 238)" class="i">notificationInterests</span>
 
-        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 432)" onmouseover="showTip(event, 'fs3', 432)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
+        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 239)" onmouseover="showTip(event, 'fs3', 239)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
         <span class="k">match</span> <span class="i">message</span> <span class="k">with</span>
-        | <span onmouseout="hideTip(event, 'fs99', 433)" onmouseover="showTip(event, 'fs99', 433)" class="i">RegisterCommandHandler</span>(<span class="i">applicationId</span>, <span class="i">commandId</span>, <span class="i">handler</span>) <span class="k">-&gt;</span> 
-            <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs106', 434)" onmouseover="showTip(event, 'fs106', 434)" class="i">loop</span> (<span class="i">registerCommandHandler</span> <span class="i">commandId</span> <span class="i">applicationId</span> <span class="i">handler</span>) <span onmouseout="hideTip(event, 'fs108', 435)" onmouseover="showTip(event, 'fs108', 435)" class="i">notificationInterests</span>
-        | <span onmouseout="hideTip(event, 'fs100', 436)" onmouseover="showTip(event, 'fs100', 436)" class="i">RegisterNotificationInterest</span>(<span class="i">applicationId</span>, <span class="i">notificationId</span>, <span class="i">interested</span>) <span class="k">-&gt;</span> 
-            <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs106', 437)" onmouseover="showTip(event, 'fs106', 437)" class="i">loop</span> <span onmouseout="hideTip(event, 'fs107', 438)" onmouseover="showTip(event, 'fs107', 438)" class="i">commandHandlers</span> (<span class="i">registerNotificationInterest</span> <span class="i">notificationId</span> <span class="i">applicationId</span> <span class="i">interested</span>)
-        | <span onmouseout="hideTip(event, 'fs101', 439)" onmouseover="showTip(event, 'fs101', 439)" class="i">TradingCommand</span>(<span class="i">commandId</span>, <span class="i">command</span>) <span class="k">-&gt;</span> <span class="i">dispatchCommand</span> <span class="i">commandId</span> <span class="i">command</span>
-        | <span onmouseout="hideTip(event, 'fs102', 440)" onmouseover="showTip(event, 'fs102', 440)" class="i">TradingNotification</span>(<span class="i">notificationId</span>, <span class="i">notification</span>) <span class="k">-&gt;</span> <span class="i">dispatchNotification</span> <span class="i">notificationId</span> <span class="i">notification</span>
-        | <span onmouseout="hideTip(event, 'fs103', 441)" onmouseover="showTip(event, 'fs103', 441)" class="i">Status</span> <span class="k">-&gt;</span> 
-            <span onmouseout="hideTip(event, 'fs12', 442)" onmouseover="showTip(event, 'fs12', 442)" class="i">printfn</span> <span class="s">&quot;TradingBus: STATUS: %A&quot;</span> <span onmouseout="hideTip(event, 'fs107', 443)" onmouseover="showTip(event, 'fs107', 443)" class="i">commandHandlers</span>
-            <span onmouseout="hideTip(event, 'fs12', 444)" onmouseover="showTip(event, 'fs12', 444)" class="i">printfn</span> <span class="s">&quot;TradingBus: STATUS: %A&quot;</span> <span onmouseout="hideTip(event, 'fs108', 445)" onmouseover="showTip(event, 'fs108', 445)" class="i">notificationInterests</span>
-        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs106', 446)" onmouseover="showTip(event, 'fs106', 446)" class="i">loop</span> <span onmouseout="hideTip(event, 'fs107', 447)" onmouseover="showTip(event, 'fs107', 447)" class="i">commandHandlers</span> <span onmouseout="hideTip(event, 'fs108', 448)" onmouseover="showTip(event, 'fs108', 448)" class="i">notificationInterests</span>
+        | <span class="i">RegisterCommandHandler</span>(<span class="i">applicationId</span>, <span class="i">commandId</span>, <span class="i">handler</span>) <span class="k">-&gt;</span> 
+            <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs59', 240)" onmouseover="showTip(event, 'fs59', 240)" class="i">loop</span> (<span class="i">registerCommandHandler</span> <span class="i">commandId</span> <span class="i">applicationId</span> <span class="i">handler</span>) <span onmouseout="hideTip(event, 'fs61', 241)" onmouseover="showTip(event, 'fs61', 241)" class="i">notificationInterests</span>
+        | <span class="i">RegisterNotificationInterest</span>(<span class="i">applicationId</span>, <span class="i">notificationId</span>, <span class="i">interested</span>) <span class="k">-&gt;</span> 
+            <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs59', 242)" onmouseover="showTip(event, 'fs59', 242)" class="i">loop</span> <span onmouseout="hideTip(event, 'fs60', 243)" onmouseover="showTip(event, 'fs60', 243)" class="i">commandHandlers</span> (<span class="i">registerNotificationInterest</span> <span class="i">notificationId</span> <span class="i">applicationId</span> <span class="i">interested</span>)
+        | <span class="i">TradingCommand</span>(<span class="i">commandId</span>, <span class="i">command</span>) <span class="k">-&gt;</span> <span class="i">dispatchCommand</span> <span class="i">commandId</span> <span class="i">command</span>
+        | <span class="i">TradingNotification</span>(<span class="i">notificationId</span>, <span class="i">notification</span>) <span class="k">-&gt;</span> <span class="i">dispatchNotification</span> <span class="i">notificationId</span> <span class="i">notification</span>
+        | <span class="i">Status</span> <span class="k">-&gt;</span> 
+            <span onmouseout="hideTip(event, 'fs12', 244)" onmouseover="showTip(event, 'fs12', 244)" class="i">printfn</span> <span class="s">&quot;TradingBus: STATUS: %A&quot;</span> <span onmouseout="hideTip(event, 'fs60', 245)" onmouseover="showTip(event, 'fs60', 245)" class="i">commandHandlers</span>
+            <span onmouseout="hideTip(event, 'fs12', 246)" onmouseover="showTip(event, 'fs12', 246)" class="i">printfn</span> <span class="s">&quot;TradingBus: STATUS: %A&quot;</span> <span onmouseout="hideTip(event, 'fs61', 247)" onmouseover="showTip(event, 'fs61', 247)" class="i">notificationInterests</span>
+        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs59', 248)" onmouseover="showTip(event, 'fs59', 248)" class="i">loop</span> <span onmouseout="hideTip(event, 'fs60', 249)" onmouseover="showTip(event, 'fs60', 249)" class="i">commandHandlers</span> <span onmouseout="hideTip(event, 'fs61', 250)" onmouseover="showTip(event, 'fs61', 250)" class="i">notificationInterests</span>
     }
-    <span onmouseout="hideTip(event, 'fs106', 449)" onmouseover="showTip(event, 'fs106', 449)" class="f">loop</span> <span onmouseout="hideTip(event, 'fs109', 450)" onmouseover="showTip(event, 'fs109', 450)" class="t">Map</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs118', 451)" onmouseover="showTip(event, 'fs118', 451)" class="i">empty</span> <span onmouseout="hideTip(event, 'fs109', 452)" onmouseover="showTip(event, 'fs109', 452)" class="t">Map</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs118', 453)" onmouseover="showTip(event, 'fs118', 453)" class="i">empty</span>
+    <span onmouseout="hideTip(event, 'fs59', 251)" onmouseover="showTip(event, 'fs59', 251)" class="f">loop</span> <span onmouseout="hideTip(event, 'fs62', 252)" onmouseover="showTip(event, 'fs62', 252)" class="t">Map</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs71', 253)" onmouseover="showTip(event, 'fs71', 253)" class="i">empty</span> <span onmouseout="hideTip(event, 'fs62', 254)" onmouseover="showTip(event, 'fs62', 254)" class="t">Map</span><span class="o">.</span><span onmouseout="hideTip(event, 'fs71', 255)" onmouseover="showTip(event, 'fs71', 255)" class="i">empty</span>
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs119', 454)" onmouseover="showTip(event, 'fs119', 454)" class="f">marketAnalysisTools</span> <span onmouseout="hideTip(event, 'fs80', 455)" onmouseover="showTip(event, 'fs80', 455)" class="i">tradingBus</span> (<span onmouseout="hideTip(event, 'fs3', 456)" onmouseover="showTip(event, 'fs3', 456)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs83', 457)" onmouseover="showTip(event, 'fs83', 457)" class="i">applicationId</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 458)" onmouseover="showTip(event, 'fs3', 458)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span><span class="o">.</span><span class="i">Path</span><span class="o">.</span><span class="i">Name</span>
-    <span onmouseout="hideTip(event, 'fs80', 459)" onmouseover="showTip(event, 'fs80', 459)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs100', 460)" onmouseover="showTip(event, 'fs100', 460)" class="p">RegisterNotificationInterest</span>(<span onmouseout="hideTip(event, 'fs83', 461)" onmouseover="showTip(event, 'fs83', 461)" class="i">applicationId</span>, <span class="s">&quot;BuyOrderExecuted&quot;</span>, <span onmouseout="hideTip(event, 'fs3', 462)" onmouseover="showTip(event, 'fs3', 462)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>)
-    <span onmouseout="hideTip(event, 'fs80', 463)" onmouseover="showTip(event, 'fs80', 463)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs100', 464)" onmouseover="showTip(event, 'fs100', 464)" class="p">RegisterNotificationInterest</span>(<span onmouseout="hideTip(event, 'fs83', 465)" onmouseover="showTip(event, 'fs83', 465)" class="i">applicationId</span>, <span class="s">&quot;SellOrderExecuted&quot;</span>, <span onmouseout="hideTip(event, 'fs3', 466)" onmouseover="showTip(event, 'fs3', 466)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>)
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs72', 256)" onmouseover="showTip(event, 'fs72', 256)" class="f">marketAnalysisTools</span> <span onmouseout="hideTip(event, 'fs73', 257)" onmouseover="showTip(event, 'fs73', 257)" class="i">tradingBus</span> (<span onmouseout="hideTip(event, 'fs3', 258)" onmouseover="showTip(event, 'fs3', 258)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs48', 259)" onmouseover="showTip(event, 'fs48', 259)" class="i">applicationId</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 260)" onmouseover="showTip(event, 'fs3', 260)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span><span class="o">.</span><span class="i">Path</span><span class="o">.</span><span class="i">Name</span>
+    <span onmouseout="hideTip(event, 'fs73', 261)" onmouseover="showTip(event, 'fs73', 261)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span class="i">RegisterNotificationInterest</span>(<span onmouseout="hideTip(event, 'fs48', 262)" onmouseover="showTip(event, 'fs48', 262)" class="i">applicationId</span>, <span class="s">&quot;BuyOrderExecuted&quot;</span>, <span onmouseout="hideTip(event, 'fs3', 263)" onmouseover="showTip(event, 'fs3', 263)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>)
+    <span onmouseout="hideTip(event, 'fs73', 264)" onmouseover="showTip(event, 'fs73', 264)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span class="i">RegisterNotificationInterest</span>(<span onmouseout="hideTip(event, 'fs48', 265)" onmouseover="showTip(event, 'fs48', 265)" class="i">applicationId</span>, <span class="s">&quot;SellOrderExecuted&quot;</span>, <span onmouseout="hideTip(event, 'fs3', 266)" onmouseover="showTip(event, 'fs3', 266)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>)
     
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 467)" onmouseover="showTip(event, 'fs4', 467)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
-        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 468)" onmouseover="showTip(event, 'fs3', 468)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 267)" onmouseover="showTip(event, 'fs4', 267)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
+        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 268)" onmouseover="showTip(event, 'fs3', 268)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
         <span class="k">match</span> <span class="i">message</span> <span class="k">with</span>
-        | <span onmouseout="hideTip(event, 'fs76', 469)" onmouseover="showTip(event, 'fs76', 469)" class="i">BuyOrderExecuted</span> _ <span class="k">as</span> <span class="i">executed</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs12', 470)" onmouseover="showTip(event, 'fs12', 470)" class="i">printfn</span> <span class="s">&quot;MarketAnalysisTools: adding holding: %A&quot;</span> <span class="i">executed</span>
-        | <span onmouseout="hideTip(event, 'fs77', 471)" onmouseover="showTip(event, 'fs77', 471)" class="i">SellOrderExecuted</span> _ <span class="k">as</span> <span class="i">executed</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs12', 472)" onmouseover="showTip(event, 'fs12', 472)" class="i">printfn</span> <span class="s">&quot;MarketAnalysisTools: adjusting holding: %A&quot;</span> <span class="i">executed</span>
-        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 473)" onmouseover="showTip(event, 'fs4', 473)" class="i">loop</span> () 
+        | <span class="i">BuyOrderExecuted</span> _ <span class="k">as</span> <span class="i">executed</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs12', 269)" onmouseover="showTip(event, 'fs12', 269)" class="i">printfn</span> <span class="s">&quot;MarketAnalysisTools: adding holding: %A&quot;</span> <span class="i">executed</span>
+        | <span class="i">SellOrderExecuted</span> _ <span class="k">as</span> <span class="i">executed</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs12', 270)" onmouseover="showTip(event, 'fs12', 270)" class="i">printfn</span> <span class="s">&quot;MarketAnalysisTools: adjusting holding: %A&quot;</span> <span class="i">executed</span>
+        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 271)" onmouseover="showTip(event, 'fs4', 271)" class="i">loop</span> () 
     }
-    <span onmouseout="hideTip(event, 'fs4', 474)" onmouseover="showTip(event, 'fs4', 474)" class="f">loop</span> ()
+    <span onmouseout="hideTip(event, 'fs4', 272)" onmouseover="showTip(event, 'fs4', 272)" class="f">loop</span> ()
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs120', 475)" onmouseover="showTip(event, 'fs120', 475)" class="f">portfolioManager</span> <span onmouseout="hideTip(event, 'fs80', 476)" onmouseover="showTip(event, 'fs80', 476)" class="i">tradingBus</span> (<span onmouseout="hideTip(event, 'fs3', 477)" onmouseover="showTip(event, 'fs3', 477)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs83', 478)" onmouseover="showTip(event, 'fs83', 478)" class="i">applicationId</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 479)" onmouseover="showTip(event, 'fs3', 479)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span><span class="o">.</span><span class="i">Path</span><span class="o">.</span><span class="i">Name</span>
-    <span onmouseout="hideTip(event, 'fs80', 480)" onmouseover="showTip(event, 'fs80', 480)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs100', 481)" onmouseover="showTip(event, 'fs100', 481)" class="p">RegisterNotificationInterest</span>(<span onmouseout="hideTip(event, 'fs83', 482)" onmouseover="showTip(event, 'fs83', 482)" class="i">applicationId</span>, <span class="s">&quot;BuyOrderExecuted&quot;</span>, <span onmouseout="hideTip(event, 'fs3', 483)" onmouseover="showTip(event, 'fs3', 483)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>)
-    <span onmouseout="hideTip(event, 'fs80', 484)" onmouseover="showTip(event, 'fs80', 484)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs100', 485)" onmouseover="showTip(event, 'fs100', 485)" class="p">RegisterNotificationInterest</span>(<span onmouseout="hideTip(event, 'fs83', 486)" onmouseover="showTip(event, 'fs83', 486)" class="i">applicationId</span>, <span class="s">&quot;SellOrderExecuted&quot;</span>, <span onmouseout="hideTip(event, 'fs3', 487)" onmouseover="showTip(event, 'fs3', 487)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>)
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs74', 273)" onmouseover="showTip(event, 'fs74', 273)" class="f">portfolioManager</span> <span onmouseout="hideTip(event, 'fs73', 274)" onmouseover="showTip(event, 'fs73', 274)" class="i">tradingBus</span> (<span onmouseout="hideTip(event, 'fs3', 275)" onmouseover="showTip(event, 'fs3', 275)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs48', 276)" onmouseover="showTip(event, 'fs48', 276)" class="i">applicationId</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 277)" onmouseover="showTip(event, 'fs3', 277)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span><span class="o">.</span><span class="i">Path</span><span class="o">.</span><span class="i">Name</span>
+    <span onmouseout="hideTip(event, 'fs73', 278)" onmouseover="showTip(event, 'fs73', 278)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span class="i">RegisterNotificationInterest</span>(<span onmouseout="hideTip(event, 'fs48', 279)" onmouseover="showTip(event, 'fs48', 279)" class="i">applicationId</span>, <span class="s">&quot;BuyOrderExecuted&quot;</span>, <span onmouseout="hideTip(event, 'fs3', 280)" onmouseover="showTip(event, 'fs3', 280)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>)
+    <span onmouseout="hideTip(event, 'fs73', 281)" onmouseover="showTip(event, 'fs73', 281)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span class="i">RegisterNotificationInterest</span>(<span onmouseout="hideTip(event, 'fs48', 282)" onmouseover="showTip(event, 'fs48', 282)" class="i">applicationId</span>, <span class="s">&quot;SellOrderExecuted&quot;</span>, <span onmouseout="hideTip(event, 'fs3', 283)" onmouseover="showTip(event, 'fs3', 283)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>)
     
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 488)" onmouseover="showTip(event, 'fs4', 488)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
-        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 489)" onmouseover="showTip(event, 'fs3', 489)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 284)" onmouseover="showTip(event, 'fs4', 284)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
+        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 285)" onmouseover="showTip(event, 'fs3', 285)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
         <span class="k">match</span> <span class="i">message</span> <span class="k">with</span>
-        | <span onmouseout="hideTip(event, 'fs76', 490)" onmouseover="showTip(event, 'fs76', 490)" class="i">BuyOrderExecuted</span> _ <span class="k">as</span> <span class="i">executed</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs12', 491)" onmouseover="showTip(event, 'fs12', 491)" class="i">printfn</span> <span class="s">&quot;PortfolioManager: adding holding: %A&quot;</span> <span class="i">executed</span>
-        | <span onmouseout="hideTip(event, 'fs77', 492)" onmouseover="showTip(event, 'fs77', 492)" class="i">SellOrderExecuted</span> _ <span class="k">as</span> <span class="i">executed</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs12', 493)" onmouseover="showTip(event, 'fs12', 493)" class="i">printfn</span> <span class="s">&quot;PortfolioManager: adjusting holding: %A&quot;</span> <span class="i">executed</span>
-        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 494)" onmouseover="showTip(event, 'fs4', 494)" class="i">loop</span> () 
+        | <span class="i">BuyOrderExecuted</span> _ <span class="k">as</span> <span class="i">executed</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs12', 286)" onmouseover="showTip(event, 'fs12', 286)" class="i">printfn</span> <span class="s">&quot;PortfolioManager: adding holding: %A&quot;</span> <span class="i">executed</span>
+        | <span class="i">SellOrderExecuted</span> _ <span class="k">as</span> <span class="i">executed</span> <span class="k">-&gt;</span> <span onmouseout="hideTip(event, 'fs12', 287)" onmouseover="showTip(event, 'fs12', 287)" class="i">printfn</span> <span class="s">&quot;PortfolioManager: adjusting holding: %A&quot;</span> <span class="i">executed</span>
+        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 288)" onmouseover="showTip(event, 'fs4', 288)" class="i">loop</span> () 
     }
-    <span onmouseout="hideTip(event, 'fs4', 495)" onmouseover="showTip(event, 'fs4', 495)" class="f">loop</span> ()
+    <span onmouseout="hideTip(event, 'fs4', 289)" onmouseover="showTip(event, 'fs4', 289)" class="f">loop</span> ()
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs121', 496)" onmouseover="showTip(event, 'fs121', 496)" class="f">stockTrader</span> <span onmouseout="hideTip(event, 'fs80', 497)" onmouseover="showTip(event, 'fs80', 497)" class="i">tradingBus</span> (<span onmouseout="hideTip(event, 'fs3', 498)" onmouseover="showTip(event, 'fs3', 498)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs83', 499)" onmouseover="showTip(event, 'fs83', 499)" class="i">applicationId</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 500)" onmouseover="showTip(event, 'fs3', 500)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span><span class="o">.</span><span class="i">Path</span><span class="o">.</span><span class="i">Name</span>
-    <span onmouseout="hideTip(event, 'fs80', 501)" onmouseover="showTip(event, 'fs80', 501)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs99', 502)" onmouseover="showTip(event, 'fs99', 502)" class="p">RegisterCommandHandler</span>(<span onmouseout="hideTip(event, 'fs83', 503)" onmouseover="showTip(event, 'fs83', 503)" class="i">applicationId</span>, <span class="s">&quot;ExecuteBuyOrder&quot;</span>, <span onmouseout="hideTip(event, 'fs3', 504)" onmouseover="showTip(event, 'fs3', 504)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>)
-    <span onmouseout="hideTip(event, 'fs80', 505)" onmouseover="showTip(event, 'fs80', 505)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs99', 506)" onmouseover="showTip(event, 'fs99', 506)" class="p">RegisterCommandHandler</span>(<span onmouseout="hideTip(event, 'fs83', 507)" onmouseover="showTip(event, 'fs83', 507)" class="i">applicationId</span>, <span class="s">&quot;ExecuteSellOrder&quot;</span>, <span onmouseout="hideTip(event, 'fs3', 508)" onmouseover="showTip(event, 'fs3', 508)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>)
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs75', 290)" onmouseover="showTip(event, 'fs75', 290)" class="f">stockTrader</span> <span onmouseout="hideTip(event, 'fs73', 291)" onmouseover="showTip(event, 'fs73', 291)" class="i">tradingBus</span> (<span onmouseout="hideTip(event, 'fs3', 292)" onmouseover="showTip(event, 'fs3', 292)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs48', 293)" onmouseover="showTip(event, 'fs48', 293)" class="i">applicationId</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 294)" onmouseover="showTip(event, 'fs3', 294)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span><span class="o">.</span><span class="i">Path</span><span class="o">.</span><span class="i">Name</span>
+    <span onmouseout="hideTip(event, 'fs73', 295)" onmouseover="showTip(event, 'fs73', 295)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span class="i">RegisterCommandHandler</span>(<span onmouseout="hideTip(event, 'fs48', 296)" onmouseover="showTip(event, 'fs48', 296)" class="i">applicationId</span>, <span class="s">&quot;ExecuteBuyOrder&quot;</span>, <span onmouseout="hideTip(event, 'fs3', 297)" onmouseover="showTip(event, 'fs3', 297)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>)
+    <span onmouseout="hideTip(event, 'fs73', 298)" onmouseover="showTip(event, 'fs73', 298)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span class="i">RegisterCommandHandler</span>(<span onmouseout="hideTip(event, 'fs48', 299)" onmouseover="showTip(event, 'fs48', 299)" class="i">applicationId</span>, <span class="s">&quot;ExecuteSellOrder&quot;</span>, <span onmouseout="hideTip(event, 'fs3', 300)" onmouseover="showTip(event, 'fs3', 300)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span>)
     
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 509)" onmouseover="showTip(event, 'fs4', 509)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
-        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 510)" onmouseover="showTip(event, 'fs3', 510)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs4', 301)" onmouseover="showTip(event, 'fs4', 301)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
+        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs3', 302)" onmouseover="showTip(event, 'fs3', 302)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
         <span class="k">match</span> <span class="i">message</span> <span class="k">with</span>
-        | <span onmouseout="hideTip(event, 'fs96', 511)" onmouseover="showTip(event, 'fs96', 511)" class="i">ExecuteBuyOrder</span>(<span class="i">portfolioId</span>, <span class="i">symbol</span>, <span class="i">quantity</span>, <span class="i">price</span>) <span class="k">as</span> <span class="i">buy</span> <span class="k">-&gt;</span> 
-            <span onmouseout="hideTip(event, 'fs12', 512)" onmouseover="showTip(event, 'fs12', 512)" class="i">printfn</span> <span class="s">&quot;StockTrader: buying for: %A&quot;</span> <span class="i">buy</span>
-            <span onmouseout="hideTip(event, 'fs80', 513)" onmouseover="showTip(event, 'fs80', 513)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs102', 514)" onmouseover="showTip(event, 'fs102', 514)" class="i">TradingNotification</span>(<span class="s">&quot;BuyOrderExecuted&quot;</span>, <span onmouseout="hideTip(event, 'fs76', 515)" onmouseover="showTip(event, 'fs76', 515)" class="i">BuyOrderExecuted</span>(<span class="i">portfolioId</span>, <span class="i">symbol</span>, <span class="i">quantity</span>, <span class="i">price</span>))
-        | <span onmouseout="hideTip(event, 'fs97', 516)" onmouseover="showTip(event, 'fs97', 516)" class="i">ExecuteSellOrder</span>(<span class="i">portfolioId</span>, <span class="i">symbol</span>, <span class="i">quantity</span>, <span class="i">price</span>) <span class="k">as</span> <span class="i">sell</span> <span class="k">-&gt;</span>
-            <span onmouseout="hideTip(event, 'fs12', 517)" onmouseover="showTip(event, 'fs12', 517)" class="i">printfn</span> <span class="s">&quot;StockTrader: selling for: %A&quot;</span> <span class="i">sell</span>
-            <span onmouseout="hideTip(event, 'fs80', 518)" onmouseover="showTip(event, 'fs80', 518)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs102', 519)" onmouseover="showTip(event, 'fs102', 519)" class="i">TradingNotification</span>(<span class="s">&quot;BuyOrderExecuted&quot;</span>, <span onmouseout="hideTip(event, 'fs77', 520)" onmouseover="showTip(event, 'fs77', 520)" class="i">SellOrderExecuted</span>(<span class="i">portfolioId</span>, <span class="i">symbol</span>, <span class="i">quantity</span>, <span class="i">price</span>))
-        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 521)" onmouseover="showTip(event, 'fs4', 521)" class="i">loop</span> () 
+        | <span class="i">ExecuteBuyOrder</span>(<span class="i">portfolioId</span>, <span class="i">symbol</span>, <span class="i">quantity</span>, <span class="i">price</span>) <span class="k">as</span> <span class="i">buy</span> <span class="k">-&gt;</span> 
+            <span onmouseout="hideTip(event, 'fs12', 303)" onmouseover="showTip(event, 'fs12', 303)" class="i">printfn</span> <span class="s">&quot;StockTrader: buying for: %A&quot;</span> <span class="i">buy</span>
+            <span onmouseout="hideTip(event, 'fs73', 304)" onmouseover="showTip(event, 'fs73', 304)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span class="i">TradingNotification</span>(<span class="s">&quot;BuyOrderExecuted&quot;</span>, <span class="i">BuyOrderExecuted</span>(<span class="i">portfolioId</span>, <span class="i">symbol</span>, <span class="i">quantity</span>, <span class="i">price</span>))
+        | <span class="i">ExecuteSellOrder</span>(<span class="i">portfolioId</span>, <span class="i">symbol</span>, <span class="i">quantity</span>, <span class="i">price</span>) <span class="k">as</span> <span class="i">sell</span> <span class="k">-&gt;</span>
+            <span onmouseout="hideTip(event, 'fs12', 305)" onmouseover="showTip(event, 'fs12', 305)" class="i">printfn</span> <span class="s">&quot;StockTrader: selling for: %A&quot;</span> <span class="i">sell</span>
+            <span onmouseout="hideTip(event, 'fs73', 306)" onmouseover="showTip(event, 'fs73', 306)" class="i">tradingBus</span> <span class="o">&lt;!</span> <span class="i">TradingNotification</span>(<span class="s">&quot;BuyOrderExecuted&quot;</span>, <span class="i">SellOrderExecuted</span>(<span class="i">portfolioId</span>, <span class="i">symbol</span>, <span class="i">quantity</span>, <span class="i">price</span>))
+        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs4', 307)" onmouseover="showTip(event, 'fs4', 307)" class="i">loop</span> () 
     }
-    <span onmouseout="hideTip(event, 'fs4', 522)" onmouseover="showTip(event, 'fs4', 522)" class="f">loop</span> ()
+    <span onmouseout="hideTip(event, 'fs4', 308)" onmouseover="showTip(event, 'fs4', 308)" class="f">loop</span> ()
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs122', 523)" onmouseover="showTip(event, 'fs122', 523)" class="i">tradingBusRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;tradingBus&quot;</span> <span onmouseout="hideTip(event, 'fs85', 524)" onmouseover="showTip(event, 'fs85', 524)" class="i">tradingBus</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs123', 525)" onmouseover="showTip(event, 'fs123', 525)" class="i">marketAnalysisToolsRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;marketAnalysisTools&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs119', 526)" onmouseover="showTip(event, 'fs119', 526)" class="f">marketAnalysisTools</span> <span onmouseout="hideTip(event, 'fs122', 527)" onmouseover="showTip(event, 'fs122', 527)" class="i">tradingBusRef</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs124', 528)" onmouseover="showTip(event, 'fs124', 528)" class="i">portfolioManagerRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;portfolioManager&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs120', 529)" onmouseover="showTip(event, 'fs120', 529)" class="f">portfolioManager</span> <span onmouseout="hideTip(event, 'fs122', 530)" onmouseover="showTip(event, 'fs122', 530)" class="i">tradingBusRef</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs125', 531)" onmouseover="showTip(event, 'fs125', 531)" class="i">stockTraderRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;stockTrader&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs121', 532)" onmouseover="showTip(event, 'fs121', 532)" class="f">stockTrader</span> <span onmouseout="hideTip(event, 'fs122', 533)" onmouseover="showTip(event, 'fs122', 533)" class="i">tradingBusRef</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs76', 309)" onmouseover="showTip(event, 'fs76', 309)" class="i">tradingBusRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;tradingBus&quot;</span> <span onmouseout="hideTip(event, 'fs49', 310)" onmouseover="showTip(event, 'fs49', 310)" class="i">tradingBus</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs77', 311)" onmouseover="showTip(event, 'fs77', 311)" class="i">marketAnalysisToolsRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;marketAnalysisTools&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs72', 312)" onmouseover="showTip(event, 'fs72', 312)" class="f">marketAnalysisTools</span> <span onmouseout="hideTip(event, 'fs76', 313)" onmouseover="showTip(event, 'fs76', 313)" class="i">tradingBusRef</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs78', 314)" onmouseover="showTip(event, 'fs78', 314)" class="i">portfolioManagerRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;portfolioManager&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs74', 315)" onmouseover="showTip(event, 'fs74', 315)" class="f">portfolioManager</span> <span onmouseout="hideTip(event, 'fs76', 316)" onmouseover="showTip(event, 'fs76', 316)" class="i">tradingBusRef</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs79', 317)" onmouseover="showTip(event, 'fs79', 317)" class="i">stockTraderRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;stockTrader&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs75', 318)" onmouseover="showTip(event, 'fs75', 318)" class="f">stockTrader</span> <span onmouseout="hideTip(event, 'fs76', 319)" onmouseover="showTip(event, 'fs76', 319)" class="i">tradingBusRef</span>
 
-<span onmouseout="hideTip(event, 'fs122', 534)" onmouseover="showTip(event, 'fs122', 534)" class="i">tradingBusRef</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs103', 535)" onmouseover="showTip(event, 'fs103', 535)" class="p">Status</span>
-<span onmouseout="hideTip(event, 'fs122', 536)" onmouseover="showTip(event, 'fs122', 536)" class="i">tradingBusRef</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs101', 537)" onmouseover="showTip(event, 'fs101', 537)" class="p">TradingCommand</span>(<span class="s">&quot;ExecuteBuyOrder&quot;</span>, <span onmouseout="hideTip(event, 'fs96', 538)" onmouseover="showTip(event, 'fs96', 538)" class="p">ExecuteBuyOrder</span>(<span class="s">&quot;p123&quot;</span>, <span class="s">&quot;MSFT&quot;</span>, <span class="n">100</span>, <span onmouseout="hideTip(event, 'fs18', 539)" onmouseover="showTip(event, 'fs18', 539)" class="p">Money</span> <span class="n">31.85m</span>))
-<span onmouseout="hideTip(event, 'fs122', 540)" onmouseover="showTip(event, 'fs122', 540)" class="i">tradingBusRef</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs101', 541)" onmouseover="showTip(event, 'fs101', 541)" class="p">TradingCommand</span>(<span class="s">&quot;ExecuteSellOrder&quot;</span>, <span onmouseout="hideTip(event, 'fs97', 542)" onmouseover="showTip(event, 'fs97', 542)" class="p">ExecuteSellOrder</span>(<span class="s">&quot;p456&quot;</span>, <span class="s">&quot;MSFT&quot;</span>, <span class="n">200</span>, <span onmouseout="hideTip(event, 'fs18', 543)" onmouseover="showTip(event, 'fs18', 543)" class="p">Money</span> <span class="n">31.80m</span>))
-<span onmouseout="hideTip(event, 'fs122', 544)" onmouseover="showTip(event, 'fs122', 544)" class="i">tradingBusRef</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs101', 545)" onmouseover="showTip(event, 'fs101', 545)" class="p">TradingCommand</span>(<span class="s">&quot;ExecuteBuyOrder&quot;</span>, <span onmouseout="hideTip(event, 'fs96', 546)" onmouseover="showTip(event, 'fs96', 546)" class="p">ExecuteBuyOrder</span>(<span class="s">&quot;p789&quot;</span>, <span class="s">&quot;MSFT&quot;</span>, <span class="n">100</span>, <span onmouseout="hideTip(event, 'fs18', 547)" onmouseover="showTip(event, 'fs18', 547)" class="p">Money</span> <span class="n">31.83m</span>))
+<span onmouseout="hideTip(event, 'fs76', 320)" onmouseover="showTip(event, 'fs76', 320)" class="i">tradingBusRef</span> <span class="o">&lt;!</span> <span class="i">Status</span>
+<span onmouseout="hideTip(event, 'fs76', 321)" onmouseover="showTip(event, 'fs76', 321)" class="i">tradingBusRef</span> <span class="o">&lt;!</span> <span class="i">TradingCommand</span>(<span class="s">&quot;ExecuteBuyOrder&quot;</span>, <span class="i">ExecuteBuyOrder</span>(<span class="s">&quot;p123&quot;</span>, <span class="s">&quot;MSFT&quot;</span>, <span class="n">100</span>, <span class="i">Money</span> <span class="n">31.85m</span>))
+<span onmouseout="hideTip(event, 'fs76', 322)" onmouseover="showTip(event, 'fs76', 322)" class="i">tradingBusRef</span> <span class="o">&lt;!</span> <span class="i">TradingCommand</span>(<span class="s">&quot;ExecuteSellOrder&quot;</span>, <span class="i">ExecuteSellOrder</span>(<span class="s">&quot;p456&quot;</span>, <span class="s">&quot;MSFT&quot;</span>, <span class="n">200</span>, <span class="i">Money</span> <span class="n">31.80m</span>))
+<span onmouseout="hideTip(event, 'fs76', 323)" onmouseover="showTip(event, 'fs76', 323)" class="i">tradingBusRef</span> <span class="o">&lt;!</span> <span class="i">TradingCommand</span>(<span class="s">&quot;ExecuteBuyOrder&quot;</span>, <span class="i">ExecuteBuyOrder</span>(<span class="s">&quot;p789&quot;</span>, <span class="s">&quot;MSFT&quot;</span>, <span class="n">100</span>, <span class="i">Money</span> <span class="n">31.83m</span>))
 </code></pre></td>
 </tr>
 </table>
@@ -792,115 +722,69 @@
 <div class="tip" id="fs14">val actorBRef : obj<br /><br />Full name: messagingchannels.actorBRef</div>
 <div class="tip" id="fs15">val actorARef : obj<br /><br />Full name: messagingchannels.actorARef</div>
 <div class="tip" id="fs16">val actorCRef : obj<br /><br />Full name: messagingchannels.actorCRef</div>
-<div class="tip" id="fs17">Multiple items<br />union case Symbol.Symbol: string -&gt; Symbol<br /><br />--------------------<br />type Symbol = | Symbol of string<br /><br />Full name: messagingchannels.Symbol</div>
-<div class="tip" id="fs18">Multiple items<br />union case Money.Money: decimal -&gt; Money<br /><br />--------------------<br />type Money = | Money of decimal<br /><br />Full name: messagingchannels.Money</div>
-<div class="tip" id="fs19">Multiple items<br />val decimal : value:&#39;T -&gt; decimal (requires member op_Explicit)<br /><br />Full name: Microsoft.FSharp.Core.Operators.decimal<br /><br />--------------------<br />type decimal = System.Decimal<br /><br />Full name: Microsoft.FSharp.Core.decimal<br /><br />--------------------<br />type decimal&lt;&#39;Measure&gt; = decimal<br /><br />Full name: Microsoft.FSharp.Core.decimal&lt;_&gt;</div>
-<div class="tip" id="fs20">Multiple items<br />union case Market.Market: string -&gt; Market<br /><br />--------------------<br />type Market = | Market of string<br /><br />Full name: messagingchannels.Market</div>
-<div class="tip" id="fs21">type PricedQuoted =<br />&#160;&#160;{Market: Market;<br />&#160;&#160;&#160;Ticker: Symbol;<br />&#160;&#160;&#160;Price: Money;}<br /><br />Full name: messagingchannels.PricedQuoted</div>
-<div class="tip" id="fs22">Multiple items<br />PricedQuoted.Market: Market<br /><br />--------------------<br />type Market = | Market of string<br /><br />Full name: messagingchannels.Market</div>
-<div class="tip" id="fs23">PricedQuoted.Ticker: Symbol</div>
-<div class="tip" id="fs24">PricedQuoted.Price: Money</div>
-<div class="tip" id="fs25">val quoteListener : mailbox:&#39;a -&gt; &#39;b<br /><br />Full name: messagingchannels.quoteListener</div>
-<div class="tip" id="fs26">val quoteListenerRef : obj<br /><br />Full name: messagingchannels.quoteListenerRef</div>
-<div class="tip" id="fs27">val typeof&lt;&#39;T&gt; : System.Type<br /><br />Full name: Microsoft.FSharp.Core.Operators.typeof</div>
-<div class="tip" id="fs28">Multiple items<br />union case ProductQuery.ProductQuery: string -&gt; ProductQuery<br /><br />--------------------<br />type ProductQuery = | ProductQuery of string<br /><br />Full name: messagingchannels.ProductQuery</div>
-<div class="tip" id="fs29">val productQueriesChannel : mailbox:&#39;a -&gt; &#39;b<br /><br />Full name: messagingchannels.productQueriesChannel</div>
-<div class="tip" id="fs30">val translateToProductQuery : (&#39;a -&gt; ProductQuery)</div>
-<div class="tip" id="fs31">val message : &#39;a</div>
-<div class="tip" id="fs32">val productQueriesChannelRef : obj<br /><br />Full name: messagingchannels.productQueriesChannelRef</div>
-<div class="tip" id="fs33">type InvalidMessage&lt;&#39;a&gt; =<br />&#160;&#160;{Sender: obj;<br />&#160;&#160;&#160;Receiver: obj;<br />&#160;&#160;&#160;Message: &#39;a;}<br /><br />Full name: messagingchannels.InvalidMessage&lt;_&gt;</div>
-<div class="tip" id="fs34">InvalidMessage.Sender: obj</div>
-<div class="tip" id="fs35">InvalidMessage.Receiver: obj</div>
-<div class="tip" id="fs36">InvalidMessage.Message: &#39;a</div>
-<div class="tip" id="fs37">val invalidMessageChannel : mailbox:&#39;a -&gt; &#39;b<br /><br />Full name: messagingchannels.invalidMessageChannel</div>
-<div class="tip" id="fs38">Multiple items<br />union case ProcessIncomingOrder.ProcessIncomingOrder: byte array -&gt; ProcessIncomingOrder<br /><br />--------------------<br />type ProcessIncomingOrder = | ProcessIncomingOrder of byte array<br /><br />Full name: messagingchannels.ProcessIncomingOrder</div>
-<div class="tip" id="fs39">Multiple items<br />val byte : value:&#39;T -&gt; byte (requires member op_Explicit)<br /><br />Full name: Microsoft.FSharp.Core.Operators.byte<br /><br />--------------------<br />type byte = System.Byte<br /><br />Full name: Microsoft.FSharp.Core.byte</div>
-<div class="tip" id="fs40">type &#39;T array = &#39;T []<br /><br />Full name: Microsoft.FSharp.Core.array&lt;_&gt;</div>
-<div class="tip" id="fs41">val authenticator : nextFilter:&#39;a -&gt; invalidMessageChannel:&#39;b -&gt; mailbox:&#39;c -&gt; &#39;d<br /><br />Full name: messagingchannels.authenticator</div>
-<div class="tip" id="fs42">val nextFilter : &#39;a</div>
-<div class="tip" id="fs43">val invalidMessageChannel : &#39;a</div>
-<div class="tip" id="fs44">val box : value:&#39;T -&gt; obj<br /><br />Full name: Microsoft.FSharp.Core.Operators.box</div>
-<div class="tip" id="fs45">module String<br /><br />from Microsoft.FSharp.Core</div>
-<div class="tip" id="fs46">val nextFilter : mailbox:&#39;a -&gt; &#39;b<br /><br />Full name: messagingchannels.nextFilter</div>
-<div class="tip" id="fs47">val invalidMessageChannelRef : obj<br /><br />Full name: messagingchannels.invalidMessageChannelRef</div>
-<div class="tip" id="fs48">val nextFilterRef : obj<br /><br />Full name: messagingchannels.nextFilterRef</div>
-<div class="tip" id="fs49">val authenticatorRef : obj<br /><br />Full name: messagingchannels.authenticatorRef</div>
-<div class="tip" id="fs50">val sysListener : mailbox:&#39;a -&gt; &#39;b<br /><br />Full name: messagingchannels.sysListener</div>
-<div class="tip" id="fs51">val sysListenerRef : &#39;a<br /><br />Full name: messagingchannels.sysListenerRef</div>
-<div class="tip" id="fs52">val deadActorRef : &#39;a (requires member ( &lt;! ))<br /><br />Full name: messagingchannels.deadActorRef</div>
-<div class="tip" id="fs53">type ServiceResult =<br />&#160;&#160;{PortfolioId: string;<br />&#160;&#160;&#160;Symbol: Symbol;<br />&#160;&#160;&#160;Quantity: int;<br />&#160;&#160;&#160;OrderId: int;<br />&#160;&#160;&#160;TotalCost: Money;}<br /><br />Full name: messagingchannels.ServiceResult</div>
-<div class="tip" id="fs54">ServiceResult.PortfolioId: string</div>
-<div class="tip" id="fs55">Multiple items<br />ServiceResult.Symbol: Symbol<br /><br />--------------------<br />type Symbol = | Symbol of string<br /><br />Full name: messagingchannels.Symbol</div>
-<div class="tip" id="fs56">ServiceResult.Quantity: int</div>
-<div class="tip" id="fs57">Multiple items<br />val int : value:&#39;T -&gt; int (requires member op_Explicit)<br /><br />Full name: Microsoft.FSharp.Core.Operators.int<br /><br />--------------------<br />type int = int32<br /><br />Full name: Microsoft.FSharp.Core.int<br /><br />--------------------<br />type int&lt;&#39;Measure&gt; = int<br /><br />Full name: Microsoft.FSharp.Core.int&lt;_&gt;</div>
-<div class="tip" id="fs58">ServiceResult.OrderId: int</div>
-<div class="tip" id="fs59">ServiceResult.TotalCost: Money</div>
-<div class="tip" id="fs60">Multiple items<br />type BuyerService =<br />&#160;&#160;new : unit -&gt; BuyerService<br />&#160;&#160;member PlaceBuyOrder : portfolioId:string * symbol:Symbol * quantity:int * price:Money -&gt; ServiceResult<br /><br />Full name: messagingchannels.BuyerService<br /><br />--------------------<br />new : unit -&gt; BuyerService</div>
-<div class="tip" id="fs61">val this : BuyerService</div>
-<div class="tip" id="fs62">member BuyerService.PlaceBuyOrder : portfolioId:string * symbol:Symbol * quantity:int * price:Money -&gt; ServiceResult<br /><br />Full name: messagingchannels.BuyerService.PlaceBuyOrder</div>
-<div class="tip" id="fs63">val portfolioId : string</div>
-<div class="tip" id="fs64">val symbol : Symbol</div>
-<div class="tip" id="fs65">val quantity : int</div>
-<div class="tip" id="fs66">val price : Money</div>
-<div class="tip" id="fs67">val p : decimal</div>
-<div class="tip" id="fs68">Multiple items<br />type SellerService =<br />&#160;&#160;new : unit -&gt; SellerService<br />&#160;&#160;member PlaceSellOrder : portfolioId:string * symbol:Symbol * quantity:int * price:Money -&gt; ServiceResult<br /><br />Full name: messagingchannels.SellerService<br /><br />--------------------<br />new : unit -&gt; SellerService</div>
-<div class="tip" id="fs69">val this : SellerService</div>
-<div class="tip" id="fs70">member SellerService.PlaceSellOrder : portfolioId:string * symbol:Symbol * quantity:int * price:Money -&gt; ServiceResult<br /><br />Full name: messagingchannels.SellerService.PlaceSellOrder</div>
-<div class="tip" id="fs71">Multiple items<br />union case RegisterCommandHandler.RegisterCommandHandler: applicationId: string * commandName: string * handler: obj -&gt; RegisterCommandHandler<br /><br />--------------------<br />type RegisterCommandHandler = | RegisterCommandHandler of applicationId: string * commandName: string * handler: obj<br /><br />Full name: messagingchannels.RegisterCommandHandler</div>
-<div class="tip" id="fs72">type Command =<br />&#160;&#160;| ExecuteBuyOrder of portfolioId: string * symbol: Symbol * quantity: int * price: Money<br />&#160;&#160;| ExecuteSellOrder of portfolioId: string * symbol: Symbol * quantity: int * price: Money<br /><br />Full name: messagingchannels.Command</div>
-<div class="tip" id="fs73">union case Command.ExecuteBuyOrder: portfolioId: string * symbol: Symbol * quantity: int * price: Money -&gt; Command</div>
-<div class="tip" id="fs74">union case Command.ExecuteSellOrder: portfolioId: string * symbol: Symbol * quantity: int * price: Money -&gt; Command</div>
-<div class="tip" id="fs75">Multiple items<br />module Event<br /><br />from Microsoft.FSharp.Control<br /><br />--------------------<br />type Event =<br />&#160;&#160;| BuyOrderExecuted of portfolioId: string * orderId: int * symbol: Symbol * quantity: int * totalCost: Money<br />&#160;&#160;| SellOrderExecuted of portfolioId: string * orderId: int * symbol: Symbol * quantity: int * totalCost: Money<br /><br />Full name: messagingchannels.Event<br /><br />--------------------<br />type Event&lt;&#39;T&gt; =<br />&#160;&#160;new : unit -&gt; Event&lt;&#39;T&gt;<br />&#160;&#160;member Trigger : arg:&#39;T -&gt; unit<br />&#160;&#160;member Publish : IEvent&lt;&#39;T&gt;<br /><br />Full name: Microsoft.FSharp.Control.Event&lt;_&gt;<br /><br />--------------------<br />type Event&lt;&#39;Delegate,&#39;Args (requires delegate and &#39;Delegate :&gt; Delegate)&gt; =<br />&#160;&#160;new : unit -&gt; Event&lt;&#39;Delegate,&#39;Args&gt;<br />&#160;&#160;member Trigger : sender:obj * args:&#39;Args -&gt; unit<br />&#160;&#160;member Publish : IEvent&lt;&#39;Delegate,&#39;Args&gt;<br /><br />Full name: Microsoft.FSharp.Control.Event&lt;_,_&gt;<br /><br />--------------------<br />new : unit -&gt; Event&lt;&#39;T&gt;<br /><br />--------------------<br />new : unit -&gt; Event&lt;&#39;Delegate,&#39;Args&gt;</div>
-<div class="tip" id="fs76">union case Event.BuyOrderExecuted: portfolioId: string * orderId: int * symbol: Symbol * quantity: int * totalCost: Money -&gt; Event</div>
-<div class="tip" id="fs77">union case Event.SellOrderExecuted: portfolioId: string * orderId: int * symbol: Symbol * quantity: int * totalCost: Money -&gt; Event</div>
-<div class="tip" id="fs78">Multiple items<br />union case TradingNotification.TradingNotification: string * Event -&gt; TradingNotification<br /><br />--------------------<br />type TradingNotification = | TradingNotification of string * Event<br /><br />Full name: messagingchannels.TradingNotification</div>
-<div class="tip" id="fs79">val stockTrader : tradingBus:&#39;a -&gt; buyerService:BuyerService -&gt; sellerService:SellerService -&gt; mailbox:&#39;b -&gt; &#39;c (requires member ( &lt;! ))<br /><br />Full name: messagingchannels.stockTrader</div>
-<div class="tip" id="fs80">val tradingBus : &#39;a (requires member ( &lt;! ))</div>
-<div class="tip" id="fs81">val buyerService : BuyerService</div>
-<div class="tip" id="fs82">val sellerService : SellerService</div>
-<div class="tip" id="fs83">val applicationId : string</div>
-<div class="tip" id="fs84">member BuyerService.PlaceBuyOrder : portfolioId:string * symbol:Symbol * quantity:int * price:Money -&gt; ServiceResult</div>
-<div class="tip" id="fs85">val tradingBus : mailbox:&#39;a -&gt; &#39;b<br /><br />Full name: messagingchannels.tradingBus</div>
-<div class="tip" id="fs86">val tradingBusRef : &#39;a<br /><br />Full name: messagingchannels.tradingBusRef</div>
-<div class="tip" id="fs87">val stockTraderRef : &#39;a (requires member ( &lt;! ))<br /><br />Full name: messagingchannels.stockTraderRef</div>
-<div class="tip" id="fs88">Multiple items<br />union case RabbitMQTextMessage.RabbitMQTextMessage: string -&gt; RabbitMQTextMessage<br /><br />--------------------<br />type RabbitMQTextMessage = | RabbitMQTextMessage of string<br /><br />Full name: messagingchannels.RabbitMQTextMessage</div>
-<div class="tip" id="fs89">val inventoryProductAllocationBridge : mailbox:&#39;a -&gt; &#39;b<br /><br />Full name: messagingchannels.inventoryProductAllocationBridge</div>
-<div class="tip" id="fs90">val translatedToInventoryProductAlloction : (string -&gt; string)</div>
-<div class="tip" id="fs91">val sprintf : format:Printf.StringFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.sprintf</div>
-<div class="tip" id="fs92">val acknowledgeDelivery : (RabbitMQTextMessage -&gt; unit)</div>
-<div class="tip" id="fs93">val textMessage : string</div>
-<div class="tip" id="fs94">val inventoryProductAllocationBridgeRef : &#39;a (requires member ( &lt;! ))<br /><br />Full name: messagingchannels.inventoryProductAllocationBridgeRef</div>
-<div class="tip" id="fs95">type TradingCommand =<br />&#160;&#160;| ExecuteBuyOrder of portfolioId: string * symbol: string * quantity: int * price: Money<br />&#160;&#160;| ExecuteSellOrder of portfolioId: string * symbol: string * quantity: int * price: Money<br /><br />Full name: messagingchannels.TradingCommand</div>
-<div class="tip" id="fs96">union case TradingCommand.ExecuteBuyOrder: portfolioId: string * symbol: string * quantity: int * price: Money -&gt; TradingCommand</div>
-<div class="tip" id="fs97">union case TradingCommand.ExecuteSellOrder: portfolioId: string * symbol: string * quantity: int * price: Money -&gt; TradingCommand</div>
-<div class="tip" id="fs98">type TradingBusMessage =<br />&#160;&#160;| RegisterCommandHandler of applicationId: string * commandId: string * handler: obj<br />&#160;&#160;| RegisterNotificationInterest of applicationId: string * notificationId: string * interested: obj<br />&#160;&#160;| TradingCommand of commandId: string * command: TradingCommand<br />&#160;&#160;| TradingNotification of notificationId: string * notification: TradingNotification<br />&#160;&#160;| Status<br /><br />Full name: messagingchannels.TradingBusMessage</div>
-<div class="tip" id="fs99">Multiple items<br />union case TradingBusMessage.RegisterCommandHandler: applicationId: string * commandId: string * handler: obj -&gt; TradingBusMessage<br /><br />--------------------<br />type RegisterCommandHandler = | RegisterCommandHandler of applicationId: string * commandName: string * handler: obj<br /><br />Full name: messagingchannels.RegisterCommandHandler</div>
-<div class="tip" id="fs100">union case TradingBusMessage.RegisterNotificationInterest: applicationId: string * notificationId: string * interested: obj -&gt; TradingBusMessage</div>
-<div class="tip" id="fs101">Multiple items<br />union case TradingBusMessage.TradingCommand: commandId: string * command: TradingCommand -&gt; TradingBusMessage<br /><br />--------------------<br />type TradingCommand =<br />&#160;&#160;| ExecuteBuyOrder of portfolioId: string * symbol: string * quantity: int * price: Money<br />&#160;&#160;| ExecuteSellOrder of portfolioId: string * symbol: string * quantity: int * price: Money<br /><br />Full name: messagingchannels.TradingCommand</div>
-<div class="tip" id="fs102">Multiple items<br />union case TradingBusMessage.TradingNotification: notificationId: string * notification: TradingNotification -&gt; TradingBusMessage<br /><br />--------------------<br />type TradingNotification = | TradingNotification of string * Event<br /><br />Full name: messagingchannels.TradingNotification</div>
-<div class="tip" id="fs103">union case TradingBusMessage.Status: TradingBusMessage</div>
-<div class="tip" id="fs104">Multiple items<br />union case CommandHandler.CommandHandler: applicationId: string * handler: obj -&gt; CommandHandler<br /><br />--------------------<br />type CommandHandler = | CommandHandler of applicationId: string * handler: obj<br /><br />Full name: messagingchannels.CommandHandler</div>
-<div class="tip" id="fs105">Multiple items<br />union case NotificationInterest.NotificationInterest: applicationId: string * interested: obj -&gt; NotificationInterest<br /><br />--------------------<br />type NotificationInterest = | NotificationInterest of applicationId: string * interested: obj<br /><br />Full name: messagingchannels.NotificationInterest</div>
-<div class="tip" id="fs106">val loop : (&#39;a -&gt; &#39;b -&gt; &#39;c)</div>
-<div class="tip" id="fs107">val commandHandlers : &#39;a</div>
-<div class="tip" id="fs108">val notificationInterests : &#39;a</div>
-<div class="tip" id="fs109">Multiple items<br />module Map<br /><br />from Microsoft.FSharp.Collections<br /><br />--------------------<br />type Map&lt;&#39;Key,&#39;Value (requires comparison)&gt; =<br />&#160;&#160;interface IEnumerable<br />&#160;&#160;interface IComparable<br />&#160;&#160;interface IEnumerable&lt;KeyValuePair&lt;&#39;Key,&#39;Value&gt;&gt;<br />&#160;&#160;interface ICollection&lt;KeyValuePair&lt;&#39;Key,&#39;Value&gt;&gt;<br />&#160;&#160;interface IDictionary&lt;&#39;Key,&#39;Value&gt;<br />&#160;&#160;new : elements:seq&lt;&#39;Key * &#39;Value&gt; -&gt; Map&lt;&#39;Key,&#39;Value&gt;<br />&#160;&#160;member Add : key:&#39;Key * value:&#39;Value -&gt; Map&lt;&#39;Key,&#39;Value&gt;<br />&#160;&#160;member ContainsKey : key:&#39;Key -&gt; bool<br />&#160;&#160;override Equals : obj -&gt; bool<br />&#160;&#160;member Remove : key:&#39;Key -&gt; Map&lt;&#39;Key,&#39;Value&gt;<br />&#160;&#160;...<br /><br />Full name: Microsoft.FSharp.Collections.Map&lt;_,_&gt;<br /><br />--------------------<br />new : elements:seq&lt;&#39;Key * &#39;Value&gt; -&gt; Map&lt;&#39;Key,&#39;Value&gt;</div>
-<div class="tip" id="fs110">val tryFind : key:&#39;Key -&gt; table:Map&lt;&#39;Key,&#39;T&gt; -&gt; &#39;T option (requires comparison)<br /><br />Full name: Microsoft.FSharp.Collections.Map.tryFind</div>
-<div class="tip" id="fs111">module Option<br /><br />from Microsoft.FSharp.Core</div>
-<div class="tip" id="fs112">val map : mapping:(&#39;T -&gt; &#39;U) -&gt; option:&#39;T option -&gt; &#39;U option<br /><br />Full name: Microsoft.FSharp.Core.Option.map</div>
-<div class="tip" id="fs113">Multiple items<br />module List<br /><br />from Microsoft.FSharp.Collections<br /><br />--------------------<br />type List&lt;&#39;T&gt; =<br />&#160;&#160;| ( [] )<br />&#160;&#160;| ( :: ) of Head: &#39;T * Tail: &#39;T list<br />&#160;&#160;interface IEnumerable<br />&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;member GetSlice : startIndex:int option * endIndex:int option -&gt; &#39;T list<br />&#160;&#160;member Head : &#39;T<br />&#160;&#160;member IsEmpty : bool<br />&#160;&#160;member Item : index:int -&gt; &#39;T with get<br />&#160;&#160;member Length : int<br />&#160;&#160;member Tail : &#39;T list<br />&#160;&#160;static member Cons : head:&#39;T * tail:&#39;T list -&gt; &#39;T list<br />&#160;&#160;static member Empty : &#39;T list<br /><br />Full name: Microsoft.FSharp.Collections.List&lt;_&gt;</div>
-<div class="tip" id="fs114">val iter : action:(&#39;T -&gt; unit) -&gt; list:&#39;T list -&gt; unit<br /><br />Full name: Microsoft.FSharp.Collections.List.iter</div>
-<div class="tip" id="fs115">val ignore : value:&#39;T -&gt; unit<br /><br />Full name: Microsoft.FSharp.Core.Operators.ignore</div>
-<div class="tip" id="fs116">val fold : folder:(&#39;State -&gt; &#39;T -&gt; &#39;State) -&gt; state:&#39;State -&gt; option:&#39;T option -&gt; &#39;State<br /><br />Full name: Microsoft.FSharp.Core.Option.fold</div>
-<div class="tip" id="fs117">val add : key:&#39;Key -&gt; value:&#39;T -&gt; table:Map&lt;&#39;Key,&#39;T&gt; -&gt; Map&lt;&#39;Key,&#39;T&gt; (requires comparison)<br /><br />Full name: Microsoft.FSharp.Collections.Map.add</div>
-<div class="tip" id="fs118">val empty&lt;&#39;Key,&#39;T (requires comparison)&gt; : Map&lt;&#39;Key,&#39;T&gt; (requires comparison)<br /><br />Full name: Microsoft.FSharp.Collections.Map.empty</div>
-<div class="tip" id="fs119">val marketAnalysisTools : tradingBus:&#39;a -&gt; mailbox:&#39;b -&gt; &#39;c (requires member ( &lt;! ))<br /><br />Full name: messagingchannels.marketAnalysisTools</div>
-<div class="tip" id="fs120">val portfolioManager : tradingBus:&#39;a -&gt; mailbox:&#39;b -&gt; &#39;c (requires member ( &lt;! ))<br /><br />Full name: messagingchannels.portfolioManager</div>
-<div class="tip" id="fs121">val stockTrader : tradingBus:&#39;a -&gt; mailbox:&#39;b -&gt; &#39;c (requires member ( &lt;! ))<br /><br />Full name: messagingchannels.stockTrader</div>
-<div class="tip" id="fs122">val tradingBusRef : &#39;a (requires member ( &lt;! ))<br /><br />Full name: messagingchannels.tradingBusRef</div>
-<div class="tip" id="fs123">val marketAnalysisToolsRef : &#39;a<br /><br />Full name: messagingchannels.marketAnalysisToolsRef</div>
-<div class="tip" id="fs124">val portfolioManagerRef : &#39;a<br /><br />Full name: messagingchannels.portfolioManagerRef</div>
-<div class="tip" id="fs125">val stockTraderRef : &#39;a<br /><br />Full name: messagingchannels.stockTraderRef</div>
+<div class="tip" id="fs17">val quoteListener : mailbox:&#39;a -&gt; &#39;b<br /><br />Full name: messagingchannels.quoteListener</div>
+<div class="tip" id="fs18">val quoteListenerRef : obj<br /><br />Full name: messagingchannels.quoteListenerRef</div>
+<div class="tip" id="fs19">val typeof&lt;&#39;T&gt; : System.Type<br /><br />Full name: Microsoft.FSharp.Core.Operators.typeof</div>
+<div class="tip" id="fs20">val productQueriesChannel : mailbox:&#39;a -&gt; &#39;b<br /><br />Full name: messagingchannels.productQueriesChannel</div>
+<div class="tip" id="fs21">val translateToProductQuery : (&#39;a -&gt; &#39;b)</div>
+<div class="tip" id="fs22">val message : &#39;a</div>
+<div class="tip" id="fs23">val productQueriesChannelRef : obj<br /><br />Full name: messagingchannels.productQueriesChannelRef</div>
+<div class="tip" id="fs24">type InvalidMessage&lt;&#39;a&gt; =<br />&#160;&#160;{Sender: obj;<br />&#160;&#160;&#160;Receiver: obj;<br />&#160;&#160;&#160;Message: &#39;a;}<br /><br />Full name: messagingchannels.InvalidMessage&lt;_&gt;</div>
+<div class="tip" id="fs25">InvalidMessage.Sender: obj</div>
+<div class="tip" id="fs26">InvalidMessage.Receiver: obj</div>
+<div class="tip" id="fs27">InvalidMessage.Message: &#39;a</div>
+<div class="tip" id="fs28">val invalidMessageChannel : mailbox:&#39;a -&gt; &#39;b<br /><br />Full name: messagingchannels.invalidMessageChannel</div>
+<div class="tip" id="fs29">Multiple items<br />union case ProcessIncomingOrder.ProcessIncomingOrder: byte array -&gt; ProcessIncomingOrder<br /><br />--------------------<br />type ProcessIncomingOrder = | ProcessIncomingOrder of byte array<br /><br />Full name: messagingchannels.ProcessIncomingOrder</div>
+<div class="tip" id="fs30">Multiple items<br />val byte : value:&#39;T -&gt; byte (requires member op_Explicit)<br /><br />Full name: Microsoft.FSharp.Core.Operators.byte<br /><br />--------------------<br />type byte = System.Byte<br /><br />Full name: Microsoft.FSharp.Core.byte</div>
+<div class="tip" id="fs31">type &#39;T array = &#39;T []<br /><br />Full name: Microsoft.FSharp.Core.array&lt;_&gt;</div>
+<div class="tip" id="fs32">val authenticator : nextFilter:&#39;a -&gt; invalidMessageChannel:&#39;b -&gt; mailbox:&#39;c -&gt; &#39;d<br /><br />Full name: messagingchannels.authenticator</div>
+<div class="tip" id="fs33">val nextFilter : &#39;a</div>
+<div class="tip" id="fs34">val invalidMessageChannel : &#39;a</div>
+<div class="tip" id="fs35">val box : value:&#39;T -&gt; obj<br /><br />Full name: Microsoft.FSharp.Core.Operators.box</div>
+<div class="tip" id="fs36">module String<br /><br />from Microsoft.FSharp.Core</div>
+<div class="tip" id="fs37">val nextFilter : mailbox:&#39;a -&gt; &#39;b<br /><br />Full name: messagingchannels.nextFilter</div>
+<div class="tip" id="fs38">val invalidMessageChannelRef : obj<br /><br />Full name: messagingchannels.invalidMessageChannelRef</div>
+<div class="tip" id="fs39">val nextFilterRef : obj<br /><br />Full name: messagingchannels.nextFilterRef</div>
+<div class="tip" id="fs40">val authenticatorRef : obj<br /><br />Full name: messagingchannels.authenticatorRef</div>
+<div class="tip" id="fs41">val sysListener : mailbox:&#39;a -&gt; &#39;b<br /><br />Full name: messagingchannels.sysListener</div>
+<div class="tip" id="fs42">val sysListenerRef : &#39;a<br /><br />Full name: messagingchannels.sysListenerRef</div>
+<div class="tip" id="fs43">val deadActorRef : &#39;a (requires member ( &lt;! ))<br /><br />Full name: messagingchannels.deadActorRef</div>
+<div class="tip" id="fs44">val stockTrader : tradingBus:&#39;a -&gt; buyerService:&#39;d -&gt; sellerService:&#39;e -&gt; mailbox:&#39;f -&gt; &#39;g (requires member ( &lt;! ) and member ( &lt;! ))<br /><br />Full name: messagingchannels.stockTrader</div>
+<div class="tip" id="fs45">val tradingBus : &#39;a (requires member ( &lt;! ) and member ( &lt;! ))</div>
+<div class="tip" id="fs46">val buyerService : &#39;a</div>
+<div class="tip" id="fs47">val sellerService : &#39;a</div>
+<div class="tip" id="fs48">val applicationId : &#39;a</div>
+<div class="tip" id="fs49">val tradingBus : mailbox:&#39;a -&gt; &#39;b<br /><br />Full name: messagingchannels.tradingBus</div>
+<div class="tip" id="fs50">val tradingBusRef : &#39;a<br /><br />Full name: messagingchannels.tradingBusRef</div>
+<div class="tip" id="fs51">val stockTraderRef : &#39;a (requires member ( &lt;! ) and member ( &lt;! ))<br /><br />Full name: messagingchannels.stockTraderRef</div>
+<div class="tip" id="fs52">Multiple items<br />union case RabbitMQTextMessage.RabbitMQTextMessage: string -&gt; RabbitMQTextMessage<br /><br />--------------------<br />type RabbitMQTextMessage = | RabbitMQTextMessage of string<br /><br />Full name: messagingchannels.RabbitMQTextMessage</div>
+<div class="tip" id="fs53">val inventoryProductAllocationBridge : mailbox:&#39;a -&gt; &#39;b<br /><br />Full name: messagingchannels.inventoryProductAllocationBridge</div>
+<div class="tip" id="fs54">val translatedToInventoryProductAlloction : (string -&gt; string)</div>
+<div class="tip" id="fs55">val sprintf : format:Printf.StringFormat&lt;&#39;T&gt; -&gt; &#39;T<br /><br />Full name: Microsoft.FSharp.Core.ExtraTopLevelOperators.sprintf</div>
+<div class="tip" id="fs56">val acknowledgeDelivery : (RabbitMQTextMessage -&gt; unit)</div>
+<div class="tip" id="fs57">val textMessage : string</div>
+<div class="tip" id="fs58">val inventoryProductAllocationBridgeRef : &#39;a (requires member ( &lt;! ))<br /><br />Full name: messagingchannels.inventoryProductAllocationBridgeRef</div>
+<div class="tip" id="fs59">val loop : (&#39;a -&gt; &#39;b -&gt; &#39;c)</div>
+<div class="tip" id="fs60">val commandHandlers : &#39;a</div>
+<div class="tip" id="fs61">val notificationInterests : &#39;a</div>
+<div class="tip" id="fs62">Multiple items<br />module Map<br /><br />from Microsoft.FSharp.Collections<br /><br />--------------------<br />type Map&lt;&#39;Key,&#39;Value (requires comparison)&gt; =<br />&#160;&#160;interface IEnumerable<br />&#160;&#160;interface IComparable<br />&#160;&#160;interface IEnumerable&lt;KeyValuePair&lt;&#39;Key,&#39;Value&gt;&gt;<br />&#160;&#160;interface ICollection&lt;KeyValuePair&lt;&#39;Key,&#39;Value&gt;&gt;<br />&#160;&#160;interface IDictionary&lt;&#39;Key,&#39;Value&gt;<br />&#160;&#160;new : elements:seq&lt;&#39;Key * &#39;Value&gt; -&gt; Map&lt;&#39;Key,&#39;Value&gt;<br />&#160;&#160;member Add : key:&#39;Key * value:&#39;Value -&gt; Map&lt;&#39;Key,&#39;Value&gt;<br />&#160;&#160;member ContainsKey : key:&#39;Key -&gt; bool<br />&#160;&#160;override Equals : obj -&gt; bool<br />&#160;&#160;member Remove : key:&#39;Key -&gt; Map&lt;&#39;Key,&#39;Value&gt;<br />&#160;&#160;...<br /><br />Full name: Microsoft.FSharp.Collections.Map&lt;_,_&gt;<br /><br />--------------------<br />new : elements:seq&lt;&#39;Key * &#39;Value&gt; -&gt; Map&lt;&#39;Key,&#39;Value&gt;</div>
+<div class="tip" id="fs63">val tryFind : key:&#39;Key -&gt; table:Map&lt;&#39;Key,&#39;T&gt; -&gt; &#39;T option (requires comparison)<br /><br />Full name: Microsoft.FSharp.Collections.Map.tryFind</div>
+<div class="tip" id="fs64">module Option<br /><br />from Microsoft.FSharp.Core</div>
+<div class="tip" id="fs65">val map : mapping:(&#39;T -&gt; &#39;U) -&gt; option:&#39;T option -&gt; &#39;U option<br /><br />Full name: Microsoft.FSharp.Core.Option.map</div>
+<div class="tip" id="fs66">Multiple items<br />module List<br /><br />from Microsoft.FSharp.Collections<br /><br />--------------------<br />type List&lt;&#39;T&gt; =<br />&#160;&#160;| ( [] )<br />&#160;&#160;| ( :: ) of Head: &#39;T * Tail: &#39;T list<br />&#160;&#160;interface IEnumerable<br />&#160;&#160;interface IEnumerable&lt;&#39;T&gt;<br />&#160;&#160;member GetSlice : startIndex:int option * endIndex:int option -&gt; &#39;T list<br />&#160;&#160;member Head : &#39;T<br />&#160;&#160;member IsEmpty : bool<br />&#160;&#160;member Item : index:int -&gt; &#39;T with get<br />&#160;&#160;member Length : int<br />&#160;&#160;member Tail : &#39;T list<br />&#160;&#160;static member Cons : head:&#39;T * tail:&#39;T list -&gt; &#39;T list<br />&#160;&#160;static member Empty : &#39;T list<br /><br />Full name: Microsoft.FSharp.Collections.List&lt;_&gt;</div>
+<div class="tip" id="fs67">val iter : action:(&#39;T -&gt; unit) -&gt; list:&#39;T list -&gt; unit<br /><br />Full name: Microsoft.FSharp.Collections.List.iter</div>
+<div class="tip" id="fs68">val ignore : value:&#39;T -&gt; unit<br /><br />Full name: Microsoft.FSharp.Core.Operators.ignore</div>
+<div class="tip" id="fs69">val fold : folder:(&#39;State -&gt; &#39;T -&gt; &#39;State) -&gt; state:&#39;State -&gt; option:&#39;T option -&gt; &#39;State<br /><br />Full name: Microsoft.FSharp.Core.Option.fold</div>
+<div class="tip" id="fs70">val add : key:&#39;Key -&gt; value:&#39;T -&gt; table:Map&lt;&#39;Key,&#39;T&gt; -&gt; Map&lt;&#39;Key,&#39;T&gt; (requires comparison)<br /><br />Full name: Microsoft.FSharp.Collections.Map.add</div>
+<div class="tip" id="fs71">val empty&lt;&#39;Key,&#39;T (requires comparison)&gt; : Map&lt;&#39;Key,&#39;T&gt; (requires comparison)<br /><br />Full name: Microsoft.FSharp.Collections.Map.empty</div>
+<div class="tip" id="fs72">val marketAnalysisTools : tradingBus:&#39;a -&gt; mailbox:&#39;o -&gt; &#39;p (requires member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ))<br /><br />Full name: messagingchannels.marketAnalysisTools</div>
+<div class="tip" id="fs73">val tradingBus : &#39;a (requires member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ))</div>
+<div class="tip" id="fs74">val portfolioManager : tradingBus:&#39;a -&gt; mailbox:&#39;o -&gt; &#39;p (requires member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ))<br /><br />Full name: messagingchannels.portfolioManager</div>
+<div class="tip" id="fs75">val stockTrader : tradingBus:&#39;a -&gt; mailbox:&#39;o -&gt; &#39;p (requires member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ))<br /><br />Full name: messagingchannels.stockTrader</div>
+<div class="tip" id="fs76">val tradingBusRef : &#39;a (requires member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ) and member ( &lt;! ))<br /><br />Full name: messagingchannels.tradingBusRef</div>
+<div class="tip" id="fs77">val marketAnalysisToolsRef : &#39;a<br /><br />Full name: messagingchannels.marketAnalysisToolsRef</div>
+<div class="tip" id="fs78">val portfolioManagerRef : &#39;a<br /><br />Full name: messagingchannels.portfolioManagerRef</div>
+<div class="tip" id="fs79">val stockTraderRef : &#39;a<br /><br />Full name: messagingchannels.stockTraderRef</div>
 
         </div>
         <div class="span3">
