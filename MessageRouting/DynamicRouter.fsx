@@ -65,9 +65,7 @@ let dunnoInterested (mailbox: Actor<_>) =
     loop ()
 
 let typedMessageInterestRouter dunnoInterested (mailbox: Actor<_>) =
-
     let rec loop (interestRegistry: Map<string, IActorRef>) (secondaryInterestRegistry: Map<string, IActorRef>) = actor {
-
         let registerInterest messageType interested =
             interestRegistry
             |> Map.tryFind messageType
