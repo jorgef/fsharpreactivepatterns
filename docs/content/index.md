@@ -1,8 +1,8 @@
 *This article is part of the <a href="https://sergeytihon.wordpress.com/2015/10/25/f-advent-calendar-in-english-2015"  target="_blank">F# Advent Calendar in English 2015</a> organized by <a href="https://twitter.com/sergey_tihon" target="_blank">Sergey Tihon</a>.*
 
-Recently I've been reading the book <a href="http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>. This book applies the patterns described in the <a href="http://www.informit.com/store/enterprise-integration-patterns-designing-building-9780321200686" target="_blank">Enterprise Integration Patterns</a> book using the <a href="http://www.scala-lang.org" target="_blank">Scala</a> language and the <a href="http://akka.io/" target="_blank">Akka</a> framework (Actor Model).
+Recently I've been reading the book <a href="http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>. This book applies the patterns described in <a href="http://www.enterpriseintegrationpatterns.com/" target="_blank">Enterprise Integration Patterns</a> using the <a href="http://www.scala-lang.org" target="_blank">Scala</a> language and the <a href="http://akka.io/" target="_blank">Akka</a> framework (Actor Model).
 
-As I am an F# fan, I thought it would be good to translate the examples to <a href="http://fsharp.org" target="_blank">F#</a> and <a href="http://getakka.net" target="_blank">Akka.NET</a>. If you already know F# and Akka.NET (or want to learn), I encourage you to read the book and follow the examples I share here.
+As I am an F# fan, I thought it would be good to translate the examples to <a href="http://fsharp.org" target="_blank">F#</a> and <a href="http://getakka.net" target="_blank">Akka.NET</a>. If you already know F# and Akka.NET (or want to learn), I encourage you to read the book and follow the examples I share here. If you are interested in the Scala examples, you can find them <a href="https://github.com/VaughnVernon/ReactiveMessagingPatterns_ActorModel" target="_blank">here</a>.
 
 ##Sections
 
@@ -85,6 +85,6 @@ And also let me know what you think: <a href="https://twitter.com/jorgefioranell
 
 ### Special Thanks
 
-- To <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a> for writing the <a href=""http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">book</a>.
+- To <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a> for writing the <a href="http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">book</a>.
 - To <a href="https://twitter.com/Horusiath" target="_blank">Bartosz Sypytkowski</a> for providing support about <a href="https://getakka.net" target="_blank">Akka.NET</a> and the <a href="https://getakka.net" target="_blank">F# API</a>.
 - To <a href="https://twitter.com/sforkmann" target="_blank">Steffen Forkmann</a> for helping me to setup the documentation.

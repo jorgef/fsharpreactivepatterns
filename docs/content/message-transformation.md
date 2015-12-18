@@ -252,7 +252,7 @@ processRef <! CompositeMessage("ABC", Part("partA1"), Part("partB2"), Part("part
 
 ##Normalizer
 
-The normalizer transforms unsupported messages to supported ones.
+The normalizer pattern transforms unsupported messages to supported ones.
 
 ```fsharp
 // No code example

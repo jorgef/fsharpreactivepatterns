@@ -26,13 +26,9 @@ For more details and full analysis of the patterns described in this section, pl
 
 ##Messaging Gateway
 
+The Messaging Gateway pattern encapsulates access to the messaging system.
+
 ```fsharp
-type AggregateType = AggregateType of cacheActor: IActorRef
-type RegisterAggregateId = RegisterAggregateId of id: string
-type OrderMessage = 
-    | InitializeOrder of amount: decimal
-    | ProcessOrder
-type CacheMessage = CacheMessage of id: string * actualMessage: obj * sender: IActorRef
 type AggregateRef(id, cache) =
     interface ICanTell with
         member this.Tell (message: obj, sender: IActorRef) = cache <! CacheMessage(id, message, sender)
@@ -88,18 +84,11 @@ orderRef <! ProcessOrder
 
 ##Messaging Mapper
 
+This pattern domain types to messages.
+
 ```fsharp
 type QueryMonthlyOrdersFor = QueryMonthlyOrdersFor of customerId: string
 type ReallyBigQueryResult = ReallyBigQueryResult of messageBody: string
-type IMessageSerializer =
-    abstract member Serialize: obj -> string
-    abstract member Deserialize: string -> 'a
-
-let serializer = { 
-    new IMessageSerializer with
-        member this.Serialize obj = JsonConvert.SerializeObject obj
-        member this.Deserialize json = JsonConvert.DeserializeObject<'a>(json) 
-    }
         
 let orderQueryService (serializer: IMessageSerializer) (mailbox: Actor<_>) =
     let monthlyOrdersFor customerId = [ for i in [1 .. 10] -> sprintf "Order data %i" i ]
@@ -132,6 +121,8 @@ let callerRef = spawn system "caller" <| caller orderQueryServiceRef
 
 ##Transactional Client/Actor
 
+This pattern adds transactional behavior between senders and receivers.
+
 ```fsharp
 // TBD: Akka Persistence is not fully supported yet
 ```
@@ -142,15 +133,9 @@ let callerRef = spawn system "caller" <| caller orderQueryServiceRef
 
 ##Polling Consumer
 
-```fsharp
-type WorkItem = { Name: string }
-type WorkConsumerMessage = 
-    | WorkNeeded
-    | WorkItemsAllocated of workItems: WorkItem list
-    | WorkOnItem of workItem: WorkItem
-type WorkItemsProvider = 
-    | AllocateWorkItems of numberOfItems: int
+This pattern enables the actor to have control of when the message is consumed.
 
+```fsharp
 let workItemsProvider (mailbox: Actor<_>) =
     let rec loop workItemsNamed = actor {
         let allocateWorkItems numberOfItems =
@@ -206,19 +191,19 @@ workConsumerRef <! WorkNeeded
 
 ##Event-Driven Consumer
 
+This pattern is implemented by Akka.NET as actors are event-driven by design.
+
 ```fsharp
 // No code example
 ```
-
-<a href="" target="_blank">Complete Code</a>
 
 [Sections](#Sections)
 
 ##Competing Consumers
 
-```fsharp
-type WorkItem = { Name: string }
+This pattern allows to distribute the work between multiple consumers.
 
+```fsharp
 let workConsumer (mailbox: Actor<_>) =
     let rec loop () = actor {
         let! workItem = mailbox.Receive ()
@@ -240,9 +225,9 @@ let workItemsProviderRef = spawnOpt system "workItemsProvider" workConsumer [ Ro
 
 ##Message Dispatcher
 
-```fsharp
-type WorkItem = { Name: string }
+The Message Dispatcher pattern distributes messages across multiple actors in high workload scenarios.
 
+```fsharp
 let workConsumer (mailbox: Actor<_>) =
     let rec loop () = actor {
         let! workItem = mailbox.Receive ()
@@ -266,11 +251,9 @@ workItemsProvider <! { Name = "WorkItem5" }
 
 ##Selective Consumer
 
-```fsharp
-type MessageTypeA = MessageTypeA
-type MessageTypeB = MessageTypeB
-type MessageTypeC = MessageTypeC
+This pattern enables the selection/filtering of message types that will be consumed. 
 
+```fsharp
 let selectiveConsumer (consumerOfA: IActorRef) (consumerOfB: IActorRef) (consumerOfC: IActorRef) (mailbox: Actor<_>) =
     let rec loop () = actor {
         let! message = mailbox.Receive ()
@@ -328,6 +311,8 @@ selectiveConsumerRef <! MessageTypeC
 
 ##Durable Subscriber
 
+The Durable Subscriber pattern ensures that the consumer won't miss messages. 
+
 ```fsharp
 // TBD: Akka Persistence is not fully supported yet
 ```
@@ -337,6 +322,8 @@ selectiveConsumerRef <! MessageTypeC
 [Sections](#Sections)
 
 ##Idempotent Receiver
+
+This pattern allows the consumer to safely receive the same messages multiple times.
 
 ### Deduplication
 ```fsharp
@@ -456,6 +443,8 @@ printfn "%A" futureAssessment2
 [Sections](#Sections)
 
 ##Service Activator
+
+The Service Activator pattern provides a way to invoke an internal application service when a message arrives.
 
 ```fsharp
 // No code example
