@@ -327,9 +327,6 @@ This pattern allows the consumer to safely receive the same messages multiple ti
 
 ### Deduplication
 ```fsharp
-type AccountId = AccountId of string
-type TransactionId = TransactionId of string
-type Money = Money of decimal
 type Transaction = Transaction of transactionId: TransactionId * amount: Money
 type AccountBalance = AccountBalance of accountId: AccountId * amount: Money
 type AccountMessage = 
@@ -389,10 +386,6 @@ accountRef <! QueryBalance
 
 ### Become
 ```fsharp
-type RiskAssessmentMessage = 
-    | AttachDocument of documentText: string
-    | ClassifyRisk
-type RiskClassified = RiskClassified of classification: string
 type Document = { Text: string option } with
     member this.DetermineClassification () =
         this.Text
