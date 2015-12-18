@@ -28,11 +28,9 @@ For more details and full analysis of the patterns described in this section, pl
 
 ##Content-Based Router
 
-```fsharp
-type OrderItem = { Id: string; ItemType: string; Description: string; Price: decimal }
-type Order = { Id: string; OrderType: string; OrderItems: Map<string, OrderItem> }
-type OrderPlaced = OrderPlaced of Order
+This pattern reads the content of the message a redirects it to the right actor.
 
+```fsharp
 let inventorySystemA (mailbox: Actor<_>) =
     let rec loop () = actor {
         let! message = mailbox.Receive ()
@@ -90,11 +88,9 @@ orderRouterRef <! OrderPlaced({ Id = "124"; OrderType = "TypeXYZ"; OrderItems = 
 
 ##Message Filter
 
-```fsharp
-type OrderItem = { Id: string; ItemType: string; Description: string; Price: decimal }
-type Order = { Id: string; OrderType: string; OrderItems: Map<string, OrderItem> }
-type OrderPlaced = OrderPlaced of Order
+The Message Filter pattern discards messages that should not be processed.
 
+```fsharp
 let inventorySystemA (mailbox: Actor<_>) =
     let rec loop () = actor {
         let! message = mailbox.Receive ()
@@ -148,15 +144,9 @@ inventorySystemXRef <! OrderPlaced({ Id = "124"; OrderType = "TypeXYZ"; OrderIte
 
 ##Dynamic Router
 
-```fsharp
-type Registration = 
-    | InterestedIn of string
-    | NoLongerInterestedIn of string
-type TypeAMessage = TypeAMessage of string
-type TypeBMessage = TypeBMessage of string
-type TypeCMessage = TypeCMessage of string
-type TypeDMessage = TypeDMessage of string
+This pattern uses rules in order to determine how to route the messages.
 
+```fsharp
 let typeAInterested interestRouter (mailbox: Actor<TypeAMessage>) =
     interestRouter <! InterestedIn(typeof<TypeAMessage>.Name)
 
@@ -208,9 +198,7 @@ let dunnoInterested (mailbox: Actor<_>) =
     loop ()
 
 let typedMessageInterestRouter dunnoInterested (mailbox: Actor<_>) =
-
     let rec loop (interestRegistry: Map<string, IActorRef>) (secondaryInterestRegistry: Map<string, IActorRef>) = actor {
-
         let registerInterest messageType interested =
             interestRegistry
             |> Map.tryFind messageType
@@ -264,14 +252,9 @@ typedMessageInterestRouterRef <! TypeDMessage("Message of TypeD.")
 
 ##Recipient List
 
-```fsharp
-type RetailItem = { ItemId: string; RetailPrice: decimal }
-type PriceQuoteInterest = { Path: string; QuoteProcessor: IActorRef; LowTotalRetail: Money; HighTotalRetail: Money }
-type RequestForQuotation = { RfqId: string; RetailItems: RetailItem list } with
-    member this.TotalRetailPrice with get () = this.RetailItems |> List.sumBy (fun i -> i.RetailPrice)
-type RequestPriceQuote = { RfqId: string; ItemId: string; RetailPrice: Money; OrderTotalRetailPrice: Money }
-type PriceQuote = { RfqId: string; ItemId: string; RetailPrice: Money; DiscountPrice: Money }
+This pattern sends messages to multiple recipient actors on each received message. 
 
+```fsharp
 let mountaineeringSuppliesOrderProcessor (mailbox: Actor<_>) =
     let rec loop interestRegistry = actor {
         let calculateRecipientList (rfq: RequestForQuotation) = 
@@ -432,14 +415,9 @@ orderProcessorRef <! { RfqId = "140"; RetailItems = [ { ItemId = "15"; RetailPri
 
 ##Splitter
 
-```fsharp
-type OrderItem = { Id: string; ItemType: string; Description: string; Price: Money }
-type Order = { OrderItems: Map<string, OrderItem> }
-type OrderPlaced = OrderPlaced of Order
-type TypeAItemOrdered = TypeAItemOrdered of OrderItem
-type TypeBItemOrdered = TypeBItemOrdered of OrderItem
-type TypeCItemOrdered = TypeCItemOrdered of OrderItem
+The Splitter pattern decomposes a message into smaller ones and sends them to other actors.
 
+```fsharp
 let orderItemTypeAProcessor (mailbox: Actor<_>) =
     let rec loop () = actor {
         let! TypeAItemOrdered orderItem = mailbox.Receive ()
@@ -510,18 +488,9 @@ orderRouterRef <! OrderPlaced({ OrderItems = orderItems })
 
 ##Aggregator
 
-```fsharp
-type RetailItem = { ItemId: string; RetailPrice: decimal }
-type PriceQuoteInterest = { Path: string; QuoteProcessor: IActorRef; LowTotalRetail: Money; HighTotalRetail: Money }
-type RequestForQuotation = { RfqId: string; RetailItems: RetailItem list } with
-    member this.TotalRetailPrice with get () = this.RetailItems |> List.sumBy (fun i -> i.RetailPrice)
-type RequestPriceQuote = { RfqId: string; ItemId: string; RetailPrice: Money; OrderTotalRetailPrice: Money }
-type PriceQuote = { RfqId: string; ItemId: string; RetailPrice: Money; DiscountPrice: Money }
-type AggregatorMessage = 
-    | PriceQuoteFulfilled of PriceQuote
-    | RequiredPriceQuotesForFulfillment of rfqId: string * quotesRequested: int
-type QuotationFulfillment = { RfqId: string; QuotesRequested: int; PriceQuotes: PriceQuote list; Requester: IActorRef }
+The Aggregator pattern creates one message from multiple ones and sends it to another actor. 
 
+```fsharp
 let priceQuoteAggregator (mailbox: Actor<_>) =
     let rec loop fulfilledPriceQuotes = actor {
         let! message = mailbox.Receive ()
@@ -707,6 +676,8 @@ orderProcessorRef <! { RfqId = "140"; RetailItems = [ { ItemId = "15"; RetailPri
 
 ##Resequencer
 
+This pattern ensures that messages are processed in the right order.
+
 ```fsharp
 type SequencedMessage =  SequencedMessage of correlationId: string * index: int * total: int
 type ResequencedMessages = { DispatchableIndex: int; SequencedMessages: SequencedMessage [] } with
@@ -797,6 +768,8 @@ let chaosRouterRef = spawn system "chaosRouter" <| chaosRouter resequencerConsum
 
 ##Composed Message Processor
 
+This pattern combines the Recipient List, Aggregator, Content-Based Router and Splitter patterns using different actors to execute each task.
+
 ```fsharp
 // No code example
 ```
@@ -805,20 +778,9 @@ let chaosRouterRef = spawn system "chaosRouter" <| chaosRouter resequencerConsum
 
 ##Scatter-Gather
 
-```fsharp
-type RetailItem = { ItemId: string; RetailPrice: decimal }
-type RequestForQuotation = { RfqId: string; RetailItems: RetailItem list } with
-    member this.TotalRetailPrice with get () = this.RetailItems |> List.sumBy (fun i -> i.RetailPrice)
-type RequestPriceQuote = { RfqId: string; ItemId: string; RetailPrice: Money; OrderTotalRetailPrice: Money }
-type PriceQuote = { RfqId: string; ItemId: string; RetailPrice: Money; DiscountPrice: Money }
-type AggregatorMessage = 
-    | PriceQuoteFulfilled of PriceQuote
-    | PriceQuoteTimedOut of rfqId: string
-    | RequiredPriceQuotesForFulfillment of rfqId: string * quotesRequested: int
-type QuotationFulfillment = { RfqId: string; QuotesRequested: int; PriceQuotes: PriceQuote list; Requester: IActorRef }
-type BestPriceQuotation = { RfqId: string; PriceQuotes: PriceQuote list }
-type SubscribeToPriceQuoteRequests = SubscribeToPriceQuoteRequests of quoterId: string * quoteProcessor: IActorRef
+One variant of this pattern combines the Recipient List and Aggregator patterns. A second variant uses the Publish-Subscribe Channel to distribute the messages.
 
+```fsharp
 let priceQuoteAggregator (mailbox: Actor<_>) =
     let rec loop fulfilledPriceQuotes = actor {
         let bestPriceQuotationFrom (quotationFulfillment: QuotationFulfillment) =
@@ -1032,14 +994,9 @@ orderProcessorRef <! { RfqId = "140"; RetailItems = [ { ItemId = "15"; RetailPri
 
 ##Routing Slip
 
+This pattern splits one large procedure into smaller sequential steps handled by different actors.
+
 ```fsharp
-type PostalAddress = { Address1: string; Address2: string; City: string; State: string; ZipCode: string }
-type Telephone = Telephone of number: string
-type CustomerInformation = { Name: string; FederalTaxId: string }
-type ContactInformation = { PostalAddress: PostalAddress; Telephone: Telephone }
-type ServiceOption = { Id: string; Description: string }
-type RegistrationData = { CustomerInformation: CustomerInformation; ContactInformation: ContactInformation; ServiceOption: ServiceOption }
-type ProcessStep = { Name: string; Processor: IActorRef }
 type RegistrationProcess = { ProcessId: string; ProcessSteps: ProcessStep list; CurrentStep: int } with
     static member Create (processId, processSteps) = { ProcessId = processId; ProcessSteps = processSteps; CurrentStep = 0 }
     member this.IsCompleted with get () = this.CurrentStep >= this.ProcessSteps.Length
@@ -1117,30 +1074,9 @@ let registerCustomer = { RegistrationData = registrationData; RegistrationProces
 
 ##Process Manager
 
-```fsharp
-type BankLoanRateQuote = { BankId: string; BankLoanRateQuoteId: string; InterestRate: decimal }
-type LoanBrokerMessage = 
-    | ProcessStarted of processId: string * ``process``: IActorRef
-    | ProcessStopped of processId: string * ``process``: IActorRef
-    | QuoteBestLoanRate of taxId: string * amount: int * termInMonths: int
-    | BankLoanRateQuoted of bankId: string * bankLoanRateQuoteId: string * loadQuoteReferenceId: string * taxId: string * interestRate: decimal
-    | CreditChecked of creditProcessingReferenceId: string * taxId: string * score: int
-    | CreditScoreForLoanRateQuoteDenied of loanRateQuoteId: string * taxId: string * amount: int * termInMonths: int * score: int
-    | CreditScoreForLoanRateQuoteEstablished of loanRateQuoteId: string * taxId: string * score: int * amount: int * termInMonths: int
-    | LoanRateBestQuoteFilled of loanRateQuoteId: string * taxId: string * amount: int * termInMonths: int * creditScore: int * bestBankLoanRateQuote: BankLoanRateQuote
-    | LoanRateQuoteRecorded of loanRateQuoteId: string * taxId: string * bankLoanRateQuote: BankLoanRateQuote
-    | LoanRateQuoteStarted of loanRateQuoteId: string * taxId: string
-    | LoanRateQuoteTerminated of loanRateQuoteId: string * taxId: string
-type LoanRateQuoteMessage = 
-    | StartLoanRateQuote of expectedLoanRateQuotes: int
-    | EstablishCreditScoreForLoanRateQuote of loanRateQuoteId: string * taxId: string * score: int
-    | RecordLoanRateQuote of bankId: string * bankLoanRateQuoteId: string * interestRate: decimal
-    | TerminateLoanRateQuote
-type QuoteLoanRate = QuoteLoanRate of loadQuoteReferenceId: string * taxId: string * creditScore: int * amount: int * termInMonths: int
-type BestLoanRateDenied = BestLoanRateDenied of loanRateQuoteId: string * taxId: string * amount: int * termInMonths: int * creditScore: int
-type BestLoanRateQuoted = BestLoanRateQuoted of bankId: string * loanRateQuoteId: string * taxId: string * amount: int * termInMonths: int * creditScore: int * interestRate: decimal
-type CheckCredit = CheckCredit of creditProcessingReferenceId: string * taxId: string
+This pattern splits a large process into smaller steps that may not be sequential and may not be known at design time.
 
+```fsharp
 module Process =
     let processOf processId processes = processes |> Map.find processId
     let startProcess processId ``process`` self processes =
@@ -1270,6 +1206,8 @@ loanBrokerRef <! QuoteBestLoanRate("111-11-1111", 100000, 84)
 [Sections](#Sections)
 
 ##Message Broker
+
+This pattern decouples receivers from senders.
 
 ```fsharp
 // No code example
