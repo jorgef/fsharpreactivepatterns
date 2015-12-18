@@ -22,6 +22,8 @@ For more details and full analysis of the patterns described in this section, pl
 
 ##Envelope Wrapper
 
+This pattern wraps messages received from external sources.
+
 ```fsharp
 type IReplyToSupport =
     abstract member Reply: obj -> unit
@@ -66,6 +68,8 @@ customerRegistrarRef <! registerCustomer
 [Sections](#Sections)
 
 ##Content Enricher
+
+This pattern adapts messages by adding or removing information so they are suitable for other systems.
 
 ```fsharp
 type PatientDetails = { LastName: string; SocialSecurityNumber: string; Carrier: string }
@@ -121,6 +125,8 @@ scheduledDoctorVisitRef <! VisitCompleted(accountingEnricherDispatcherRef)
 
 ##Content Filter
 
+The Content Filter pattern reduces or simplifies messages by removing information not required by the target.
+
 ```fsharp
 type Message =
     | FilteredMessage of light: string * ``and``: string * fluffy: string * message: string
@@ -161,6 +167,8 @@ messageExchangeDispatcherRef <! UnfilteredPayload "A very large message with com
 [Sections](#Sections)
 
 ##Claim Check
+
+The Claim Check pattern splits a message into smaller parts and allowing access to them on demand. 
 
 ```fsharp
 type Part = Part of name: string
@@ -244,6 +252,8 @@ processRef <! CompositeMessage("ABC", Part("partA1"), Part("partB2"), Part("part
 
 ##Normalizer
 
+The normalizer transforms unsupported messages to supported ones.
+
 ```fsharp
 // No code example
 ```
@@ -251,6 +261,8 @@ processRef <! CompositeMessage("ABC", Part("partA1"), Part("partB2"), Part("part
 [Sections](#Sections)
 
 ##Canonical Message Model
+
+This pattern defines a common set of messages shared by multiple applications.
 
 ```fsharp
 // No code example
