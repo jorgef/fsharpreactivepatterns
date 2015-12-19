@@ -23,6 +23,8 @@ For more details and full analysis of the patterns described in this section, pl
 
 ##Control Bus
 
+The Control Bus pattern allows you to administer and control actors and messages.
+
 ```fsharp
 // No code example
 ```
@@ -31,10 +33,9 @@ For more details and full analysis of the patterns described in this section, pl
 
 ##Detour
 
-```fsharp
-type Order = Order
-type ProcessOrder = ProcessOrder of order: Order
+This pattern enables inspecting, modifying and re-routing messages.
 
+```fsharp
 let orderProcessor (mailbox: Actor<_>) =
     let rec loop () = actor {
         let! message = mailbox.Receive ()
@@ -96,10 +97,9 @@ orderProcessorDetour <! ProcessOrder(Order)
 
 ##Wire Tap
 
-```fsharp
-type Order = Order
-type ProcessOrder = ProcessOrder of order: Order
+The Wire Tap pattern allows to inspect messages without altering its content and destination.
 
+```fsharp
 let orderProcessor (mailbox: Actor<_>) =
     let rec loop () = actor {
         let! message = mailbox.Receive ()
@@ -131,11 +131,9 @@ orderProcessorWireTap <! ProcessOrder(Order)
 
 ##Message Metadata/History
 
+This pattern adds metadata and history to messages to provide tracking information.
+
 ```fsharp
-type Who = Who of name: string
-type What = What of happened: string
-type Where = Where of actorType: string * actorName: string
-type Why = Why of explanation: string
 type Entry = { Who: Who; What: What; Where: Where; When: DateTimeOffset; Why: Why } with
     static member Create (who, what, where, ``when``, why) = { Who = who; What = what; Where = where; When = ``when``; Why = why }
     static member Create (who: Who, what: What, where: Where, why: Why) = Entry.Create (who, what, where, DateTimeOffset.UtcNow, why)
@@ -183,6 +181,8 @@ processor1Ref <! SomeMessage("Data...", entry.AsMetadata ())
 
 ##Message Journal/Store
 
+This pattern records the delivered messages in a permanent location.
+
 ```fsharp
 // No code example
 ```
@@ -190,6 +190,8 @@ processor1Ref <! SomeMessage("Data...", entry.AsMetadata ())
 [Sections](#Sections)
 
 ##Smart Proxy
+
+The Smart Proxy pattern allows to track messages that are sent using the Return Address pattern.
 
 ```fsharp
 type ServiceRequest =
@@ -270,6 +272,8 @@ requester3Ref <! RequestService(ServiceRequestThree "3")
 
 ##Test Message
 
+This pattern allows to check the health of the actor.
+
 ```fsharp
 type Message = { IsTest: bool }
 
@@ -299,12 +303,9 @@ processorRef <! { IsTest = false }
 
 ##Channel Purger
 
-```fsharp
-type Message =
-    | ProcessOrder
-    | PurgeNow
-    | StopPurge
+The Channel Purger pattern removes messages from an actor or Message Store.
 
+```fsharp
 let orderProcessor (mailbox: Actor<_>) =
     let rec normal () = actor {
         let! message = mailbox.Receive ()
