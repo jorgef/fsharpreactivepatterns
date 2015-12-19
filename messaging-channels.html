@@ -63,7 +63,7 @@
 
 <h2><a name="Point-to-Point-Channel" class="anchor" href="#Point-to-Point-Channel">Point-to-Point Channel</a></h2>
 
-<p>When an actor sends a message to another specific actor, it is using a Point-to-Point Channel.</p>
+<p>The Point-to-Point Channel enables one actor to send messages to another specific actor. When using Akka.NET this is achieved using the actor's reference.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -181,7 +181,7 @@
 
 <h2><a name="Datatype-Channel" class="anchor" href="#Datatype-Channel">Datatype Channel</a></h2>
 
-<p>When actors receive typed messages, they are using a Datatype Channel. In cases when they receive serialized messages, you can use specific actors to create a typed message.</p>
+<p>When actors receive typed messages, they are using a Datatype Channel. In cases when they receive serialized messages, specific actors can be used to create typed ones.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -222,7 +222,7 @@
 
 <h2><a name="Invalid-Message-Channel" class="anchor" href="#Invalid-Message-Channel">Invalid Message Channel</a></h2>
 
-<p>This pattern deals with not supported messages received by an actor.</p>
+<p>The Invalid Message Channel pattern provides an approach to handle unsupported messages.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -309,7 +309,7 @@
 
 <h2><a name="Dead-Letter-Channel" class="anchor" href="#Dead-Letter-Channel">Dead Letter Channel</a></h2>
 
-<p>The Dead Letter Channel receives all the messages that didn't reach the destination. Any actor can subscribe to the Dead Letter Channel implemented by Akka.NET.</p>
+<p>The Dead Letter Channel receives all the messages that didn't reach the desired destination. Any actor can subscribe to the Dead Letter provided by Akka.NET.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -361,7 +361,7 @@
 
 <h2><a name="Channel-Adapter" class="anchor" href="#Channel-Adapter">Channel Adapter</a></h2>
 
-<p>This pattern is used to expose a messaging interface and redirect the messages to application.</p>
+<p>This pattern exposes a messaging interface and connects it to the application.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -436,7 +436,7 @@
 
 <h2><a name="Message-Bridge" class="anchor" href="#Message-Bridge">Message Bridge</a></h2>
 
-<p>A Message Bridge is used to integrate two applications that use different messaging technologies.</p>
+<p>The Message Bridge pattern integrates two applications using different messaging technologies.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -489,7 +489,7 @@
 
 <h2><a name="Message-Bus" class="anchor" href="#Message-Bus">Message Bus</a></h2>
 
-<p>The Message Bus is used to communicate different applications that need to work together.</p>
+<p>The Message Bus pattern connects different applications in a decoupled fashion.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
