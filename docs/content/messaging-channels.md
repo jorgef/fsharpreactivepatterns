@@ -25,7 +25,7 @@ For more details and full analysis of each pattern described in this section, pl
 
 ##Point-to-Point Channel
 
-When an actor sends a message to another specific actor, it is using a Point-to-Point Channel.
+The Point-to-Point Channel enables one actor to send messages to another specific actor. When using Akka.NET this is achieved using the actor's reference.
 
 ```fsharp
 let actorA actorB (mailbox: Actor<_>) =
@@ -93,7 +93,7 @@ publish { Market = Market("quotes/NASDAQ"); Ticker = Symbol "MSFT"; Price = Mone
 
 ##Datatype Channel
 
-When actors receive typed messages, they are using a Datatype Channel. In cases when they receive serialized messages, you can use specific actors to create a typed message.
+When actors receive typed messages, they are using a Datatype Channel. In cases when they receive serialized messages, specific actors can be used to create typed ones.
 
 ```fsharp
 let productQueriesChannel (mailbox: Actor<_>) =
@@ -118,7 +118,7 @@ productQueriesChannelRef <! Encoding.UTF8.GetBytes "test query"
 
 ##Invalid Message Channel
 
-This pattern deals with not supported messages received by an actor.
+The Invalid Message Channel pattern provides an approach to handle unsupported messages.
 
 
 ```fsharp
@@ -168,7 +168,7 @@ authenticatorRef <! "Invalid message"
 
 ##Dead Letter Channel
 
-The Dead Letter Channel receives all the messages that didn't reach the destination. Any actor can subscribe to the Dead Letter Channel implemented by Akka.NET.
+The Dead Letter Channel receives all the messages that didn't reach the desired destination. Any actor can subscribe to the Dead Letter provided by Akka.NET.
 
 ```fsharp
 let sysListener (mailbox: Actor<DeadLetter>) = 
@@ -204,7 +204,7 @@ This pattern ensures that all the messages are received by the destination actor
 
 ##Channel Adapter
 
-This pattern is used to expose a messaging interface and redirect the messages to application.
+This pattern exposes a messaging interface and connects it to the application.
 
 ```fsharp
 let stockTrader (tradingBus: IActorRef) (buyerService: BuyerService) (sellerService: SellerService) (mailbox: Actor<_>) =
@@ -247,7 +247,7 @@ stockTraderRef <! ExecuteSellOrder("2", Symbol "S2", 3, Money 8m)
 
 ##Message Bridge
 
-A Message Bridge is used to integrate two applications that use different messaging technologies.
+The Message Bridge pattern integrates two applications using different messaging technologies.
 
 ```fsharp
 type RabbitMQTextMessage = RabbitMQTextMessage of string
@@ -279,7 +279,7 @@ inventoryProductAllocationBridgeRef <! RabbitMQTextMessage "Rabbit test message"
 
 ##Message Bus
 
-The Message Bus is used to communicate different applications that need to work together.
+The Message Bus pattern connects different applications in a decoupled fashion.
 
 ```fsharp
 let tradingBus (mailbox: Actor<_>) =
