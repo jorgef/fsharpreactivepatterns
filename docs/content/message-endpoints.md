@@ -26,7 +26,7 @@ For more details and full analysis of each pattern described in this section, pl
 
 ##Messaging Gateway
 
-The Messaging Gateway pattern encapsulates access to the messaging system.
+The Messaging Gateway pattern encapsulates access to the messaging system from the application/domain.
 
 ```fsharp
 type AggregateRef(id, cache) =
@@ -84,7 +84,7 @@ orderRef <! ProcessOrder
 
 ##Messaging Mapper
 
-This pattern domain types to messages.
+This pattern maps domain types to messages.
 
 ```fsharp
 type QueryMonthlyOrdersFor = QueryMonthlyOrdersFor of customerId: string
@@ -133,7 +133,7 @@ This pattern adds transactional behavior between senders and receivers.
 
 ##Polling Consumer
 
-This pattern enables the actor to have control of when the message is consumed.
+This pattern enables actors to have control of when an specific message is consumed.
 
 ```fsharp
 let workItemsProvider (mailbox: Actor<_>) =
@@ -191,7 +191,7 @@ workConsumerRef <! WorkNeeded
 
 ##Event-Driven Consumer
 
-This pattern is implemented by Akka.NET as actors are event-driven by design.
+This pattern is already implemented by Akka.NET as actors are event-driven by design.
 
 ```fsharp
 // No code example
@@ -201,7 +201,7 @@ This pattern is implemented by Akka.NET as actors are event-driven by design.
 
 ##Competing Consumers
 
-This pattern allows to distribute the work between multiple consumers.
+This pattern allows to distribute the messages between multiple consumers.
 
 ```fsharp
 let workConsumer (mailbox: Actor<_>) =
@@ -251,7 +251,7 @@ workItemsProvider <! { Name = "WorkItem5" }
 
 ##Selective Consumer
 
-This pattern enables the selection/filtering of message types that will be consumed. 
+This pattern enables the selection/filtering of messages received by the consumer. 
 
 ```fsharp
 let selectiveConsumer (consumerOfA: IActorRef) (consumerOfB: IActorRef) (consumerOfC: IActorRef) (mailbox: Actor<_>) =
@@ -311,7 +311,7 @@ selectiveConsumerRef <! MessageTypeC
 
 ##Durable Subscriber
 
-The Durable Subscriber pattern ensures that the consumer won't miss messages. 
+The Durable Subscriber pattern ensures that the consumer does not miss any messages. 
 
 ```fsharp
 // TBD: Akka Persistence is not fully supported yet
@@ -323,7 +323,7 @@ The Durable Subscriber pattern ensures that the consumer won't miss messages.
 
 ##Idempotent Receiver
 
-This pattern allows the consumer to safely receive the same messages multiple times.
+This pattern allows the consumer to safely receive the same message multiple times.
 
 ### Deduplication
 ```fsharp
@@ -437,7 +437,7 @@ printfn "%A" futureAssessment2
 
 ##Service Activator
 
-The Service Activator pattern provides a way to invoke an internal application service when a message arrives.
+The Service Activator pattern provides a way to invoke an internal application service when a specific message arrives.
 
 ```fsharp
 // No code example
