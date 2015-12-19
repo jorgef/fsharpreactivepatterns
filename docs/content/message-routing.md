@@ -28,7 +28,7 @@ For more details and full analysis of each pattern described in this section, pl
 
 ##Content-Based Router
 
-This pattern reads the content of the message a redirects it to the right actor.
+This pattern redirects a message to the right actor based on content inspection.
 
 ```fsharp
 let inventorySystemA (mailbox: Actor<_>) =
@@ -88,7 +88,7 @@ orderRouterRef <! OrderPlaced({ Id = "124"; OrderType = "TypeXYZ"; OrderItems = 
 
 ##Message Filter
 
-The Message Filter pattern discards messages that should not be processed.
+The Message Filter pattern discards messages that should not be processed by a given actor.
 
 ```fsharp
 let inventorySystemA (mailbox: Actor<_>) =
@@ -144,7 +144,7 @@ inventorySystemXRef <! OrderPlaced({ Id = "124"; OrderType = "TypeXYZ"; OrderIte
 
 ##Dynamic Router
 
-This pattern uses rules in order to determine how to route the messages.
+This pattern uses specific rules to determine how to route messages to different actors.
 
 ```fsharp
 let typeAInterested interestRouter (mailbox: Actor<TypeAMessage>) =
@@ -252,7 +252,7 @@ typedMessageInterestRouterRef <! TypeDMessage("Message of TypeD.")
 
 ##Recipient List
 
-This pattern sends messages to multiple recipient actors on each received message. 
+This pattern routes messages to a list of recipient actors based on their content.
 
 ```fsharp
 let mountaineeringSuppliesOrderProcessor (mailbox: Actor<_>) =
@@ -415,7 +415,7 @@ orderProcessorRef <! { RfqId = "140"; RetailItems = [ { ItemId = "15"; RetailPri
 
 ##Splitter
 
-The Splitter pattern decomposes a message into smaller ones and sends them to other actors.
+The Splitter pattern decomposes a message into smaller ones.
 
 ```fsharp
 let orderItemTypeAProcessor (mailbox: Actor<_>) =
@@ -488,7 +488,7 @@ orderRouterRef <! OrderPlaced({ OrderItems = orderItems })
 
 ##Aggregator
 
-The Aggregator pattern creates one message from multiple ones and sends it to another actor. 
+The Aggregator pattern creates a single message from multiple ones. 
 
 ```fsharp
 let priceQuoteAggregator (mailbox: Actor<_>) =
@@ -768,7 +768,7 @@ let chaosRouterRef = spawn system "chaosRouter" <| chaosRouter resequencerConsum
 
 ##Composed Message Processor
 
-This pattern combines the Recipient List, Aggregator, Content-Based Router and Splitter patterns using different actors to execute each task.
+This pattern handles composite messages by splitting them, routing the parts and then aggregating the results.
 
 ```fsharp
 // No code example
@@ -778,7 +778,7 @@ This pattern combines the Recipient List, Aggregator, Content-Based Router and S
 
 ##Scatter-Gather
 
-One variant of this pattern combines the Recipient List and Aggregator patterns. A second variant uses the Publish-Subscribe Channel to distribute the messages.
+This pattern broadcasts a message to multiple actors and then aggregates the results.
 
 ```fsharp
 let priceQuoteAggregator (mailbox: Actor<_>) =
@@ -994,7 +994,7 @@ orderProcessorRef <! { RfqId = "140"; RetailItems = [ { ItemId = "15"; RetailPri
 
 ##Routing Slip
 
-This pattern splits one large procedure into smaller sequential steps handled by different actors.
+This pattern allows to split one large procedure into smaller sequential steps that are handled by different actors. On each step, the specified actor can attach additional information to the message and send it to the next one.
 
 ```fsharp
 type RegistrationProcess = { ProcessId: string; ProcessSteps: ProcessStep list; CurrentStep: int } with
@@ -1074,7 +1074,7 @@ let registerCustomer = { RegistrationData = registrationData; RegistrationProces
 
 ##Process Manager
 
-This pattern splits a large process into smaller steps that may not be sequential and may not be known at design time.
+This pattern splits a large process into smaller steps that may not be sequential and may not be known at design time. The Process Manager maintains the state of the process and calculates each step.
 
 ```fsharp
 module Process =
@@ -1207,7 +1207,7 @@ loanBrokerRef <! QuoteBestLoanRate("111-11-1111", 100000, 84)
 
 ##Message Broker
 
-This pattern decouples receivers from senders.
+This pattern decouples receivers from senders and controls the flow of messages.
 
 ```fsharp
 // No code example
