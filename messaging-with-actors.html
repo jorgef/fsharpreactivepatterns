@@ -60,7 +60,7 @@
 
 <h2><a name="Message-Channel" class="anchor" href="#Message-Channel">Message Channel</a></h2>
 
-<p>The Message Channel represents the way a consumer and a producer communicate. When using Akka.NET, there is nothing special you need to do to implement this pattern as the actor's mailbox implements it for you.</p>
+<p>The Message Channel pattern enables communication between a consumer and a producer. When using Akka.NET, this concept is represented by the actor's mailbox.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -99,9 +99,9 @@
 
 <h2><a name="Message" class="anchor" href="#Message">Message</a></h2>
 
-<p>Messages are sent between actors, they don't have any metadata or header (at least not from the actor point of view), they are just plain data and can be any F# type.</p>
+<p>Messages are sent between actors to exchange information.</p>
 
-<h3><a name="Primitive-types" class="anchor" href="#Primitive-types">Primitive types</a></h3>
+<h3><a name="Primitive-Types" class="anchor" href="#Primitive-Types">Primitive Types</a></h3>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -173,7 +173,7 @@
 
 <h2><a name="Pipes-and-Filters" class="anchor" href="#Pipes-and-Filters">Pipes and Filters</a></h2>
 
-<p>This pattern allows you to chain actors together keeping them independent.</p>
+<p>This pattern allows to chain actors together while keeping them independent.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -246,7 +246,6 @@
 <span class="l">69: </span>
 <span class="l">70: </span>
 <span class="l">71: </span>
-<span class="l">72: </span>
 </pre></td>
 <td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs19', 55)" onmouseover="showTip(event, 'fs19', 55)" class="f">orderAcceptanceEndpoint</span> <span onmouseout="hideTip(event, 'fs20', 56)" onmouseover="showTip(event, 'fs20', 56)" class="i">nextFilter</span> (<span onmouseout="hideTip(event, 'fs5', 57)" onmouseover="showTip(event, 'fs5', 57)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
     <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs6', 58)" onmouseover="showTip(event, 'fs6', 58)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
@@ -319,7 +318,6 @@
 <span class="k">let</span> <span onmouseout="hideTip(event, 'fs45', 144)" onmouseover="showTip(event, 'fs45', 144)" class="i">filter1</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;orderAcceptanceEndpoint&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs19', 145)" onmouseover="showTip(event, 'fs19', 145)" class="f">orderAcceptanceEndpoint</span> <span onmouseout="hideTip(event, 'fs44', 146)" onmouseover="showTip(event, 'fs44', 146)" class="i">filter2</span>
 
 <span onmouseout="hideTip(event, 'fs45', 147)" onmouseover="showTip(event, 'fs45', 147)" class="i">filter1</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs40', 148)" onmouseover="showTip(event, 'fs40', 148)" class="i">rawOrderBytes</span>
-<span onmouseout="hideTip(event, 'fs45', 149)" onmouseover="showTip(event, 'fs45', 149)" class="i">filter1</span> <span class="o">&lt;!</span> <span onmouseout="hideTip(event, 'fs40', 150)" onmouseover="showTip(event, 'fs40', 150)" class="i">rawOrderBytes</span>
 </code></pre></td>
 </tr>
 </table>
@@ -330,7 +328,7 @@
 
 <h2><a name="Message-Router" class="anchor" href="#Message-Router">Message Router</a></h2>
 
-<p>The Message Router allows you to redirect messages to other actors depending on certain condition.</p>
+<p>The Message Router enables message redirection depending on certain conditions.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -343,16 +341,16 @@
 <span class="l"> 9: </span>
 <span class="l">10: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs46', 151)" onmouseover="showTip(event, 'fs46', 151)" class="f">alternatingRouter</span> (<span onmouseout="hideTip(event, 'fs47', 152)" onmouseover="showTip(event, 'fs47', 152)" class="i">processor1</span><span class="o">:</span> <span class="i">IActorRef</span>) (<span onmouseout="hideTip(event, 'fs48', 153)" onmouseover="showTip(event, 'fs48', 153)" class="i">processor2</span><span class="o">:</span> <span class="i">IActorRef</span>) (<span onmouseout="hideTip(event, 'fs5', 154)" onmouseover="showTip(event, 'fs5', 154)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs49', 155)" onmouseover="showTip(event, 'fs49', 155)" class="f">loop</span> <span onmouseout="hideTip(event, 'fs50', 156)" onmouseover="showTip(event, 'fs50', 156)" class="i">alternate</span> <span class="o">=</span> <span class="i">actor</span> {
-        <span class="k">let</span> <span class="i">alternateProcessor</span> () <span class="o">=</span> <span class="k">if</span> <span onmouseout="hideTip(event, 'fs50', 157)" onmouseover="showTip(event, 'fs50', 157)" class="i">alternate</span> <span class="o">=</span> <span class="n">1</span> <span class="k">then</span> <span onmouseout="hideTip(event, 'fs47', 158)" onmouseover="showTip(event, 'fs47', 158)" class="i">processor1</span>, <span class="n">2</span> <span class="k">else</span> <span onmouseout="hideTip(event, 'fs48', 159)" onmouseover="showTip(event, 'fs48', 159)" class="i">processor2</span>, <span class="n">1</span>
-        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs5', 160)" onmouseover="showTip(event, 'fs5', 160)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
-        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 161)" onmouseover="showTip(event, 'fs4', 161)" class="i">processor</span>, <span class="i">nextAlternate</span> <span class="o">=</span> <span class="i">alternateProcessor</span> ()
-        <span onmouseout="hideTip(event, 'fs7', 162)" onmouseover="showTip(event, 'fs7', 162)" class="i">printfn</span> <span class="s">&quot;AlternatingRouter: routing %O to %s&quot;</span> <span class="i">message</span> <span onmouseout="hideTip(event, 'fs4', 163)" onmouseover="showTip(event, 'fs4', 163)" class="i">processor</span><span class="o">.</span><span class="i">Path</span><span class="o">.</span><span class="i">Name</span>
-        <span onmouseout="hideTip(event, 'fs4', 164)" onmouseover="showTip(event, 'fs4', 164)" class="i">processor</span> <span class="o">&lt;!</span> <span class="i">message</span>
-        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs49', 165)" onmouseover="showTip(event, 'fs49', 165)" class="i">loop</span> <span class="i">nextAlternate</span>
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs46', 149)" onmouseover="showTip(event, 'fs46', 149)" class="f">alternatingRouter</span> (<span onmouseout="hideTip(event, 'fs47', 150)" onmouseover="showTip(event, 'fs47', 150)" class="i">processor1</span><span class="o">:</span> <span class="i">IActorRef</span>) (<span onmouseout="hideTip(event, 'fs48', 151)" onmouseover="showTip(event, 'fs48', 151)" class="i">processor2</span><span class="o">:</span> <span class="i">IActorRef</span>) (<span onmouseout="hideTip(event, 'fs5', 152)" onmouseover="showTip(event, 'fs5', 152)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs49', 153)" onmouseover="showTip(event, 'fs49', 153)" class="f">loop</span> <span onmouseout="hideTip(event, 'fs50', 154)" onmouseover="showTip(event, 'fs50', 154)" class="i">alternate</span> <span class="o">=</span> <span class="i">actor</span> {
+        <span class="k">let</span> <span class="i">alternateProcessor</span> () <span class="o">=</span> <span class="k">if</span> <span onmouseout="hideTip(event, 'fs50', 155)" onmouseover="showTip(event, 'fs50', 155)" class="i">alternate</span> <span class="o">=</span> <span class="n">1</span> <span class="k">then</span> <span onmouseout="hideTip(event, 'fs47', 156)" onmouseover="showTip(event, 'fs47', 156)" class="i">processor1</span>, <span class="n">2</span> <span class="k">else</span> <span onmouseout="hideTip(event, 'fs48', 157)" onmouseover="showTip(event, 'fs48', 157)" class="i">processor2</span>, <span class="n">1</span>
+        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs5', 158)" onmouseover="showTip(event, 'fs5', 158)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
+        <span class="k">let</span> <span onmouseout="hideTip(event, 'fs4', 159)" onmouseover="showTip(event, 'fs4', 159)" class="i">processor</span>, <span class="i">nextAlternate</span> <span class="o">=</span> <span class="i">alternateProcessor</span> ()
+        <span onmouseout="hideTip(event, 'fs7', 160)" onmouseover="showTip(event, 'fs7', 160)" class="i">printfn</span> <span class="s">&quot;AlternatingRouter: routing %O to %s&quot;</span> <span class="i">message</span> <span onmouseout="hideTip(event, 'fs4', 161)" onmouseover="showTip(event, 'fs4', 161)" class="i">processor</span><span class="o">.</span><span class="i">Path</span><span class="o">.</span><span class="i">Name</span>
+        <span onmouseout="hideTip(event, 'fs4', 162)" onmouseover="showTip(event, 'fs4', 162)" class="i">processor</span> <span class="o">&lt;!</span> <span class="i">message</span>
+        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs49', 163)" onmouseover="showTip(event, 'fs49', 163)" class="i">loop</span> <span class="i">nextAlternate</span>
     }
-    <span onmouseout="hideTip(event, 'fs49', 166)" onmouseover="showTip(event, 'fs49', 166)" class="f">loop</span> <span class="n">1</span>
+    <span onmouseout="hideTip(event, 'fs49', 164)" onmouseover="showTip(event, 'fs49', 164)" class="f">loop</span> <span class="n">1</span>
 </code></pre></td>
 </tr>
 </table>
@@ -363,7 +361,7 @@
 
 <h2><a name="Message-Translator" class="anchor" href="#Message-Translator">Message Translator</a></h2>
 
-<p>This pattern transforms messages sent between systems.</p>
+<p>This pattern facilitates message translation betwwen different data formats.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 </pre></td>
@@ -376,7 +374,7 @@
 
 <h2><a name="Message-Endpoint" class="anchor" href="#Message-Endpoint">Message Endpoint</a></h2>
 
-<p>Message Endpoints allow integration between applications.</p>
+<p>The Message Endpoint represents a sender or receiver of a message. When using Akka.NET they are actors.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -415,42 +413,42 @@
 <span class="l">35: </span>
 <span class="l">36: </span>
 </pre></td>
-<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs51', 167)" onmouseover="showTip(event, 'fs51', 167)" class="f">highSierraPriceQuotes</span> <span onmouseout="hideTip(event, 'fs52', 168)" onmouseover="showTip(event, 'fs52', 168)" class="i">discounter</span> (<span onmouseout="hideTip(event, 'fs5', 169)" onmouseover="showTip(event, 'fs5', 169)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
-    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs53', 170)" onmouseover="showTip(event, 'fs53', 170)" class="i">quoterId</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs5', 171)" onmouseover="showTip(event, 'fs5', 171)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span><span class="o">.</span><span class="i">Path</span><span class="o">.</span><span class="i">Name</span>
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs6', 172)" onmouseover="showTip(event, 'fs6', 172)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
-        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs5', 173)" onmouseover="showTip(event, 'fs5', 173)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
+<td class="snippet"><pre class="fssnip highlighted"><code lang="fsharp"><span class="k">let</span> <span onmouseout="hideTip(event, 'fs51', 165)" onmouseover="showTip(event, 'fs51', 165)" class="f">highSierraPriceQuotes</span> <span onmouseout="hideTip(event, 'fs52', 166)" onmouseover="showTip(event, 'fs52', 166)" class="i">discounter</span> (<span onmouseout="hideTip(event, 'fs5', 167)" onmouseover="showTip(event, 'fs5', 167)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
+    <span class="k">let</span> <span onmouseout="hideTip(event, 'fs53', 168)" onmouseover="showTip(event, 'fs53', 168)" class="i">quoterId</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs5', 169)" onmouseover="showTip(event, 'fs5', 169)" class="i">mailbox</span><span class="o">.</span><span class="i">Self</span><span class="o">.</span><span class="i">Path</span><span class="o">.</span><span class="i">Name</span>
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs6', 170)" onmouseover="showTip(event, 'fs6', 170)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
+        <span class="k">let!</span> <span class="i">message</span> <span class="o">=</span> <span onmouseout="hideTip(event, 'fs5', 171)" onmouseover="showTip(event, 'fs5', 171)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
         <span class="k">match</span> <span class="i">message</span> <span class="k">with</span>
         | <span class="i">RequestPriceQuote</span>(<span class="i">retailerId</span>, <span class="i">rfqId</span>, <span class="i">itemId</span>) <span class="k">-&gt;</span> 
-            <span onmouseout="hideTip(event, 'fs7', 174)" onmouseover="showTip(event, 'fs7', 174)" class="i">printfn</span> <span class="s">&quot;HighSierraPriceQuotes: RequestPriceQuote received&quot;</span> 
-            <span onmouseout="hideTip(event, 'fs52', 175)" onmouseover="showTip(event, 'fs52', 175)" class="i">discounter</span> <span class="o">&lt;!</span> <span class="i">CalculatedDiscountPriceFor</span>(<span onmouseout="hideTip(event, 'fs5', 176)" onmouseover="showTip(event, 'fs5', 176)" class="i">mailbox</span><span class="o">.</span><span class="i">Sender</span> (), <span class="i">retailerId</span>, <span class="i">rfqId</span>, <span class="i">itemId</span>)
+            <span onmouseout="hideTip(event, 'fs7', 172)" onmouseover="showTip(event, 'fs7', 172)" class="i">printfn</span> <span class="s">&quot;HighSierraPriceQuotes: RequestPriceQuote received&quot;</span> 
+            <span onmouseout="hideTip(event, 'fs52', 173)" onmouseover="showTip(event, 'fs52', 173)" class="i">discounter</span> <span class="o">&lt;!</span> <span class="i">CalculatedDiscountPriceFor</span>(<span onmouseout="hideTip(event, 'fs5', 174)" onmouseover="showTip(event, 'fs5', 174)" class="i">mailbox</span><span class="o">.</span><span class="i">Sender</span> (), <span class="i">retailerId</span>, <span class="i">rfqId</span>, <span class="i">itemId</span>)
         | <span class="i">DiscountPriceCalculated</span>(<span class="i">requestedBy</span>, <span class="i">retailerId</span>, <span class="i">rfqId</span>, <span class="i">itemId</span>, <span class="i">retailPrice</span>, <span class="i">discountPrice</span>) <span class="k">-&gt;</span> 
-            <span onmouseout="hideTip(event, 'fs7', 177)" onmouseover="showTip(event, 'fs7', 177)" class="i">printfn</span> <span class="s">&quot;HighSierraPriceQuotes: DiscountPriceCalculated received&quot;</span> 
-            <span class="i">requestedBy</span> <span class="o">&lt;!</span> <span class="i">PriceQuote</span>(<span onmouseout="hideTip(event, 'fs53', 178)" onmouseover="showTip(event, 'fs53', 178)" class="i">quoterId</span>, <span class="i">retailerId</span>, <span class="i">rfqId</span>, <span class="i">itemId</span>, <span class="i">retailPrice</span>, <span class="i">discountPrice</span>)
-        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs6', 179)" onmouseover="showTip(event, 'fs6', 179)" class="i">loop</span> ()
+            <span onmouseout="hideTip(event, 'fs7', 175)" onmouseover="showTip(event, 'fs7', 175)" class="i">printfn</span> <span class="s">&quot;HighSierraPriceQuotes: DiscountPriceCalculated received&quot;</span> 
+            <span class="i">requestedBy</span> <span class="o">&lt;!</span> <span class="i">PriceQuote</span>(<span onmouseout="hideTip(event, 'fs53', 176)" onmouseover="showTip(event, 'fs53', 176)" class="i">quoterId</span>, <span class="i">retailerId</span>, <span class="i">rfqId</span>, <span class="i">itemId</span>, <span class="i">retailPrice</span>, <span class="i">discountPrice</span>)
+        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs6', 177)" onmouseover="showTip(event, 'fs6', 177)" class="i">loop</span> ()
     }
-    <span onmouseout="hideTip(event, 'fs6', 180)" onmouseover="showTip(event, 'fs6', 180)" class="f">loop</span> ()
+    <span onmouseout="hideTip(event, 'fs6', 178)" onmouseover="showTip(event, 'fs6', 178)" class="f">loop</span> ()
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs54', 181)" onmouseover="showTip(event, 'fs54', 181)" class="f">discounter</span> (<span onmouseout="hideTip(event, 'fs5', 182)" onmouseover="showTip(event, 'fs5', 182)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs6', 183)" onmouseover="showTip(event, 'fs6', 183)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
-        <span class="k">let!</span> <span class="i">CalculatedDiscountPriceFor</span>(<span class="i">requester</span>, <span class="i">retailerId</span>, <span class="i">rfqId</span>, <span class="i">itemId</span>) <span class="o">=</span> <span onmouseout="hideTip(event, 'fs5', 184)" onmouseover="showTip(event, 'fs5', 184)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
-        <span onmouseout="hideTip(event, 'fs7', 185)" onmouseover="showTip(event, 'fs7', 185)" class="i">printfn</span> <span class="s">&quot;Discounter: CalculatedDiscountPriceFor received&quot;</span> 
-        <span onmouseout="hideTip(event, 'fs5', 186)" onmouseover="showTip(event, 'fs5', 186)" class="i">mailbox</span><span class="o">.</span><span class="i">Sender</span> () <span class="o">&lt;!</span> <span class="i">DiscountPriceCalculated</span>(<span class="i">requester</span>, <span class="i">retailerId</span>, <span class="i">rfqId</span>, <span class="i">itemId</span>, <span class="n">100m</span>, <span class="n">89.99m</span>)
-        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs6', 187)" onmouseover="showTip(event, 'fs6', 187)" class="i">loop</span> ()
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs54', 179)" onmouseover="showTip(event, 'fs54', 179)" class="f">discounter</span> (<span onmouseout="hideTip(event, 'fs5', 180)" onmouseover="showTip(event, 'fs5', 180)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs6', 181)" onmouseover="showTip(event, 'fs6', 181)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
+        <span class="k">let!</span> <span class="i">CalculatedDiscountPriceFor</span>(<span class="i">requester</span>, <span class="i">retailerId</span>, <span class="i">rfqId</span>, <span class="i">itemId</span>) <span class="o">=</span> <span onmouseout="hideTip(event, 'fs5', 182)" onmouseover="showTip(event, 'fs5', 182)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
+        <span onmouseout="hideTip(event, 'fs7', 183)" onmouseover="showTip(event, 'fs7', 183)" class="i">printfn</span> <span class="s">&quot;Discounter: CalculatedDiscountPriceFor received&quot;</span> 
+        <span onmouseout="hideTip(event, 'fs5', 184)" onmouseover="showTip(event, 'fs5', 184)" class="i">mailbox</span><span class="o">.</span><span class="i">Sender</span> () <span class="o">&lt;!</span> <span class="i">DiscountPriceCalculated</span>(<span class="i">requester</span>, <span class="i">retailerId</span>, <span class="i">rfqId</span>, <span class="i">itemId</span>, <span class="n">100m</span>, <span class="n">89.99m</span>)
+        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs6', 185)" onmouseover="showTip(event, 'fs6', 185)" class="i">loop</span> ()
     }
-    <span onmouseout="hideTip(event, 'fs6', 188)" onmouseover="showTip(event, 'fs6', 188)" class="f">loop</span> ()
+    <span onmouseout="hideTip(event, 'fs6', 186)" onmouseover="showTip(event, 'fs6', 186)" class="f">loop</span> ()
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs55', 189)" onmouseover="showTip(event, 'fs55', 189)" class="f">requester</span> <span onmouseout="hideTip(event, 'fs56', 190)" onmouseover="showTip(event, 'fs56', 190)" class="i">quotes</span> (<span onmouseout="hideTip(event, 'fs5', 191)" onmouseover="showTip(event, 'fs5', 191)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
-    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs6', 192)" onmouseover="showTip(event, 'fs6', 192)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
-        <span class="k">let!</span> <span class="i">PriceQuote</span>(_, _, _, _,<span class="i">retailPrice</span>, <span class="i">discountPrice</span>) <span class="o">=</span> <span onmouseout="hideTip(event, 'fs5', 193)" onmouseover="showTip(event, 'fs5', 193)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
-        <span onmouseout="hideTip(event, 'fs7', 194)" onmouseover="showTip(event, 'fs7', 194)" class="i">printfn</span> <span class="s">&quot;Requester: PriceQuote received, retailPrice: %M, discountPrice %M&quot;</span> <span class="i">retailPrice</span> <span class="i">discountPrice</span> 
-        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs6', 195)" onmouseover="showTip(event, 'fs6', 195)" class="i">loop</span> ()
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs55', 187)" onmouseover="showTip(event, 'fs55', 187)" class="f">requester</span> <span onmouseout="hideTip(event, 'fs56', 188)" onmouseover="showTip(event, 'fs56', 188)" class="i">quotes</span> (<span onmouseout="hideTip(event, 'fs5', 189)" onmouseover="showTip(event, 'fs5', 189)" class="i">mailbox</span><span class="o">:</span> <span class="i">Actor</span><span class="o">&lt;</span>_<span class="o">&gt;</span>) <span class="o">=</span>
+    <span class="k">let</span> <span class="k">rec</span> <span onmouseout="hideTip(event, 'fs6', 190)" onmouseover="showTip(event, 'fs6', 190)" class="f">loop</span> () <span class="o">=</span> <span class="i">actor</span> {
+        <span class="k">let!</span> <span class="i">PriceQuote</span>(_, _, _, _,<span class="i">retailPrice</span>, <span class="i">discountPrice</span>) <span class="o">=</span> <span onmouseout="hideTip(event, 'fs5', 191)" onmouseover="showTip(event, 'fs5', 191)" class="i">mailbox</span><span class="o">.</span><span class="i">Receive</span> ()
+        <span onmouseout="hideTip(event, 'fs7', 192)" onmouseover="showTip(event, 'fs7', 192)" class="i">printfn</span> <span class="s">&quot;Requester: PriceQuote received, retailPrice: %M, discountPrice %M&quot;</span> <span class="i">retailPrice</span> <span class="i">discountPrice</span> 
+        <span class="k">return!</span> <span onmouseout="hideTip(event, 'fs6', 193)" onmouseover="showTip(event, 'fs6', 193)" class="i">loop</span> ()
     }
-    <span onmouseout="hideTip(event, 'fs56', 196)" onmouseover="showTip(event, 'fs56', 196)" class="i">quotes</span> <span class="o">&lt;!</span> <span class="i">RequestPriceQuote</span>(<span class="s">&quot;retailer1&quot;</span>, <span class="s">&quot;rfq1&quot;</span>, <span class="s">&quot;item1&quot;</span>)
-    <span onmouseout="hideTip(event, 'fs6', 197)" onmouseover="showTip(event, 'fs6', 197)" class="f">loop</span> ()
+    <span onmouseout="hideTip(event, 'fs56', 194)" onmouseover="showTip(event, 'fs56', 194)" class="i">quotes</span> <span class="o">&lt;!</span> <span class="i">RequestPriceQuote</span>(<span class="s">&quot;retailer1&quot;</span>, <span class="s">&quot;rfq1&quot;</span>, <span class="s">&quot;item1&quot;</span>)
+    <span onmouseout="hideTip(event, 'fs6', 195)" onmouseover="showTip(event, 'fs6', 195)" class="f">loop</span> ()
 
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs57', 198)" onmouseover="showTip(event, 'fs57', 198)" class="i">discounterRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;discounter&quot;</span> <span onmouseout="hideTip(event, 'fs54', 199)" onmouseover="showTip(event, 'fs54', 199)" class="i">discounter</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs58', 200)" onmouseover="showTip(event, 'fs58', 200)" class="i">highSierraPriceQuotesRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;highSierraPriceQuotes&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs51', 201)" onmouseover="showTip(event, 'fs51', 201)" class="f">highSierraPriceQuotes</span> <span onmouseout="hideTip(event, 'fs57', 202)" onmouseover="showTip(event, 'fs57', 202)" class="i">discounterRef</span>
-<span class="k">let</span> <span onmouseout="hideTip(event, 'fs59', 203)" onmouseover="showTip(event, 'fs59', 203)" class="i">requesterRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;requester&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs55', 204)" onmouseover="showTip(event, 'fs55', 204)" class="f">requester</span> <span onmouseout="hideTip(event, 'fs58', 205)" onmouseover="showTip(event, 'fs58', 205)" class="i">highSierraPriceQuotesRef</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs57', 196)" onmouseover="showTip(event, 'fs57', 196)" class="i">discounterRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;discounter&quot;</span> <span onmouseout="hideTip(event, 'fs54', 197)" onmouseover="showTip(event, 'fs54', 197)" class="i">discounter</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs58', 198)" onmouseover="showTip(event, 'fs58', 198)" class="i">highSierraPriceQuotesRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;highSierraPriceQuotes&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs51', 199)" onmouseover="showTip(event, 'fs51', 199)" class="f">highSierraPriceQuotes</span> <span onmouseout="hideTip(event, 'fs57', 200)" onmouseover="showTip(event, 'fs57', 200)" class="i">discounterRef</span>
+<span class="k">let</span> <span onmouseout="hideTip(event, 'fs59', 201)" onmouseover="showTip(event, 'fs59', 201)" class="i">requesterRef</span> <span class="o">=</span> <span class="i">spawn</span> <span class="i">system</span> <span class="s">&quot;requester&quot;</span> <span class="o">&lt;|</span> <span onmouseout="hideTip(event, 'fs55', 202)" onmouseover="showTip(event, 'fs55', 202)" class="f">requester</span> <span onmouseout="hideTip(event, 'fs58', 203)" onmouseover="showTip(event, 'fs58', 203)" class="i">highSierraPriceQuotesRef</span>
 </code></pre></td>
 </tr>
 </table>
