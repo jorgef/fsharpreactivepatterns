@@ -1,6 +1,6 @@
 #Messaging Channels
 
-For more details and full analysis of the patterns described in this section, please refer to **Chapter 5** of <a href="http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>.
+For more details and full analysis of each pattern described in this section, please refer to **Chapter 5** of <a href="http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>.
 
 
 ##Sections
