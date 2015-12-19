@@ -33,7 +33,7 @@ The Control Bus pattern allows you to administer and control actors and messages
 
 ##Detour
 
-This pattern enables inspecting, modifying and re-routing messages.
+This pattern enables re-routing messages to execute additional steps.
 
 ```fsharp
 let orderProcessor (mailbox: Actor<_>) =
@@ -191,7 +191,7 @@ This pattern records the delivered messages in a permanent location.
 
 ##Smart Proxy
 
-The Smart Proxy pattern allows to track messages that are sent using the Return Address pattern.
+The Smart Proxy pattern allows to track messages that are using the Return Address pattern.
 
 ```fsharp
 type ServiceRequest =
@@ -272,7 +272,7 @@ requester3Ref <! RequestService(ServiceRequestThree "3")
 
 ##Test Message
 
-This pattern allows to check the health of the actor.
+This pattern allows to check the health of an actor.
 
 ```fsharp
 type Message = { IsTest: bool }
