@@ -66,7 +66,7 @@
 
 <h2><a name="Content-Based-Router" class="anchor" href="#Content-Based-Router">Content-Based Router</a></h2>
 
-<p>This pattern reads the content of the message a redirects it to the right actor.</p>
+<p>This pattern redirects a message to the right actor based on content inspection.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -177,7 +177,7 @@
 
 <h2><a name="Message-Filter" class="anchor" href="#Message-Filter">Message Filter</a></h2>
 
-<p>The Message Filter pattern discards messages that should not be processed.</p>
+<p>The Message Filter pattern discards messages that should not be processed by a given actor.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -280,7 +280,7 @@
 
 <h2><a name="Dynamic-Router" class="anchor" href="#Dynamic-Router">Dynamic Router</a></h2>
 
-<p>This pattern uses rules in order to determine how to route the messages.</p>
+<p>This pattern uses specific rules to determine how to route messages to different actors.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -487,7 +487,7 @@
 
 <h2><a name="Recipient-List" class="anchor" href="#Recipient-List">Recipient List</a></h2>
 
-<p>This pattern sends messages to multiple recipient actors on each received message.</p>
+<p>This pattern routes messages to a list of recipient actors based on their content.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">  1: </span>
 <span class="l">  2: </span>
@@ -804,7 +804,7 @@
 
 <h2><a name="Splitter" class="anchor" href="#Splitter">Splitter</a></h2>
 
-<p>The Splitter pattern decomposes a message into smaller ones and sends them to other actors.</p>
+<p>The Splitter pattern decomposes a message into smaller ones.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -941,7 +941,7 @@
 
 <h2><a name="Aggregator" class="anchor" href="#Aggregator">Aggregator</a></h2>
 
-<p>The Aggregator pattern creates one message from multiple ones and sends it to another actor.</p>
+<p>The Aggregator pattern creates a single message from multiple ones.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">  1: </span>
 <span class="l">  2: </span>
@@ -1481,7 +1481,7 @@
 
 <h2><a name="Composed-Message-Processor" class="anchor" href="#Composed-Message-Processor">Composed Message Processor</a></h2>
 
-<p>This pattern combines the Recipient List, Aggregator, Content-Based Router and Splitter patterns using different actors to execute each task.</p>
+<p>This pattern handles composite messages by splitting them, routing the parts and then aggregating the results.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 </pre></td>
@@ -1494,7 +1494,7 @@
 
 <h2><a name="Scatter-Gather" class="anchor" href="#Scatter-Gather">Scatter-Gather</a></h2>
 
-<p>One variant of this pattern combines the Recipient List and Aggregator patterns. A second variant uses the Publish-Subscribe Channel to distribute the messages.</p>
+<p>This pattern broadcasts a message to multiple actors and then aggregates the results.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">  1: </span>
 <span class="l">  2: </span>
@@ -1915,7 +1915,7 @@
 
 <h2><a name="Routing-Slip" class="anchor" href="#Routing-Slip">Routing Slip</a></h2>
 
-<p>This pattern splits one large procedure into smaller sequential steps handled by different actors.</p>
+<p>This pattern allows to split one large procedure into smaller sequential steps that are handled by different actors. On each step, the specified actor can attach additional information to the message and send it to the next one.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -2066,7 +2066,7 @@
 
 <h2><a name="Process-Manager" class="anchor" href="#Process-Manager">Process Manager</a></h2>
 
-<p>This pattern splits a large process into smaller steps that may not be sequential and may not be known at design time.</p>
+<p>This pattern splits a large process into smaller steps that may not be sequential and may not be known at design time. The Process Manager maintains the state of the process and calculates each step.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">  1: </span>
 <span class="l">  2: </span>
@@ -2323,7 +2323,7 @@
 
 <h2><a name="Message-Broker" class="anchor" href="#Message-Broker">Message Broker</a></h2>
 
-<p>This pattern decouples receivers from senders.</p>
+<p>This pattern decouples receivers from senders and controls the flow of messages.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 </pre></td>
