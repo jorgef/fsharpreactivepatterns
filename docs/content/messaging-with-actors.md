@@ -21,7 +21,7 @@ For more details and full analysis of the patterns described in this section, pl
 
 ##Message Channel
 
-The Message Channel represents the way a consumer and a producer communicate. When using Akka.NET, there is nothing special you need to do to implement this pattern as the actor's mailbox implements it for you.
+The Message Channel pattern enables communication between a consumer and a producer. When using Akka.NET, this concept is represented by the actor's mailbox.
 
 ```fsharp
 type ProcessorMessage = ProcessJob of int * int * int
@@ -45,9 +45,9 @@ processorRef <! ProcessJob(1, 3, 5)
 
 ##Message
 
-Messages are sent between actors, they don't have any metadata or header (at least not from the actor point of view), they are just plain data and can be any F# type.
+Messages are sent between actors to exchange information.
 
-###Primitive types
+###Primitive Types
 
 ```fsharp
 let scalarValuePrinter (mailbox: Actor<_>) = 
@@ -89,7 +89,7 @@ let orderProcessor (mailbox: Actor<_>) =
 
 ##Pipes and Filters
 
-This pattern allows you to chain actors together keeping them independent.
+This pattern allows to chain actors together while keeping them independent.
 
 ```fsharp
 let orderAcceptanceEndpoint nextFilter (mailbox: Actor<_>) =
@@ -163,7 +163,6 @@ let filter2 = spawn system "decrypter" <| decrypter filter3
 let filter1 = spawn system "orderAcceptanceEndpoint" <| orderAcceptanceEndpoint filter2
 
 filter1 <! rawOrderBytes
-filter1 <! rawOrderBytes
 ```
 <a href="https://github.com/jorgef/fsharpreactivepatterns/blob/master/MessagingWithActors/PipesAndFilters.fsx" target="_blank">Complete Code</a>
 
@@ -171,7 +170,7 @@ filter1 <! rawOrderBytes
 
 ##Message Router
 
-The Message Router allows you to redirect messages to other actors depending on certain condition.
+The Message Router enables message redirection depending on certain conditions.
 
 ```fsharp
 let alternatingRouter (processor1: IActorRef) (processor2: IActorRef) (mailbox: Actor<_>) =
@@ -191,7 +190,7 @@ let alternatingRouter (processor1: IActorRef) (processor2: IActorRef) (mailbox: 
 
 ##Message Translator
 
-This pattern transforms messages sent between systems.
+This pattern facilitates message translation betwwen different data formats.
 
 ```fsharp
 // No code example
@@ -200,7 +199,7 @@ This pattern transforms messages sent between systems.
 
 ##Message Endpoint
 
-Message Endpoints allow integration between applications.
+The Message Endpoint represents a sender or receiver of a message. When using Akka.NET they are actors.
 
 ```fsharp
 let highSierraPriceQuotes discounter (mailbox: Actor<_>) =
