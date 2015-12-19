@@ -63,7 +63,7 @@
 
 <h2><a name="Command-Message" class="anchor" href="#Command-Message">Command Message</a></h2>
 
-<p>A Command is message sent to an actor to request an action/operation.</p>
+<p>A Command is a type of message sent to an actor to request an action.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -116,7 +116,7 @@
 
 <h2><a name="Document-Message" class="anchor" href="#Document-Message">Document Message</a></h2>
 
-<p>A Document is a message that carries information without an specific intended use.</p>
+<p>A Document is a type of message that carries information without a specific intended use.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -177,7 +177,7 @@
 
 <h2><a name="Event-Message" class="anchor" href="#Event-Message">Event Message</a></h2>
 
-<p>Events are messages sent to notify other actors about actions that occurred.</p>
+<p>An Event is a type of message sent to notify other actors about actions that occurred.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -240,7 +240,7 @@
 
 <h2><a name="Request-Reply" class="anchor" href="#Request-Reply">Request-Reply</a></h2>
 
-<p>This pattern is used when one actor sends a message and expects a response. Most of the time the Request is a Command and the Reply is a Document.</p>
+<p>This pattern emulates two-way communication using two  different channels. Most of the time the Request message is a Command and the Reply message is a Document.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -313,7 +313,7 @@
 
 <h2><a name="Return-Address" class="anchor" href="#Return-Address">Return Address</a></h2>
 
-<p>The Return Address pattern allows replying to an actor that is not the sender of the message.</p>
+<p>The Return Address pattern allows replying to an actor that is not the actual sender of the message.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -432,7 +432,7 @@
 
 <h2><a name="Correlation-Identifier" class="anchor" href="#Correlation-Identifier">Correlation Identifier</a></h2>
 
-<p>This pattern allows messages to be associated using a unique identifier.</p>
+<p>This pattern allows messages to be associated using a unique identifier, specifying that they are related in some way (e.g. Request-Reply).</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 <span class="l">2: </span>
@@ -561,7 +561,7 @@
 
 <h2><a name="Format-Indicator" class="anchor" href="#Format-Indicator">Format Indicator</a></h2>
 
-<p>A Format Indicator is used to specify the version of the message.</p>
+<p>A Format Indicator is used to specify the version of one particular message.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
