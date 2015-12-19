@@ -25,7 +25,7 @@ For more details and full analysis of each pattern described in this section, pl
 
 ##Command Message
 
-A Command is message sent to an actor to request an action/operation. 
+A Command is a type of message sent to an actor to request an action. 
 
 ```fsharp
 type TradingCommand =
@@ -56,7 +56,7 @@ stockTraderRef <! ExecuteSellOrder("p456", "MSFT", 200, Money 31.80m)
 
 ##Document Message
 
-A Document is a message that carries information without an specific intended use.
+A Document is a type of message that carries information without a specific intended use.
 
 ```fsharp
 type PriceQuote = { QuoterId: string; RetailerId: string; RfqId: string; ItemId: string; RetailPrice: decimal; DiscountPrice: decimal }
@@ -91,7 +91,7 @@ let requesterRef = spawn system "requester" <| requester quotationRef
 
 ##Event Message
 
-Events are messages sent to notify other actors about actions that occurred.
+An Event is a type of message sent to notify other actors about actions that occurred.
 
 ```fsharp
 type PriceQuote = { QuoterId: string; RetailerId: string; RfqId: string; ItemId: string; RetailPrice: decimal; DiscountPrice: decimal }
@@ -127,7 +127,7 @@ quotationRef <! RequestPriceQuote("1", "1", Money 10m, Money 10m)
 
 ##Request-Reply
 
-This pattern is used when one actor sends a message and expects a response. Most of the time the Request is a Command and the Reply is a Document.
+This pattern emulates two-way communication using two  different channels. Most of the time the Request message is a Command and the Reply message is a Document.
 
 ```fsharp
 type ServerMessage = Request of string
@@ -168,7 +168,7 @@ clientRef <! StartWith serverRef
 
 ##Return Address
 
-The Return Address pattern allows replying to an actor that is not the sender of the message.
+The Return Address pattern allows replying to an actor that is not the actual sender of the message.
 
 ```fsharp
 type ServerMessage = 
@@ -232,7 +232,7 @@ clientRef <! StartWith serverRef
 
 ##Correlation Identifier
 
-This pattern allows messages to be associated using a unique identifier.
+This pattern allows messages to be associated using a unique identifier, specifying that they are related in some way (e.g. Request-Reply). 
 
 ```fsharp
 type PriceQuote = { QuoterId: string; RetailerId: string; RfqId: string; ItemId: string; RetailPrice: decimal; DiscountPrice: decimal }
@@ -309,7 +309,7 @@ purchaseRouterRef <! PlaceOrder.Create ("3", "33", (Money 32.95m), 10L)
 
 ##Format Indicator
 
-A Format Indicator is used to specify the version of the message.
+A Format Indicator is used to specify the version of one particular message.
 
 ```fsharp
 type ExecuteBuyOrder = { PortfolioId: string; Symbol: string; Quantity: int; Price: Money; DateTimeOrdered: DateTimeOffset option; Version: int } with
