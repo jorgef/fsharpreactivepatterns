@@ -65,7 +65,7 @@
 
 <h2><a name="Messaging-Gateway" class="anchor" href="#Messaging-Gateway">Messaging Gateway</a></h2>
 
-<p>The Messaging Gateway pattern encapsulates access to the messaging system.</p>
+<p>The Messaging Gateway pattern encapsulates access to the messaging system from the application/domain.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -172,7 +172,7 @@
 
 <h2><a name="Messaging-Mapper" class="anchor" href="#Messaging-Mapper">Messaging Mapper</a></h2>
 
-<p>This pattern domain types to messages.</p>
+<p>This pattern maps domain types to messages.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -252,7 +252,7 @@
 
 <h2><a name="Polling-Consumer" class="anchor" href="#Polling-Consumer">Polling Consumer</a></h2>
 
-<p>This pattern enables the actor to have control of when the message is consumed.</p>
+<p>This pattern enables actors to have control of when an specific message is consumed.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -359,7 +359,7 @@
 
 <h2><a name="Event-Driven-Consumer" class="anchor" href="#Event-Driven-Consumer">Event-Driven Consumer</a></h2>
 
-<p>This pattern is implemented by Akka.NET as actors are event-driven by design.</p>
+<p>This pattern is already implemented by Akka.NET as actors are event-driven by design.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 </pre></td>
@@ -372,7 +372,7 @@
 
 <h2><a name="Competing-Consumers" class="anchor" href="#Competing-Consumers">Competing Consumers</a></h2>
 
-<p>This pattern allows to distribute the work between multiple consumers.</p>
+<p>This pattern allows to distribute the messages between multiple consumers.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -452,7 +452,7 @@
 
 <h2><a name="Selective-Consumer" class="anchor" href="#Selective-Consumer">Selective Consumer</a></h2>
 
-<p>This pattern enables the selection/filtering of message types that will be consumed.</p>
+<p>This pattern enables the selection/filtering of messages received by the consumer.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l"> 1: </span>
 <span class="l"> 2: </span>
@@ -563,7 +563,7 @@
 
 <h2><a name="Durable-Subscriber" class="anchor" href="#Durable-Subscriber">Durable Subscriber</a></h2>
 
-<p>The Durable Subscriber pattern ensures that the consumer won't miss messages.</p>
+<p>The Durable Subscriber pattern ensures that the consumer does not miss any messages.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 </pre></td>
@@ -578,7 +578,7 @@
 
 <h2><a name="Idempotent-Receiver" class="anchor" href="#Idempotent-Receiver">Idempotent Receiver</a></h2>
 
-<p>This pattern allows the consumer to safely receive the same messages multiple times.</p>
+<p>This pattern allows the consumer to safely receive the same message multiple times.</p>
 
 <h3><a name="Deduplication" class="anchor" href="#Deduplication">Deduplication</a></h3>
 
@@ -794,7 +794,7 @@
 
 <h2><a name="Service-Activator" class="anchor" href="#Service-Activator">Service Activator</a></h2>
 
-<p>The Service Activator pattern provides a way to invoke an internal application service when a message arrives.</p>
+<p>The Service Activator pattern provides a way to invoke an internal application service when a specific message arrives.</p>
 
 <table class="pre"><tr><td class="lines"><pre class="fssnip"><span class="l">1: </span>
 </pre></td>
