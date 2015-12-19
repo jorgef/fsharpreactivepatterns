@@ -125,7 +125,7 @@ scheduledDoctorVisitRef <! VisitCompleted(accountingEnricherDispatcherRef)
 
 ##Content Filter
 
-The Content Filter pattern reduces or simplifies messages by removing information not required by the target.
+The Content Filter pattern reduces/simplifies messages by removing information not required by the target.
 
 ```fsharp
 type Message =
@@ -168,7 +168,7 @@ messageExchangeDispatcherRef <! UnfilteredPayload "A very large message with com
 
 ##Claim Check
 
-The Claim Check pattern splits a message into smaller parts and allowing access to them on demand. 
+The Claim Check pattern splits a message into smaller parts allowing access to them on demand. 
 
 ```fsharp
 type Part = Part of name: string
@@ -252,7 +252,7 @@ processRef <! CompositeMessage("ABC", Part("partA1"), Part("partB2"), Part("part
 
 ##Normalizer
 
-The normalizer pattern transforms unsupported messages to supported ones.
+The normalizer pattern transforms messages that have different unsupported formats so they have a commmon supported one. It uses a Message Router and multiple Multiple Translators.
 
 ```fsharp
 // No code example
