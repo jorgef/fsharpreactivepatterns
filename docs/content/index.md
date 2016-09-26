@@ -2,7 +2,9 @@
 
 I've recently read the book <a href="http://www.informit.com/store/reactive-messaging-patterns-with-the-actor-model-applications-9780133846836" target="_blank">Reactive Messaging Patterns with the Actor Model</a> by <a href="https://twitter.com/vaughnvernon" target="_blank">Vaughn Vernon</a>. This book applies the patterns described in <a href="http://www.enterpriseintegrationpatterns.com/" target="_blank">Enterprise Integration Patterns</a> using <a href="http://www.scala-lang.org" target="_blank">Scala</a> language and <a href="http://akka.io/" target="_blank">Akka</a> (Actor Model).
 
-As I am an F# fan, I thought it would be good to translate the book examples to <a href="http://fsharp.org" target="_blank">F#</a> and <a href="http://getakka.net" target="_blank">Akka.NET</a>. If you already know F# and Akka.NET (or want to learn), you may find the examples I share here useful while reading the book. Additionally, if you are interested in the Scala examples described in the book, you can find them <a href="https://github.com/VaughnVernon/ReactiveMessagingPatterns_ActorModel" target="_blank">here</a>.
+As I am an F# fan, I thought it would be good to translate the book examples to <a href="http://fsharp.org" target="_blank">F#</a> and <a href="http://getakka.net" target="_blank">Akka.NET</a>. If you already know F# and Akka.NET (or want to learn), you may find the examples I share here useful while reading the book. If you are interested in the Scala examples described in the book, you can find them <a href="https://github.com/VaughnVernon/ReactiveMessagingPatterns_ActorModel" target="_blank">here</a>.
+
+Additionally, if you are a C# developer, <a href="https://twitter.com/berczeck" target="_blank">Luis Aldazabal Gil</a> has been translating the examples to C# <a href="https://csharpreactivepatterns.github.io/" target="_blank">here</a>.
 
 ##Sections
 
