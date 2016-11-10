@@ -1,4 +1,4 @@
-﻿#load "..\References.fsx"
+#load "../References.fsx"
 
 open System.Text
 open Akka.FSharp

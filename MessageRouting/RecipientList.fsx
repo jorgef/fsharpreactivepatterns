@@ -1,4 +1,4 @@
-﻿#load "..\References.fsx"
+#load "../References.fsx"
 
 open Akka.Actor
 open Akka.FSharp
